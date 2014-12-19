@@ -7,11 +7,10 @@
 
 
 
-brucisms = [
-"He had a face liked a smacked as$",
+brucisms = ["He had a face liked a smacked as$",
 "Muppets. ALL of them! MUPPETS",
 "It's like a hornet's nest... of sh$%.",
-"They're castrating me." ,
+"They're castrating me.",
 "It's like a monkey f$%&ing a football",
 "[He is] as mean as a bulldog shitting tacks.",
 "[It's] worth as much as a fart in a pair of pajamas.",
@@ -44,8 +43,8 @@ brucisms = [
 ]
 
 module.exports = (robot) ->
-  robot.respond /(muppet)( me)? (.*)/i, (msg) ->
+  robot.respond /(muppet)( me)?/i, (msg) ->
     msg.send 'https://s3.amazonaws.com/uploads.hipchat.com/171096/1531191/5QypdcNRxtsthTR/fmuppets.gif'
 
-  robot.respond /(bruce)( me)? (.*)/i, (msg) ->
+  robot.respond /(bruce)( me)?/i, (msg) ->
      msg.send msg.random brucisms

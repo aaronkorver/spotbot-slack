@@ -65,7 +65,7 @@ module.exports = (robot) ->
     whom = msg.match[3]
     insult = msg.random abouts
     insult = insult.replace(/NAME/, whom)
-    msg.send ('Bruce says: "' + insult)
+    msg.send ('Bruce says: "' + insult + '"')
 
 
 

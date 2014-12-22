@@ -8,7 +8,7 @@
 
 
 
-brucisms = ["He had a face liked a smacked as$",
+brucisms = ["He had a face like a smacked as$",
 "Muppets. ALL of them! MUPPETS",
 "It's like a hornet's nest... of sh$%.",
 "They're castrating me.",
@@ -43,7 +43,7 @@ brucisms = ["He had a face liked a smacked as$",
 "I’m chuffed to bits to see the hounding is starting to work."
 ]
 
-abouts = ["NAME has a face liked a smacked as$",
+abouts = ["NAME has a face like a smacked as$",
 "NAME is a bloody MUPPET!",
 "NAME as mean as a bulldog shitting tacks.",
 "NAME is worth as much as a fart in a pair of pajamas.",

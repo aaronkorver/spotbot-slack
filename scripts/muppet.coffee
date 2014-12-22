@@ -4,6 +4,7 @@
 # Commands:
 #   hubot muppet me - responds with an animated gif of Bruce saying something about Muppets
 #   hubot bruce me - responds with bruce type message
+#   hubot ask bruce about [name] - Spotbot will ask Bruce about a person
 
 
 

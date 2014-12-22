@@ -42,9 +42,32 @@ brucisms = ["He had a face liked a smacked as$",
 "I’m chuffed to bits to see the hounding is starting to work."
 ]
 
+abouts = ["NAME had a face liked a smacked as$",
+"NAME is a bloody MUPPET!",
+"NAME as mean as a bulldog shitting tacks.",
+"NAME is worth as much as a fart in a pair of pajamas.",
+"NAME is a yard dog.",
+"NAME doesn't know f%*k all about that.",
+"NAME is all mouth and no trousers.",
+"NAME makes me feel about as welcome as a fart in a spacesuit.",
+"NAME is a f*%cking peasant.",
+]
+
+
 module.exports = (robot) ->
   robot.respond /(muppet)( me)?/i, (msg) ->
     msg.send 'https://s3.amazonaws.com/uploads.hipchat.com/171096/1531191/5QypdcNRxtsthTR/fmuppets.gif'
 
   robot.respond /(bruce)( me)?/i, (msg) ->
-     msg.send msg.random brucisms
+     msg.send 'bruce says: "' + msg.random brucisms + '"'
+
+  robot.respond /(ask bruce about )( me )?(.*)/i, (msg)->
+    who = msg.match[3]
+    insult = msg.random abouts
+    insult = insult.replace /NAME/ who
+  	msg.send 'bruce says: "' + insult
+
+
+
+
+

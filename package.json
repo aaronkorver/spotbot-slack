@@ -28,7 +28,8 @@
     "hubot-scripts": ">= 2.5.0 < 3.0.0",
     "hubot-sushiyuki": "0.0.2",
     "hubot-plusplus": "1.1.2",
-    "htmlparser":"1.7.7"
+    "htmlparser":"1.7.7",
+    "xml2js": "0.1.14"
   },
   "engines": {
     "node": ">= 0.8.x",

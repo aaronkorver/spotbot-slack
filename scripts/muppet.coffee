@@ -60,7 +60,8 @@ module.exports = (robot) ->
     msg.send 'https://s3.amazonaws.com/uploads.hipchat.com/171096/1531191/5QypdcNRxtsthTR/fmuppets.gif'
 
   robot.respond /(bruce)( me)?/i, (msg) ->
-    msg.send ('Bruce says: "' + msg.random brucisms + '"')
+    response = msg.random brucisms
+    msg.send ('Bruce says: "' + response + '"')
 
   robot.respond /(ask bruce about )( me )?(.*)/i, (msg) ->
     whom = msg.match[3]

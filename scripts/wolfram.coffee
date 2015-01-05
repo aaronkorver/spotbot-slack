@@ -13,7 +13,7 @@
 # Author:
 #   dhorrigan
 
-var wolfram = require('wolfram').createClient(process.env.HUBOT_WOLFRAM_APPID)
+wolfram = require('wolfram').createClient(process.env.HUBOT_WOLFRAM_APPID)
 
 module.exports = (robot) ->
   robot.respond /(question|wfa|wolfram|tell me) (.*)$/i, (msg) ->

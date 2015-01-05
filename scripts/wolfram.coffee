@@ -19,10 +19,11 @@ module.exports = (robot) ->
   robot.respond /(question|wfa|wolfram|tell)( me)? (.*)/i, (msg) ->
     #console.log msg.match
     wolfram.query msg.match[3], (e, result) ->
-      console.log result
-      #json = JSON.parse(result)
-      #console.log json
+      #console.log result
+
       if result and result.length > 0
-        msg.send result [1]['subpods'][0]['value']
+        json = JSON.parse result
+        console.log json
+        msg.send result ['primary=true']['subpods'][0]['value']
       else
         msg.send 'Hmm...not sure'

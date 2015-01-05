@@ -23,7 +23,7 @@ module.exports = (robot) ->
 
       if result and result.length > 0
         #json = JSON.parse result
-        console.log result.toString()
+        #console.log result.toString()
         msg.send result [1]['subpods'][0]['value']
       else
         msg.send 'Hmm...not sure'

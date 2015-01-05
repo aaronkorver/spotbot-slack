@@ -20,8 +20,8 @@ module.exports = (robot) ->
     #console.log msg.match
     wolfram.query msg.match[3], (e, result) ->
       console.log result
-      json = JSON.parse(result)
-      console.log json
+      #json = JSON.parse(result)
+      #console.log json
       if result and result.length > 0
         msg.send result [1]['subpods'][0]['value']
       else

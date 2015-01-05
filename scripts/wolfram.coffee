@@ -16,11 +16,11 @@
 wolfram = require('wolfram').createClient(process.env.HUBOT_WOLFRAM_APPID)
 
 module.exports = (robot) ->
-  robot.respond /(question|wfa|wolfram|tell me) (.*)$/i, (msg) ->
+  robot.respond /(question|wfa|wolfram|tell)( me)? (.*)/i, (msg) ->
     #console.log msg.match
-    wolfram.query msg.match[2], (e, result) ->
+    wolfram.query msg.match[3], (e, result) ->
       # console.log result
       if result and result.length > 0
-        msg.send result[1]['subpods'][0]['value']
+        msg.send result #[1]['subpods'][0]['value']
       else
         msg.send 'Hmm...not sure'

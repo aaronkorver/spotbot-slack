@@ -18,6 +18,6 @@ module.exports = (robot) ->
      msg.http("http://tinyurl.com/api-create.php?url=http://lmgtfy.com/?q=#{encodeURI(msg.match[1])}")
        .get() (error, response, body) ->
          if error
-           msg.send "ruh ro... you might actually have to google it, something with wrong: #:{error}"
+           msg.send "ruh roh... you might actually have to google it, something went wrong: #:{error}"
          else 
            msg.send body

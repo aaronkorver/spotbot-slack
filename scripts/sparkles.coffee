@@ -10,7 +10,7 @@
 # Commands:
 #   hubot sparkle [person]  - Give sparkles to [person]
 #   hubot unsparkle/desparkle [person]  - Remove sparkles to [person]
-#   hubot rename sparkles to [name] - Renames sparkle points to something else
+#   hubot rename sparkles to [singular] [plural] - Renames sparkle points to something else
 #   hubot sparkles top - [amount] Show top [amount] sparkle point receivers
 #   hubot sparkles bottom [amount] - Show top [amount] sparkle point receivers
 #   hubot report user- Shows why somebody received points
@@ -23,6 +23,7 @@ Util = require "util"
 sparkles = {}
 debugMode = false
 
+
 debug = (msg, message) ->
   if (debugMode)
       msg.send message
@@ -32,13 +33,25 @@ room_storage = (msg) ->
     result = sparkles[room]
     if (!result)
         debug(msg, "creating new points for room")
-        result = {pointsName: 'sparkles', tallies: []}
+        result = {pointsNameSingular: 'sparkle', pointsNamePlural: 'sparkles', tallies: []}
         sparkles[room] = result
     result
 
 points_name = (msg) ->
     room_points = room_storage msg
-    room_points['pointsName']
+    room_points['pointsNamePlural']
+
+point_name = (msg) ->
+    room_points = room_storage msg
+    room_points['pointsNameSingular']
+
+point_string = (msg, amount) ->
+   if (amount == 0)
+      "no #{points_name(msg)}"
+   if (amount == 1)
+      "#{amount} #{point_name(msg)}"
+   else
+      "#{amount} #{points_name(msg)}"
 
 award_points = (msg, username, pts, reason) ->
 
@@ -53,9 +66,14 @@ award_points = (msg, username, pts, reason) ->
     if (reason?)
       room_points[username]['reasons'].push(reason)
 
-    pointsName = points_name(msg)
-    msg.send "#{username} now has #{room_points[username]['points']} #{pointsName}!"
-
+    lines = []
+    num_points = room_points[username]['points']
+    if (pts > 0)
+      lines.push "Awarding #{point_string(msg, pts)} to #{username}"
+    else
+      lines.push "Taking #{point_string(msg, pts)} to #{username}"
+    lines.push "#{username} now has #{point_string(msg, num_points)}!"
+    msg.send lines.join("\n")
 
 save = (robot) ->
     robot.brain.data.sparkles = sparkles
@@ -66,13 +84,16 @@ top = (msg, amount) ->
     pointsName = points_name(msg)
     sliced = sortAndSlice(room_points.tallies, true, amount)
     if (sliced.length == 0)
-      msg.send "Nobody has sparkles!"
+      msg.send "Nobody has any #{points_name(msg)}!"
       return
 
-    msg.send ("Top #{sliced.length}:")
-    msg.send ("========================================")
+    lines = []
+    lines.push ("Top #{sliced.length}:")
+    lines.push ("=======================================")
     for item in sliced
-      msg.send "#{item.name} has #{item.score} #{pointsName}."
+      lines.push "#{item.name} has #{point_string(msg, item.score)}."
+
+    msg.send lines.join("\n")
 
 bottom = (msg, amount) ->
     room_points = room_storage msg
@@ -80,14 +101,16 @@ bottom = (msg, amount) ->
     pointsName = points_name(msg)
     sliced = sortAndSlice(room_points.tallies, false, amount)
     if (sliced.length == 0)
-      msg.send "Nobody has sparkles!"
+      msg.send "Nobody has any #{points_name(msg)}!"
       return
 
-    msg.send ("Bottom #{sliced.length}:")
-    msg.send ("=======================================")
+    lines = []
+    lines.push ("Bottom #{sliced.length}:")
+    lines.push ("=======================================")
     for item in sliced
-      msg.send "#{item.name} has #{item.score} #{pointsName}."
+      lines.push "#{item.name} has #{point_string(msg, item.score)}."
 
+    msg.send lines.join("\n")
 
 sortAndSlice = (tallies, asc = true, amount) ->
     sorted = []
@@ -106,14 +129,15 @@ module.exports = (robot) ->
     robot.hear /roads/i, (msg) ->
         msg.send "Roads?  Where we're going, we don't need roads!"
 
-    robot.respond /rename sparkles to (.*?)\s?$/i, (msg) ->
+    robot.respond /rename sparkles to (.*?) (.*?)\s?$/i, (msg) ->
         room_points = room_storage msg
         room = msg.message.room
-        room_points['pointsName'] =  msg.match[1]
-        msg.send "Sparkles are now called #{msg.match[1]} in #{room}"
+        room_points['pointsNameSingular'] =  msg.match[1]
+        room_points['pointsNamePlural'] =  msg.match[2]
+        msg.send "One sparkle is a \"#{point_name(msg)}\", many sparkles are called \"#{points_name(msg)}\" in room \"#{room}\""
         save(robot)
 
-    robot.respond /sparkle (top|bottom)( \d+)/i, (msg) ->
+    robot.respond /sparkle (top|bottom)( \d+)?\s?$/i, (msg) ->
        amount = parseInt(msg.match[2]) || 5
        if msg.match[1] == 'top'
             top(msg, amount)
@@ -129,19 +153,23 @@ module.exports = (robot) ->
 
         room_points = room_storage(msg)['tallies']
 
+        lines = []
+
         if (!room_points[user]?)
-           msg.send "No points awarded to #{user}"
+           msg.send "No #{points_name(msg)} awarded to #{user}"
            return
 
         reasons = room_points[user]['reasons']
         pointsName = points_name(msg)
-
-        msg.send "#{user} has been awarded #{room_points[user]['points']} #{pointsName}"
+        num_points = room_points[user]['points']
+        lines.push "#{user} has been awarded #{point_string(msg, num_points)}"
 
         if (reasons?)
-           msg.send ("Let me tell you why:")
+           lines.push "Let me tell you why:"
            for reason in reasons
-               msg.send reason
+               lines.push reason
+
+        msg.send lines.join("\n")
 
 
     robot.respond /sparkle ((?!top|bottom|report).+?)( (for) (.+))?\s?$/i, (msg) ->
@@ -156,12 +184,11 @@ module.exports = (robot) ->
           reason = msg.match[4].trim()
           debug(msg, "reason = #{reason}")
 
-        msg.send "Giving 1 #{points_name(msg)} to #{user}"
         award_points(msg, user, 1, reason)
         save(robot)
 
 
-    robot.respond /(?:un|de)sparkle ((?!top|bottom|report).+?)( (for) (.+))?\s?$/i, (msg) ->
+    robot.respond /(?:un|de)sparkle (.+?)( (for) (.+))?\s?$/i, (msg) ->
 
         users = robot.brain.usersForFuzzyName(msg.match[1].trim())
         if users.length is 1
@@ -173,6 +200,5 @@ module.exports = (robot) ->
           reason = msg.match[4].trim()
           debug(msg, "reason = #{reason}")
 
-        msg.send "Taking 1 #{points_name(msg)} from #{user}"
         award_points(msg, user, -1, reason)
         save(robot)

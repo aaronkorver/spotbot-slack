@@ -120,14 +120,6 @@ module.exports = (robot) ->
        else
             bottom(msg, amount)
 
-    robot.respond /rename sparkles to (.*?)\s?$/i, (msg) ->
-        room_points = room_storage msg
-        room = msg.message.room
-        room_points['pointsName'] =  msg.match[1]
-        msg.send "Sparkles are now called #{msg.match[1]} in #{room}"
-        save(robot)
-
-
     robot.respond /sparkle report (.*?)\s?$/i, (msg) ->
         users = robot.brain.usersForFuzzyName(msg.match[1].trim())
         if users.length is 1

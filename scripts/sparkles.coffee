@@ -125,7 +125,7 @@ sortAndSlice = (tallies, asc = true, amount) ->
 
 module.exports = (robot) ->
     robot.brain.on 'loaded', ->
-        points = robot.brain.data.points or {}
+        sparkles = robot.brain.data.sparkles or {}
 
     robot.hear /roads/i, (msg) ->
         msg.send "Roads?  Where we're going, we don't need roads!"

@@ -49,3 +49,7 @@ module.exports = (robot) ->
                .get() (err, res, body) ->
                  object = JSON.parse(body)
                  msg.send object.title, object.img, object.alt
+
+  # An easter egg
+  robot.hear /^technically/i, (msg) ->
+    msg.send 'http://imgs.xkcd.com/comics/technically.png'

@@ -138,14 +138,14 @@ module.exports = (robot) ->
         msg.send "One sparkle is a \"#{point_name(msg)}\", many sparkles are called \"#{points_name(msg)}\" in room \"#{room}\""
         save(robot)
 
-    robot.respond /sparkle (top|bottom)( \d+)?\s?$/i, (msg) ->
+    robot.respond /sparkle(?:s)? (top|bottom)( \d+)?\s?$/i, (msg) ->
        amount = parseInt(msg.match[2]) || 5
        if msg.match[1] == 'top'
             top(msg, amount)
        else
             bottom(msg, amount)
 
-    robot.respond /sparkle report (.*?)\s?$/i, (msg) ->
+    robot.respond /sparkle(?:s)? report (.*?)\s?$/i, (msg) ->
         users = robot.brain.usersForFuzzyName(msg.match[1].trim())
         if users.length is 1
             user = users[0]
@@ -173,7 +173,7 @@ module.exports = (robot) ->
         msg.send lines.join("\n")
 
 
-    robot.respond /sparkle ((?!top|bottom|report|forget).+?)( (for) (.+))?\s?$/i, (msg) ->
+    robot.respond /sparkle(?:s)? ((?!top|bottom|report|forget).+?)( (for) (.+))?\s?$/i, (msg) ->
 
         users = robot.brain.usersForFuzzyName(msg.match[1].trim())
         if users.length is 1
@@ -189,7 +189,7 @@ module.exports = (robot) ->
         save(robot)
 
 
-    robot.respond /(?:un|de)sparkle (.+?)( (for) (.+))?\s?$/i, (msg) ->
+    robot.respond /(?:un|de)sparkle(?:s)? (.+?)( (for) (.+))?\s?$/i, (msg) ->
 
         users = robot.brain.usersForFuzzyName(msg.match[1].trim())
         if users.length is 1
@@ -204,7 +204,7 @@ module.exports = (robot) ->
         award_points(msg, user, -1, reason)
         save(robot)
 
-    robot.respond /sparkle forget (.*?)\s?$/i, (msg) ->
+    robot.respond /sparkle(?:s)? forget (.*?)\s?$/i, (msg) ->
         users = robot.brain.usersForFuzzyName(msg.match[1].trim())
         if users.length is 1
             user = users[0]

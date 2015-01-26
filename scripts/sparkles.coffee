@@ -11,9 +11,10 @@
 #   hubot sparkle [person]  - Give sparkles to [person]
 #   hubot unsparkle/desparkle [person]  - Remove sparkles to [person]
 #   hubot rename sparkles to [singular] [plural] - Renames sparkle points to something else
-#   hubot sparkles top - [amount] Show top [amount] sparkle point receivers
-#   hubot sparkles bottom [amount] - Show top [amount] sparkle point receivers
-#   hubot report user- Shows why somebody received points
+#   hubot sparkle top - [amount] Show top [amount] sparkle point receivers
+#   hubot sparkle bottom [amount] - Show bottom [amount] sparkle point receivers
+#   hubot sparkle report [user] - Shows why somebody received points
+#   hubot sparkle forget [user] - Tell hubot to forget about somebody in a room
 #
 # Author:
 #   gregcase
@@ -124,7 +125,7 @@ sortAndSlice = (tallies, asc = true, amount) ->
 
 module.exports = (robot) ->
     robot.brain.on 'loaded', ->
-        points = robot.brain.data.points or {}
+        sparkles = robot.brain.data.sparkles or {}
 
     robot.hear /roads/i, (msg) ->
         msg.send "Roads?  Where we're going, we don't need roads!"
@@ -137,14 +138,14 @@ module.exports = (robot) ->
         msg.send "One sparkle is a \"#{point_name(msg)}\", many sparkles are called \"#{points_name(msg)}\" in room \"#{room}\""
         save(robot)
 
-    robot.respond /sparkle (top|bottom)( \d+)?\s?$/i, (msg) ->
+    robot.respond /sparkle(?:s)? (top|bottom)( \d+)?\s?$/i, (msg) ->
        amount = parseInt(msg.match[2]) || 5
        if msg.match[1] == 'top'
             top(msg, amount)
        else
             bottom(msg, amount)
 
-    robot.respond /sparkle report (.*?)\s?$/i, (msg) ->
+    robot.respond /sparkle(?:s)? report (.*?)\s?$/i, (msg) ->
         users = robot.brain.usersForFuzzyName(msg.match[1].trim())
         if users.length is 1
             user = users[0]
@@ -172,7 +173,7 @@ module.exports = (robot) ->
         msg.send lines.join("\n")
 
 
-    robot.respond /sparkle ((?!top|bottom|report).+?)( (for) (.+))?\s?$/i, (msg) ->
+    robot.respond /sparkle(?:s)? ((?!top|bottom|report|forget).+?)( (for) (.+))?\s?$/i, (msg) ->
 
         users = robot.brain.usersForFuzzyName(msg.match[1].trim())
         if users.length is 1
@@ -188,7 +189,7 @@ module.exports = (robot) ->
         save(robot)
 
 
-    robot.respond /(?:un|de)sparkle (.+?)( (for) (.+))?\s?$/i, (msg) ->
+    robot.respond /(?:un|de)sparkle(?:s)? (.+?)( (for) (.+))?\s?$/i, (msg) ->
 
         users = robot.brain.usersForFuzzyName(msg.match[1].trim())
         if users.length is 1
@@ -202,3 +203,15 @@ module.exports = (robot) ->
 
         award_points(msg, user, -1, reason)
         save(robot)
+
+    robot.respond /sparkle(?:s)? forget (.*?)\s?$/i, (msg) ->
+        users = robot.brain.usersForFuzzyName(msg.match[1].trim())
+        if users.length is 1
+            user = users[0]
+        else
+            user = msg.match[1].trim()
+
+        room_points = room_storage(msg)['tallies']
+        delete room_points[user]
+
+        msg.send "I've forgotten all about #{user}.  Never really cared for them, to tell you the truth."

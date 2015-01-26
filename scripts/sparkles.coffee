@@ -130,9 +130,6 @@ module.exports = (robot) ->
     robot.hear /roads/i, (msg) ->
         msg.send "Roads?  Where we're going, we don't need roads!"
 
-        robot.hear /^technically/i, msg ->
-          msg.send 'http://imgs.xkcd.com/comics/technically.png'
-
     robot.respond /rename sparkles to (.*?) (.*?)\s?$/i, (msg) ->
         room_points = room_storage msg
         room = msg.message.room

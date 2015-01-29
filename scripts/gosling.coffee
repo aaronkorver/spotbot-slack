@@ -28,7 +28,7 @@ getGoslingImage = (msg) ->
     getRandomGoslingImageUrl(msg, rand)
 
 module.exports = (robot) ->
-  robot.respond /(theryn)( me)/, (msg) ->
+  robot.respond /(theryn)( me)/i, (msg) ->
     getGoslingImage(msg)
 
   robot.respond /gos(ling)? me/, (msg) ->

@@ -109,9 +109,6 @@ module.exports = (robot) ->
 
     sparkleStorage = new SparkleStorage robot
 
-    robot.brain.on 'loaded', ->
-        robot.brain.data.sparkles ||= {}
-
     robot.hear /roads/i, (msg) ->
         msg.send "Roads?  Where we're going, we don't need roads!"
 

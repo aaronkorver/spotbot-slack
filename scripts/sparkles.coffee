@@ -21,21 +21,21 @@
 #
 Util = require "util"
 
-#sparkles = {}
+@sparkles = {}
 debugMode = false
 
 
 debug = (msg, message) ->
   if (debugMode)
-      msg.send message
+      console.log msg
 
 room_storage = (msg) ->
     room = msg.message.room
-    result = sparkles[room]
+    result = @sparkles[room]
     if (!result)
         debug(msg, "creating new points for room")
         result = {pointsNameSingular: 'sparkle', pointsNamePlural: 'sparkles', tallies: []}
-        sparkles[room] = result
+        @sparkles[room] = result
     result
 
 points_name = (msg) ->
@@ -55,8 +55,6 @@ point_string = (msg, amount) ->
       "#{amount} #{points_name(msg)}"
 
 award_points = (msg, username, pts, reason) ->
-
-    debug(msg, "points = #{Util.inspect(sparkles)}")
 
     room_points = room_storage(msg)['tallies']
 
@@ -125,7 +123,8 @@ sortAndSlice = (tallies, asc = true, amount) ->
 
 module.exports = (robot) ->
     robot.brain.on 'loaded', ->
-        sparkles = robot.brain.data.sparkles or {}
+        console.log "Loading sparkles from brain"
+        @sparkles = robot.brain.data.sparkles or {}
 
     robot.hear /roads/i, (msg) ->
         msg.send "Roads?  Where we're going, we don't need roads!"

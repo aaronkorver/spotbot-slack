@@ -71,7 +71,7 @@ class SparkleStorage
         lines.push "Taking #{@pointString(msg, pts)} to #{username}"
       lines.push "#{username} now has #{@pointString(msg, numPoints)}!"
       msg.send lines.join("\n")
-      @save
+      @save()
 
   userPoints : (msg, username) ->
     @roomStorage(msg)['tallies'][username]
@@ -101,12 +101,12 @@ class SparkleStorage
       roomPoints = @roomStorage msg
       roomPoints['pointsNameSingular'] = singular
       roomPoints['pointsNamePlural'] =  plural
-      @save
+      @save()
 
   forget : (msg, user)->
       forgetMe = @userPoints(msg, user)
       delete @roomStorage(msg)['tallies'][user]
-      @save
+      @save()
 
 module.exports = (robot) ->
 

@@ -21,104 +21,94 @@
 #
 Util = require "util"
 
-debugMode = false
+class SparkleStorage
+  constructor: (@robot) ->
+    @sparkles = {}
 
+    @robot.brain.on 'loaded', =>
+        @sparkles = @robot.brain.data.sparkles || {}
 
-debug = (msg, message) ->
-  if (debugMode)
-      console.log msg
+  roomStorage : (msg) ->
+      room = msg.message.room
+      result = @sparkles[room]
+      if (!result)
+          result = {pointsNameSingular: 'sparkle', pointsNamePlural: 'sparkles', tallies: []}
+          @sparkles[room] = result
+      result
 
-room_storage = (msg) ->
-    room = msg.message.room
-    result = robot.brain.data.sparkles[room]
-    if (!result)
-        debug(msg, "creating new points for room")
-        result = {pointsNameSingular: 'sparkle', pointsNamePlural: 'sparkles', tallies: []}
-        robot.brain.data.sparkles[room] = result
-    result
+  pointsName : (msg) ->
+      roomPoints = @roomStorage msg
+      roomPoints['pointsNamePlural']
 
-points_name = (msg) ->
-    room_points = room_storage msg
-    room_points['pointsNamePlural']
+  pointName : (msg) ->
+      roomPoints = @roomStorage msg
+      roomPoints['pointsNameSingular']
 
-point_name = (msg) ->
-    room_points = room_storage msg
-    room_points['pointsNameSingular']
+  pointString : (msg, amount) ->
+     if (amount == 0)
+        "no #{@pointsName(msg)}"
+     else if (amount == 1)
+        "#{amount} #{@pointName(msg)}"
+     else
+        "#{amount} #{@pointsName(msg)}"
 
-point_string = (msg, amount) ->
-   if (amount == 0)
-      "no #{points_name(msg)}"
-   if (amount == 1)
-      "#{amount} #{point_name(msg)}"
-   else
-      "#{amount} #{points_name(msg)}"
+  awardPoints : (msg, username, pts, reason) ->
 
-award_points = (msg, username, pts, reason) ->
+      roomPoints = @roomStorage(msg)['tallies']
 
-    room_points = room_storage(msg)['tallies']
+      roomPoints[username] ?= {points: 0, reasons: []}
+      roomPoints[username]['points'] += parseInt(pts)
+      if (reason?)
+        roomPoints[username]['reasons'].push(reason)
 
-    debug(msg, "room points = #{Util.inspect(room_points)}")
+      lines = []
+      numPoints = roomPoints[username]['points']
+      if (pts > 0)
+        lines.push "Awarding #{@pointString(msg, pts)} to #{username}"
+      else
+        lines.push "Taking #{@pointString(msg, pts)} to #{username}"
+      lines.push "#{username} now has #{@pointString(msg, numPoints)}!"
+      msg.send lines.join("\n")
+      @save
 
-    room_points[username] ?= {points: 0, reasons: []}
-    room_points[username]['points'] += parseInt(pts)
-    if (reason?)
-      room_points[username]['reasons'].push(reason)
+  userPoints : (msg, username) ->
+    @roomStorage(msg)['tallies'][username]
 
-    lines = []
-    num_points = room_points[username]['points']
-    if (pts > 0)
-      lines.push "Awarding #{point_string(msg, pts)} to #{username}"
-    else
-      lines.push "Taking #{point_string(msg, pts)} to #{username}"
-    lines.push "#{username} now has #{point_string(msg, num_points)}!"
-    msg.send lines.join("\n")
+  top : (msg, amount) ->
+      roomPoints = @roomStorage msg
+      @sortAndSlice(roomPoints.tallies, true, amount)
 
+  bottom : (msg, amount) ->
+      roomPoints = @roomStorage msg
+      @sortAndSlice(roomPoints.tallies, false, amount)
 
-top = (msg, amount) ->
-    room_points = room_storage msg
+  sortAndSlice : (tallies, asc = true, amount) ->
+      sorted = []
+      for name, obj of tallies
+        sorted.push(name: name, score: obj.points)
 
-    pointsName = points_name(msg)
-    sliced = sortAndSlice(room_points.tallies, true, amount)
-    if (sliced.length == 0)
-      msg.send "Nobody has any #{points_name(msg)}!"
-      return
+      amount = Math.min(amount, sorted.length)
+      sorted.sort((a,b) ->
+        if asc then b.score - a.score else a.score - b.score).slice(0, amount)
 
-    lines = []
-    lines.push ("Top #{sliced.length}:")
-    lines.push ("=======================================")
-    for item in sliced
-      lines.push "#{item.name} has #{point_string(msg, item.score)}."
+  save : ->
+      @robot.brain.data.sparkles = @sparkles
 
-    msg.send lines.join("\n")
+  rename : (msg, singular, plural) ->
+      roomPoints = @roomStorage msg
+      roomPoints['pointsNameSingular'] = singular
+      roomPoints['pointsNamePlural'] =  plural
+      @save
 
-bottom = (msg, amount) ->
-    room_points = room_storage msg
-
-    pointsName = points_name(msg)
-    sliced = sortAndSlice(room_points.tallies, false, amount)
-    if (sliced.length == 0)
-      msg.send "Nobody has any #{points_name(msg)}!"
-      return
-
-    lines = []
-    lines.push ("Bottom #{sliced.length}:")
-    lines.push ("=======================================")
-    for item in sliced
-      lines.push "#{item.name} has #{point_string(msg, item.score)}."
-
-    msg.send lines.join("\n")
-
-sortAndSlice = (tallies, asc = true, amount) ->
-    sorted = []
-    for name, obj of tallies
-      sorted.push(name: name, score: obj.points)
-
-    amount = Math.min(amount, sorted.length)
-    sorted.sort((a,b) ->
-      if asc then b.score - a.score else a.score - b.score).slice(0, amount)
-
+  forget : (msg, user)->
+      forgetMe = @userPoints(msg, user)
+      delete @roomStorage(msg)['tallies'][user]
+      @save
 
 module.exports = (robot) ->
+
+    sparkleStorage = new SparkleStorage robot
+
     robot.brain.on 'loaded', ->
         robot.brain.data.sparkles ||= {}
 
@@ -126,19 +116,24 @@ module.exports = (robot) ->
         msg.send "Roads?  Where we're going, we don't need roads!"
 
     robot.respond /rename sparkles to (.*?) (.*?)\s?$/i, (msg) ->
-        room_points = room_storage msg
-        room = msg.message.room
-        room_points['pointsNameSingular'] =  msg.match[1]
-        room_points['pointsNamePlural'] =  msg.match[2]
-        msg.send "One sparkle is a \"#{point_name(msg)}\", many sparkles are called \"#{points_name(msg)}\" in room \"#{room}\""
+        sparkleStorage.rename(msg, msg.match[1],  msg.match[2])
+        msg.send "One sparkle is a \"#{sparkleStorage.pointName(msg)}\", many sparkles are called \"#{sparkleStorage.pointsName(msg)}\" in room \"#{room}\""
 
 
     robot.respond /sparkle(?:s)? (top|bottom)( \d+)?\s?$/i, (msg) ->
-       amount = parseInt(msg.match[2]) || 5
-       if msg.match[1] == 'top'
-            top(msg, amount)
-       else
-            bottom(msg, amount)
+      amount = parseInt(msg.match[2]) || 5
+      isTop = msg.match[1] == 'top';
+      title =  if isTop then 'Top' else 'Bottom'
+      sliced = if isTop then sparkleStorage.top(msg, amount) else sparkleStorage.bottom(msg, amount)
+
+      lines = []
+      lines.push ("#{title} #{sliced.length}:")
+      lines.push ("=======================================")
+      for item in sliced
+        lines.push "#{item.name} has #{sparkleStorage.pointString(msg, item.score)}."
+
+      msg.send lines.join("\n")
+
 
     robot.respond /sparkle(?:s)? report (.*?)\s?$/i, (msg) ->
         users = robot.brain.usersForFuzzyName(msg.match[1].trim())
@@ -147,24 +142,25 @@ module.exports = (robot) ->
         else
             user = msg.match[1].trim()
 
-        room_points = room_storage(msg)['tallies']
-
+        userPoints = sparkleStorage.userPoints(msg, user)
         lines = []
 
-        if (!room_points[user]?)
-           msg.send "No #{points_name(msg)} awarded to #{user}"
+        if (!userPoints?)
+           msg.send "No #{sparkleStorage.pointsName(msg)} awarded to #{user}"
            return
 
-        reasons = room_points[user]['reasons']
-        pointsName = points_name(msg)
-        num_points = room_points[user]['points']
-        lines.push "#{user} has been awarded #{point_string(msg, num_points)}"
+        numPoints = userPoints['points']
+        reasons = userPoints['reasons']
+        pointsName = sparkleStorage.pointsName(msg)
+        lines.push "#{user} has been awarded #{sparkleStorage.pointString(msg, numPoints)}"
 
         if (reasons?)
-           lines.push "Let me tell you why:"
-           for reason in reasons
-               lines.push reason
-
+            if (reasons.length > 0)
+              lines.push "Let me tell you why:"
+              for reason in reasons
+                lines.push reason
+            else
+              lines.push "I have no idea why"
         msg.send lines.join("\n")
 
 
@@ -178,9 +174,8 @@ module.exports = (robot) ->
 
         if (msg.match[4]?)
           reason = msg.match[4].trim()
-          debug(msg, "reason = #{reason}")
 
-        award_points(msg, user, 1, reason)
+        sparkleStorage.awardPoints(msg, user, 1, reason)
 
     robot.respond /(?:un|de)sparkle(?:s)? (.+?)( (for) (.+))?\s?$/i, (msg) ->
 
@@ -192,9 +187,8 @@ module.exports = (robot) ->
 
         if (msg.match[4]?)
           reason = msg.match[4].trim()
-          debug(msg, "reason = #{reason}")
 
-        award_points(msg, user, -1, reason)
+        sparkleStorage.awardPoints(msg, user, -1, reason)
 
     robot.respond /sparkle(?:s)? forget (.*?)\s?$/i, (msg) ->
         users = robot.brain.usersForFuzzyName(msg.match[1].trim())
@@ -203,7 +197,7 @@ module.exports = (robot) ->
         else
             user = msg.match[1].trim()
 
-        room_points = room_storage(msg)['tallies']
-        delete room_points[user]
+
+        sparkleStorage.forget(msg, user)
 
         msg.send "I've forgotten all about #{user}.  Never really cared for them, to tell you the truth."

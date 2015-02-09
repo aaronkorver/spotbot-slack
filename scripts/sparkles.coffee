@@ -27,6 +27,8 @@ class SparkleStorage
 
     @robot.brain.on 'loaded', =>
         @sparkles = @robot.brain.data.sparkles || {}
+        console.log("loading sparkles from brain : #{Util.inspect(@robot.brain.data.sparkles)}")
+
 
   roomStorage : (msg) ->
       room = msg.message.room
@@ -93,6 +95,7 @@ class SparkleStorage
 
   save : ->
       @robot.brain.data.sparkles = @sparkles
+      console.log("saving sparkles to brain : #{Util.inspect(@robot.brain.data.sparkles)}")
 
   rename : (msg, singular, plural) ->
       roomPoints = @roomStorage msg
@@ -193,7 +196,6 @@ module.exports = (robot) ->
             user = users[0]
         else
             user = msg.match[1].trim()
-
 
         sparkleStorage.forget(msg, user)
 

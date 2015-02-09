@@ -21,7 +21,7 @@
 #
 Util = require "util"
 
-sparkles = {}
+#sparkles = {}
 debugMode = false
 
 

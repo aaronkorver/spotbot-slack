@@ -21,7 +21,6 @@
 #
 Util = require "util"
 
-@sparkles = {}
 debugMode = false
 
 
@@ -31,11 +30,11 @@ debug = (msg, message) ->
 
 room_storage = (msg) ->
     room = msg.message.room
-    result = @sparkles[room]
+    result = robot.brain.data.sparkles[room]
     if (!result)
         debug(msg, "creating new points for room")
         result = {pointsNameSingular: 'sparkle', pointsNamePlural: 'sparkles', tallies: []}
-        @sparkles[room] = result
+        robot.brain.data.sparkles[room] = result
     result
 
 points_name = (msg) ->
@@ -74,8 +73,6 @@ award_points = (msg, username, pts, reason) ->
     lines.push "#{username} now has #{point_string(msg, num_points)}!"
     msg.send lines.join("\n")
 
-save = (robot) ->
-    robot.brain.data.sparkles = sparkles
 
 top = (msg, amount) ->
     room_points = room_storage msg
@@ -123,8 +120,7 @@ sortAndSlice = (tallies, asc = true, amount) ->
 
 module.exports = (robot) ->
     robot.brain.on 'loaded', ->
-        console.log "Loading sparkles from brain"
-        @sparkles = robot.brain.data.sparkles or {}
+        robot.brain.data.sparkles ||= {}
 
     robot.hear /roads/i, (msg) ->
         msg.send "Roads?  Where we're going, we don't need roads!"
@@ -135,7 +131,7 @@ module.exports = (robot) ->
         room_points['pointsNameSingular'] =  msg.match[1]
         room_points['pointsNamePlural'] =  msg.match[2]
         msg.send "One sparkle is a \"#{point_name(msg)}\", many sparkles are called \"#{points_name(msg)}\" in room \"#{room}\""
-        save(robot)
+
 
     robot.respond /sparkle(?:s)? (top|bottom)( \d+)?\s?$/i, (msg) ->
        amount = parseInt(msg.match[2]) || 5
@@ -185,8 +181,6 @@ module.exports = (robot) ->
           debug(msg, "reason = #{reason}")
 
         award_points(msg, user, 1, reason)
-        save(robot)
-
 
     robot.respond /(?:un|de)sparkle(?:s)? (.+?)( (for) (.+))?\s?$/i, (msg) ->
 
@@ -201,7 +195,6 @@ module.exports = (robot) ->
           debug(msg, "reason = #{reason}")
 
         award_points(msg, user, -1, reason)
-        save(robot)
 
     robot.respond /sparkle(?:s)? forget (.*?)\s?$/i, (msg) ->
         users = robot.brain.usersForFuzzyName(msg.match[1].trim())

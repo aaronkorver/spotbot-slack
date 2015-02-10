@@ -73,7 +73,7 @@ class SparkleStorage
       if (pts > 0)
         lines.push "Awarding #{@pointString(msg, pts)} to #{username}"
       else
-        lines.push "Taking #{@pointString(msg, pts)} to #{username}"
+        lines.push "Taking #{@pointString(msg, pts)} from #{username}"
       lines.push "#{username} now has #{@pointString(msg, userDetails.points)}!"
       msg.send lines.join("\n")
       @save()

@@ -33,6 +33,7 @@ reddit = (msg) ->
           return
         if posts.over_18?
           msg.send "Spotbot has saved you from a NSFW reddit post! If you want to know what it was ask @MattRick (he's likely already seen it)"
+          return
         post = getPost(posts)
         if post.domain.match '(imgur.com)'
           msg.send "#{post.title} - http://www.reddit.com#{post.permalink}"

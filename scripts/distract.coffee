@@ -42,7 +42,7 @@ reddit = (msg) ->
           msg.send "Spotbot has saved you from a NSFW reddit post! If you want to know what it was ask #{hardCoreRedditor} (he's likely already seen it)"
           return
         post = getPost(posts)
-        if post.domain.match '(imgur.com)'
+        if post.domain.match '(gfycat.com|imgur.com|livememe.com|memedad.com)'
           msg.send "#{post.title} - http://www.reddit.com#{post.permalink}"
           msg.send post.url
         else

@@ -31,8 +31,10 @@ reddit = (msg) ->
         if posts.error?
           msg.send "Something went wrong... @MattRick reddited too hard? [http response #{posts.error}]"
           return
+        if posts.over_18?
+          msg.send "Spotbot has saved you from a NSFW reddit post! If you want to know what it was ask @MattRick (he's likely already seen it)"
         post = getPost(posts)
-        if post.domain == 'i.imgur.com'
+        if post.domain.match '(imgur.com)'
           msg.send "#{post.title} - http://www.reddit.com#{post.permalink}"
           msg.send post.url
         else

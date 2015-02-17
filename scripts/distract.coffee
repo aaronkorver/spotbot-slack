@@ -14,11 +14,18 @@
 # Author:
 #   Kevin Behrens
 
+#TODO make these configurable per room
+hardCoreRedditor = "@MattRick"
+bombThreshold = 10
+
 module.exports = (robot) ->
   robot.respond /(reddit|distract) me/i, (msg) ->
       reddit msg
   robot.respond /(reddit|distract) bomb( (\d+))?/i, (msg) ->
     count = msg.match[2] || 5
+    if count > bombThreshold
+      msg.send "Seriously!? #{count}!?  #{hardCoreRedditor} would get no work done. Request denied."
+      return
     for num in [count..1]
       reddit msg
 
@@ -29,10 +36,10 @@ reddit = (msg) ->
       .get() (err, res, body) ->
         posts = JSON.parse(body)
         if posts.error?
-          msg.send "Something went wrong... @MattRick reddited too hard? [http response #{posts.error}]"
+          msg.send "Something went wrong... #{hardCoreRedditor} reddited too hard? [http response #{posts.error}]"
           return
         if posts.over_18?
-          msg.send "Spotbot has saved you from a NSFW reddit post! If you want to know what it was ask @MattRick (he's likely already seen it)"
+          msg.send "Spotbot has saved you from a NSFW reddit post! If you want to know what it was ask #{hardCoreRedditor} (he's likely already seen it)"
           return
         post = getPost(posts)
         if post.domain.match '(imgur.com)'

@@ -166,7 +166,7 @@ module.exports = (robot) ->
         numPoints = userDetails.points
         reasons = userDetails.reasons
         pointsName = sparkleStorage.pointsName(msg)
-        lines.push "#{user} has been awarded #{sparkleStorage.pointString(msg, numPoints)}"
+        lines.push "(sparkle)  #{user} has been awarded #{sparkleStorage.pointString(msg, numPoints)}  (sparkle)"
 
         if (reasons?)
             if (reasons.length > 0)

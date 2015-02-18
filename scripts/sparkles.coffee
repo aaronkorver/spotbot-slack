@@ -142,7 +142,7 @@ module.exports = (robot) ->
 
       lines = []
       lines.push ("#{title} #{sliced.length}:")
-      lines.push ("(sparkle)(sparkle)(sparkle)(sparkle)(sparkle)(sparkle)(sparkle)(sparkle)(sparkle)(sparkle)(sparkle)")
+      lines.push ("=======================================")
       for item in sliced
         lines.push "#{item.name} has #{sparkleStorage.pointString(msg, item.score)}."
 

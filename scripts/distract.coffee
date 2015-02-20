@@ -15,12 +15,12 @@
 #   Kevin Behrens
 
 #TODO make these configurable per room
-hardCoreRedditor = "@MattRick"
 bombThreshold = 10
+hardCoreRedditor = "@MattRick"
 
 module.exports = (robot) ->
   robot.respond /(reddit|distract) me/i, (msg) ->
-      reddit msg
+    reddit msg
   robot.respond /(reddit|distract) bomb( (\d+))?/i, (msg) ->
     count = msg.match[2] || 5
     if count > bombThreshold
@@ -42,11 +42,11 @@ reddit = (msg) ->
           msg.send "Spotbot has saved you from a NSFW reddit post! If you want to know what it was ask #{hardCoreRedditor} (he's likely already seen it)"
           return
         post = getPost(posts)
-        if post.domain.match '(gfycat.com|imgur.com|livememe.com|memedad.com)'
-          msg.send "#{post.title} - http://www.reddit.com#{post.permalink}"
+        if post.url.match '(.png|.gif|.jp[eg]|.bmp)' or post.domain.match '(gfycat.com|imgur.com|livememe.com|memedad.com)'
+          msg.send post.title
           msg.send post.url
         else
-          msg.send "#{post.title} - #{post.url} - http://www.reddit.com#{post.permalink}"
+          msg.send "#{post.title} - #{post.url}"
 
 getPost = (posts) ->
   random = Math.round(Math.random() * posts.data.children.length)

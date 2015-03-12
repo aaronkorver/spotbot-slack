@@ -31,13 +31,11 @@
     "hubot-sushiyuki": "0.0.2",
     "wolfram": "0.3.0",
     "xml2js": "0.1.14",
-    "hubot-cron": ">= 0.1.0"
+    "hubot-cron": ">= 0.1.0",
+    "yelp": "^0.1.1"
   },
   "engines": {
     "node": "0.10.x",
     "npm": ">= 1.1.x"
-  },
-  "devDependencies": {
-    "yelp": "^0.1.1"
   }
 }

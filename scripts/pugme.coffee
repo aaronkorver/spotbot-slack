@@ -26,6 +26,9 @@ module.exports = (robot) ->
   robot.respond /pspb/i, (msg) ->
     pugbomb msg
 
+  robot.respond /eyebleach/i, (msg) ->
+    pugbomb msg
+
   robot.respond /how many pugs are there/i, (msg) ->
     msg.http("http://pugme.herokuapp.com/count")
       .get() (err, res, body) ->

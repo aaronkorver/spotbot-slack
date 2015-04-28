@@ -36,7 +36,7 @@ hails= [
   "https://anibundel.files.wordpress.com/2014/04/hail-hydra-the-internet-s-newest-meme-courtesy-of-captain-america-2-9aed26f1-794b-4c2b-96af-89ac9e3c9dad.jpeg",
   "https://keithroysdon.files.wordpress.com/2014/04/hail-hydra-bert-and-ernie.jpg?w=625",
   "https://keithroysdon.files.wordpress.com/2014/04/hail-hydra-godfather.jpg",
-  "https://uproxx.files.wordpress.com/2014/04/hail-hydra-captain-america-the-winter-soldier-twitter-meme-09.jpg
+  "https://uproxx.files.wordpress.com/2014/04/hail-hydra-captain-america-the-winter-soldier-twitter-meme-09.jpg"
 ]
 
 module.exports = (robot) ->

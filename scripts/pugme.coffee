@@ -23,7 +23,10 @@ module.exports = (robot) ->
   robot.respond /pug bomb( (\d+))?/i, (msg) ->
     pugbomb msg
 
-  robot.respond /pspb/i, (msg) ->
+  robot.hear /pspb/i, (msg) ->
+    pugbomb msg
+
+  robot.hear /eye ?bleach/i, (msg) ->
     pugbomb msg
 
   robot.respond /how many pugs are there/i, (msg) ->

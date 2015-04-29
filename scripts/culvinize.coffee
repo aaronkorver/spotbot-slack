@@ -24,7 +24,8 @@ culviners = [
   "https://s3.amazonaws.com/uploads.hipchat.com/171096/1551645/8R0U2wlwWXdZK1D/culvinized-7.png",
   "https://s3.amazonaws.com/uploads.hipchat.com/171096/1551645/Bfy6rn4llKl92KT/culvinized-8.jpg",
   "https://s3.amazonaws.com/uploads.hipchat.com/171096/1551645/JQms0xr2kUT9x9F/culvinized-9.jpg",
-  "https://s3.amazonaws.com/uploads.hipchat.com/171096/1551645/Y6ADEqRHRmXdqXy/culvinized-10.png"
+  "https://s3.amazonaws.com/uploads.hipchat.com/171096/1551645/Y6ADEqRHRmXdqXy/culvinized-10.png",
+  "https://s3.amazonaws.com/uploads.hipchat.com/171096/1551645/QpDCFGtMY1ZJ6dE/culvinized-rake.png"
 ]
 
 module.exports = (robot) ->

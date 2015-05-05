@@ -10,6 +10,7 @@
 # Commands:
 #   hubot pug me - Receive a pug
 #   hubot pug bomb N - get N pugs
+#   hubot eyebleach - Cleanse everyone's eyes with a wall of puggy goodness
 
 
 module.exports = (robot) ->

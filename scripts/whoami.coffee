@@ -13,4 +13,6 @@
 
 module.exports = (robot) ->
   robot.respond /who[ ]?am[ ]?i/i, (msg) ->
-    msg.send msg.message.user.name
+    user = msg.message.user
+    for key,value of user
+      msg.send key + ": " + value

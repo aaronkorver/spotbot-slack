@@ -10,7 +10,6 @@
 # Commands:
 #   hubot pug me - Receive a pug
 #   hubot pug bomb N - get N pugs
-#   hubot pspb - Public Service Pug Bomb, cleanse the screen with pugs
 
 
 module.exports = (robot) ->
@@ -23,9 +22,6 @@ module.exports = (robot) ->
   robot.respond /pug bomb( (\d+))?/i, (msg) ->
     pugbomb msg
 
-  robot.hear /pspb/i, (msg) ->
-    pugbomb msg
-
   robot.hear /eye ?bleach/i, (msg) ->
     pugbomb msg
 
@@ -34,8 +30,7 @@ module.exports = (robot) ->
       .get() (err, res, body) ->
         msg.send "There are #{JSON.parse(body).pug_count} pugs."
 
-
-pugbomb = (msg) ->
+  pugbomb = (msg) ->
     count = msg.match[2] || 5
     msg.http("http://pugme.herokuapp.com/bomb?count=" + count)
       .get() (err, res, body) ->

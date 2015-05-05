@@ -12,7 +12,7 @@
 #
 
 victim = "rocky"
-threshold = 0.1
+threshold = 1
 
 module.exports = (robot) ->
   robot.hear /.*/i, (msg) ->

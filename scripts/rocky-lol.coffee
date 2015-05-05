@@ -16,7 +16,7 @@ threshold = 0.1
 
 module.exports = (robot) ->
   robot.hear /.*/i, (msg) ->
-    sender = msg.message.user.name.toLowerCase()
+    sender = msg.message.user.mention_name.toLowerCase()
     trolls = [
         "@#{sender}, I think you forgot the (lol)"
         "@#{sender}! (yuno) use (lol)?!"

@@ -13,4 +13,4 @@
 
 module.exports = (robot) ->
   robot.respond /who[ ]?am[ ]?i/i, (msg) ->
-    msg.send msg.message.user.name.toLowerCase()
+    msg.send msg.message.user.name

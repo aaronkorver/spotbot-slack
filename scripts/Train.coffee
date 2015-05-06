@@ -13,5 +13,5 @@
 #
 
 module.exports = (robot) ->
-  robot.hear /train/i, (msg) ->
+  robot.hear /\btrain\b/i, (msg) ->
     msg.send "Choo! Choo!"

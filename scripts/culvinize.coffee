@@ -25,7 +25,7 @@ culviners = [
   {url: "https://s3.amazonaws.com/uploads.hipchat.com/171096/1551645/Bfy6rn4llKl92KT/culvinized-8.jpg", weight: 1},
   {url: "https://s3.amazonaws.com/uploads.hipchat.com/171096/1551645/JQms0xr2kUT9x9F/culvinized-9.jpg", weight: 1},
   {url: "https://s3.amazonaws.com/uploads.hipchat.com/171096/1551645/Y6ADEqRHRmXdqXy/culvinized-10.png", weight: 1}
-  {url: "https://s3.amazonaws.com/uploads.hipchat.com/171096/1551645/QpDCFGtMY1ZJ6dE/culvinized-rake.png, weight : 1}
+  {url: "https://s3.amazonaws.com/uploads.hipchat.com/171096/1551645/QpDCFGtMY1ZJ6dE/culvinized-rake.png", weight : 1}
 ]
 
 max = 0

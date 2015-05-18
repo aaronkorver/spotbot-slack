@@ -14,7 +14,8 @@
 #   dakota.reesebrown
 
 culviners = [
-  {url: "https://s3.amazonaws.com/uploads.hipchat.com/171096/1551645/L5zBxiz3tKE4PyV/rogue.png",      weight: 10},
+  {url: "https://s3.amazonaws.com/uploads.hipchat.com/171096/1551645/L5zBxiz3tKE4PyV/rogue.png", weight: 10},
+  {url: "https://s3.amazonaws.com/uploads.hipchat.com/171096/1551645/4ynsgoG0p0t0NL6/culviner-dance-12.gif", weight: 10},
   {url: "https://s3.amazonaws.com/uploads.hipchat.com/171096/1551645/8Yl2yFy041FwdvO/culvinized-1.png", weight: 1},
   {url: "https://s3.amazonaws.com/uploads.hipchat.com/171096/1551645/57BrwqVEIcKKzjO/culvinized-2.png", weight: 1},
   {url: "https://s3.amazonaws.com/uploads.hipchat.com/171096/1551645/uQ6BoxbT0FoAA6G/culvinized-3.png", weight: 1},

@@ -14,5 +14,5 @@
 #   atmos
 
 module.exports = (robot) ->
-  robot.hear /bee+s?\b/i, (message) ->
+  robot.hear /bee+([^rn]|\b)/i, (message) ->
     message.send "http://i.imgur.com/qrLEV.gif"

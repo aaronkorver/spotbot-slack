@@ -14,5 +14,5 @@
 #   Curtis Schmelling
 
 module.exports = (robot) ->
-  robot.hear /update.*gradle/i, (msg) ->
+  robot.hear /update.*(gradle)|(integrationbuild)/i, (msg) ->
     msg.send "yolo!"

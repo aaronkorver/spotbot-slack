@@ -11,12 +11,16 @@
 #   some jerk
 #
 
+# To test locally, change #{victim} to "shell"
 victim = "rocky"
 threshold = 0.1
 
 module.exports = (robot) ->
   robot.hear /.*/i, (msg) ->
-    sender = msg.message.user.mention_name.toLowerCase()
+    if msg.message.user.mention_name?
+      sender =  msg.message.user.mention_name.toLowerCase()
+    else
+      sender = msg.message.user.name
     trolls = [
         "@#{sender}, I think you forgot the (lol)"
         "@#{sender}! (yuno) use (lol)?!"

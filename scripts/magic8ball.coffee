@@ -38,7 +38,7 @@ prophesy = [
 ]
 # set up our prefix
 # unicode ➑ example: '\u2791'
-eightBallPrefix = '##user##\'s \u2791: '
+eightBallPrefix = '\u2791: '
 
 module.exports = (robot) ->
   robot.respond /(?:magic\s)?(eight|8)[ ]?ball/i, (msg) ->

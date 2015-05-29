@@ -36,7 +36,10 @@ prophesy = [
     'Outlook not so good',
     'Very doubtful'
 ]
+# set up our prefix
+# unicode ➑ example: '\u2791'
+eightBallPrefix = '##user##\'s \u2791: '
 
 module.exports = (robot) ->
   robot.respond /(?:magic\s)?(eight|8)[ ]?ball/i, (msg) ->
-    msg.send msg.random prophesy
+    msg.send eightBallPrefix+msg.random prophesy

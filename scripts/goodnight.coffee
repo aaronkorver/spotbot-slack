@@ -11,8 +11,15 @@
 #   good night
 #
 # Author:
-#  BrentNelson 
+#  BrentNelson
+
+goodNights = [
+    "Good night my human pet, sweet dreams"
+    "Sweet Dreams"
+]
+
+random = Math.random()
 
 module.exports = (robot) ->
   robot.respond /(good night)/i, (msg) ->
-    msg.send "Good night my human pet, sweet dreams"
+    msg.send msg.random goodNights

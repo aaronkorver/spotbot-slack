@@ -8,7 +8,7 @@
 #   None
 #
 # Commands:
-#   hubot eyebleach me - Bleaches the eyes
+#   eyebleach me - Bleaches the eyes
 #
 # Author:
 #   Greg "The Yellow Dart" Case

@@ -8,8 +8,9 @@
 #   jamesanderson
 
 module.exports = (robot) ->
-  robot.respond /(wiki)?(.*)/i, (msg)->
+  robot.respond /(wiki)(.*)/i, (msg)->
     terms = escape(msg.match[2].slice(1))
+
     if terms.length == 0
       response = "http://wiki.target.com/tgtwiki/index.php/Special:Random"
     else

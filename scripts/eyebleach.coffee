@@ -59,7 +59,7 @@ randomPost = (posts) ->
   random = Math.round(Math.random() * posts.data.children.length)
   posts.data.children[random]?.data
 
-# stolen from http://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array-in-javascript
+# stolen from https://gist.github.com/CodeGnome/959306
 swap	= (input, x,  y) -> [input[x], input[y]] = [input[y], input[x]]
 rand	= (x) -> Math.floor(Math.random() * x)
 shuffle	= (input) -> swap(input, i, rand(i)) for i in [input.length - 1 .. 1]

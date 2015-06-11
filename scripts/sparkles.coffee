@@ -73,7 +73,7 @@ class SparkleStorage
       if (pts > 0)
         lines.push "(sparkle) Awarding #{@pointString(msg, pts)} to #{username} (sparkle)"
       else
-        lines.push "Taking #{@pointString(msg, pts)} from #{username}"
+        lines.push "Taking #{@pointString(msg, Math.abs(pts))} from #{username}"
       lines.push "#{username} now has #{@pointString(msg, userDetails.points)}!"
       msg.send lines.join("\n")
       @save()
@@ -182,14 +182,24 @@ module.exports = (robot) ->
 
         users = robot.brain.usersForFuzzyName(msg.match[1].trim())
         if users.length is 1
-            user = users[0]
+          user = users[0]
         else
-            user = msg.match[1].trim()
+          user = msg.match[1].trim()
+
+        #normalize to string if we have an obect from fuzzy search
+        if (typeof(user) == 'object')
+          user = user.mention_name || user.name
 
         if (msg.match[4]?)
           reason = msg.match[4].trim()
 
-        sparkleStorage.awardPoints(msg, user, 1, reason)
+        msgFrom = msg?.message?.user?.mention_name
+        if (user.substring(1) == msgFrom) #compare without the @ sign
+          msg.send "OH NO YOU DIDN'T !!"
+          sparkleStorage.awardPoints(msg, user, -1, "sparkling themselves")
+        else
+          sparkleStorage.awardPoints(msg, user, 1, reason)
+
 
     robot.respond /(?:un|de)sparkle(?:s)? (.+?)( (for) (.+))?\s?$/i, (msg) ->
 

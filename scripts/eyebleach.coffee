@@ -23,6 +23,7 @@ announcements = [
    "Spotbot to the rescue!"
    "You owe me an e-beer"
    "Somebody say eyebleach? What could be so bad... oh god it's terrible...  What's wrong with you people?"
+   "Oh.... My.... God."
 ]
 
 eyebleachCount = 5

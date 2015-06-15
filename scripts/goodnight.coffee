@@ -15,11 +15,17 @@
 
 goodNights = [
     "Good night my human pet, sweet dreams"
-    "Sweet Dreams"
+    "Sweet dreams"
+    "Good night!"
+    "Bon nuit"
+    "Buenas noches"
+    "Hasta la vista baby"
+    "Farewell, friend"
+
+
 ]
 
-random = Math.random()
 
 module.exports = (robot) ->
-  robot.respond /(good night)/i, (msg) ->
+  robot.respond /(good ?night)/i, (msg) ->
     msg.send msg.random goodNights

@@ -13,7 +13,20 @@
 # Author:
 #   Nick Pabon
 
+sands= [
+ "http://i.imgur.com/cMzI6gu.gif",
+ "http://i.imgur.com/HTBXvCN.jpg",
+ "http://i.imgur.com/KNHOfr3.gif",
+ "http://i.imgur.com/Nm1twBk.gif",
+ "http://i.imgur.com/0QON3dO.gif",
+ "http://i.imgur.com/xOD9QGH.gif",
+ "http://cdn.makeagif.com/media/1-22-2014/kKl4wR.gif",
+ "http://i.imgur.com/6cFt1xY.gif",
+ "http://i.imgur.com/j3MR3cS.gif",
+ "http://i.imgur.com/uy9eLtY.webm"
+]
+
 
 module.exports = (robot) ->
   robot.hear /pocket ?sand/i, (msg) ->
-    msg.send 'http://i.imgur.com/cMzI6gu.gif'
+    msg.send msg.random sands

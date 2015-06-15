@@ -15,4 +15,4 @@
 
 module.exports = (robot) ->
   robot.hear /inspire me\b/i, (msg) ->
-    msg.send "http://i.imgur.com/tNkzm5e.gif?1"
+    msg.send "http://i.imgur.com/tNkzm5e.gif"

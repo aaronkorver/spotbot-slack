@@ -15,9 +15,14 @@
 
 goodNights = [
     "Good night my human pet, sweet dreams"
-    "Sweet Dreams"
+    "Sweet dreams"
     "Good night!"
-    "Goodnight!"
+    "Bon nuit"
+    "Buenas noches"
+    "Hosta la vista baby"
+    "Farewell, friend"
+
+
 ]
 
 

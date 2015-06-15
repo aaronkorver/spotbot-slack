@@ -19,7 +19,7 @@ goodNights = [
     "Good night!"
     "Bon nuit"
     "Buenas noches"
-    "Hosta la vista baby"
+    "Hasta la vista baby"
     "Farewell, friend"
 
 

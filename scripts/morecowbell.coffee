@@ -1,5 +1,5 @@
 # Description:
-#   The only perscription...is more cowbell
+#   If you have a fever, then the only perscription...is more cowbell
 #
 # Dependencies:
 #   None

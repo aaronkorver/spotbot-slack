@@ -8,7 +8,7 @@
 #   None
 #
 # Commands:
-#   inspire me - Displays a random sloth image
+#   sloth me - Displays a random sloth image
 #
 # Author:
 #   April Ai (Sichun)
@@ -25,10 +25,9 @@ slothGifs = [
     'http://i.giphy.com/dMn8Sxl7Sluow.gif'
     'http://i.giphy.com/AposSatwmTvUc.gif'
     'http://i.giphy.com/YmkXyCBXEHwqI.gif'
-
 ]
 
 
 module.exports = (robot) ->
-  robot.hear /inspire ?me/i, (msg) ->
+  robot.hear /sloth ?me/i, (msg) ->
     msg.send msg.random slothGifs

@@ -42,6 +42,7 @@ module.exports = (robot) ->
 
     if ! template?
       msg.send "I don't know that meme.  Open a pull request to add it."
+      return
 
     url = "https://api.imgflip.com/caption_image?username=#{username}&password=#{password}&template_id=#{template}&text0=#{topText}&text1=#{bottomText}"
 

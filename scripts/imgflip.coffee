@@ -20,17 +20,20 @@ password = "Like4Rock"
 
 # Keep this in order, or I will find you
 memeIds = {
-    "aliens" :  {"id" : 101470,   "usage" : "Not saying it was aliens / but ALIENS"}
-    "archer" :  {"id" : 10628640, "usage" : "Do you want x / because that's how you get x"}
-    "boromir" : {"id" : 61579,    "usage" : "One does not simply / misuse this meme"}
-    "brace" :   {"id" : 61546,    "usage" : "Brace yourself / Game of Thrones references are coming"}
-    "fry" :     {"id" : 61520,    "usage" : "Not sure if X / or Y"}
-    "picard" :  {"id" : 245898,   "usage" : "Why the fuck / are you not using this meme?"}
-    "sohot" :   {"id" : 21604248, "usage" : "Zoolander / so hot right now"}
-    "success" : {"id" : 61544,    "usage" : "Brag about doing something"}
-    "wonka" :   {"id" : 61582,    "usage" : "Memes are so hard / please tell me all about it"}
-    "yuno" :    {"id" : 61527,    "usage" : "Y U NO / speak only in memes?"}
-    "xx" :      {"id" : 61532,    "usage" : "I don't always x / but when I do, I y"}
+    "aliens" :    {"id" : 101470,   "usage" : "Not saying it was aliens / but ALIENS"}
+    "archer" :    {"id" : 10628640, "usage" : "Do you want x / because that's how you get x"}
+    "boromir" :   {"id" : 61579,    "usage" : "One does not simply / misuse this meme"}
+    "brace" :     {"id" : 61546,    "usage" : "Brace yourself / Game of Thrones references are coming"}
+    "brian" :     {"id" : 61585,    "usage" : "Uses this meme / dies"}
+    "fry" :       {"id" : 61520,    "usage" : "Not sure if X / or Y"}
+    "hindsight" : {"id" : 101708,   "usage" : "If you didn't want x / why did you directly cause x?"}
+    "marvin" :    {"id" : 21807506, "usage" : "Holding food and wrapper / threw out food, ate wrapper"}
+    "picard" :    {"id" : 245898,   "usage" : "Why the heck / are you not using this meme?"}
+    "sohot" :     {"id" : 21604248, "usage" : "Zoolander / so hot right now"}
+    "success" :   {"id" : 61544,    "usage" : "Brag about doing something"}
+    "wonka" :     {"id" : 61582,    "usage" : "Memes are so hard / please tell me all about it"}
+    "yuno" :      {"id" : 61527,    "usage" : "Y U NO / speak only in memes?"}
+    "xx" :        {"id" : 61532,    "usage" : "I don't always x / but when I do, I y"}
   };
 
 module.exports = (robot) ->

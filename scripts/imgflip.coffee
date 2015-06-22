@@ -9,6 +9,7 @@
 #
 # Commands:
 #   hubot meme me <meme> : <top text> / <bottom text>
+#   hubot meme list
 #
 # Author:
 #   mrick
@@ -20,29 +21,39 @@ password = "Like4Rock"
 
 # Keep this in order, or I will find you
 memeIds = {
-    "aliens" : 101470
-    "archer" : 10628640
-    "boromir" : 61579
-    "brace" : 61546
-    "fry" : 61520
-    "picard" : 245898
-    "sohot" : 21604248
-    "success" : 61544
-    "wonka" : 61582
-    "yuno" : 61527
-    "xx" : 61532
+    "aliens" :    {"id" : 101470,   "usage" : "Not saying it was aliens / but ALIENS"}
+    "archer" :    {"id" : 10628640, "usage" : "Do you want x / because that's how you get x"}
+    "boromir" :   {"id" : 61579,    "usage" : "One does not simply / misuse this meme"}
+    "brace" :     {"id" : 61546,    "usage" : "Brace yourself / Game of Thrones references are coming"}
+    "brian" :     {"id" : 61585,    "usage" : "Uses this meme / dies"}
+    "fry" :       {"id" : 61520,    "usage" : "Not sure if X / or Y"}
+    "hindsight" : {"id" : 101708,   "usage" : "If you didn't want x / why did you directly cause x?"}
+    "marvin" :    {"id" : 21807506, "usage" : "Holding food and wrapper / threw out food, ate wrapper"}
+    "picard" :    {"id" : 245898,   "usage" : "Why the heck / are you not using this meme?"}
+    "sohot" :     {"id" : 21604248, "usage" : "Zoolander / so hot right now"}
+    "success" :   {"id" : 61544,    "usage" : "Brag about doing something"}
+    "wonka" :     {"id" : 61582,    "usage" : "Memes are so hard / please tell me all about it"}
+    "yuno" :      {"id" : 61527,    "usage" : "Y U NO / speak only in memes?"}
+    "xx" :        {"id" : 61532,    "usage" : "I don't always x / but when I do, I y"}
   };
 
 module.exports = (robot) ->
+  robot.respond /meme list/i, (msg) ->
+    msg.send "Supported memes:"
+    for key of memeIds
+      msg.send "    #{key}: #{memeIds[key]["usage"]}"
+
   robot.respond /(meme) me (.*):(.*)\/(.*)/i, (msg) ->
 
-    template = memeIds[msg.match[2].strip()]
-    topText = encodeURIComponent(msg.match[3].strip())
-    bottomText = encodeURIComponent(msg.match[4].strip())
+    templateName = msg.match[2].strip()
 
-    if ! template?
+    if ! memeIds[templateName]?
       msg.send "I don't know that meme.  Open a pull request to add it."
       return
+
+    template = memeIds[templateName]["id"]
+    topText = encodeURIComponent(msg.match[3].strip())
+    bottomText = encodeURIComponent(msg.match[4].strip())
 
     url = "https://api.imgflip.com/caption_image?username=#{username}&password=#{password}&template_id=#{template}&text0=#{topText}&text1=#{bottomText}"
 

@@ -9,6 +9,7 @@
 #
 # Commands:
 #   hubot meme me <meme> : <top text> / <bottom text>
+#   hubot meme list
 #
 # Author:
 #   mrick

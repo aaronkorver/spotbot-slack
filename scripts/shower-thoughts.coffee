@@ -30,7 +30,7 @@ findThought = (arr, prop) ->
     arr.splice i, 1
     return findThought(arr, prop)
 
-  else if item[prop] == false
+  else
     return item.title
 
 showerThoughts = (msg) ->

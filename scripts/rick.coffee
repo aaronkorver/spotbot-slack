@@ -16,4 +16,4 @@
 
 module.exports = (robot) ->
   robot.respond /(rick)( me)/i, (msg) ->
-    msg.send "(skinnyarmleft)(rage)(skinnyarmright)"
+    msg.send "(skinnyarmleft)(rageguy)(skinnyarmright)"

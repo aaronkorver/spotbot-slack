@@ -14,7 +14,7 @@
 #   Matthew Dordal
 
 module.exports = (robot) ->
-  robot.hear /what are you thinking\?/i, (msg) ->
+  robot.respond /what are you thinking\?/i, (msg) ->
     showerThoughts msg
 
 # Check the array for items that are safe.

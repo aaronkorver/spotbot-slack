@@ -8,7 +8,7 @@
 #   None
 #
 # Commands:
-#   spotbot what are you thinking? - Grabs a random title from reddit.com/r/showerthoughts
+#   hubot what are you thinking? - Grabs a random title from reddit.com/r/showerthoughts
 #
 # Author:
 #   Matthew Dordal

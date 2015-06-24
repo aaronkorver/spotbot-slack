@@ -17,7 +17,7 @@ module.exports = (robot) ->
 
   robot.respond /(kevin)( me )?(.*)/i, (msg)->
 
-      askChuck msg, "http://api.icndb.com/jokes/random?firstName=Kevin"+"&lastName="
+      askChuck msg, "http://api.icndb.com/jokes/random?firstName=Kevin"
 
   askChuck = (msg, url) ->
     msg.http(url)
@@ -29,4 +29,4 @@ module.exports = (robot) ->
           if message_from_chuck.length == 0
             msg.send "Achievement unlocked: Chuck Norris is quiet!"
           else
-            msg.send message_from_chuck.value.joke.replace /\s\s/g, " "
+            msg.send message_from_chuck.value.joke.replace(/Norris\s/g, "").replace(/&quot;/g, '\"')

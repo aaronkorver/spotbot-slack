@@ -8,7 +8,7 @@
 #   None
 #
 # Commands:
-#   what are you thinking? - Grabs a random title from http://www.reddit.com/r/showerthoughts
+#   spotbot what are you thinking? - Grabs a random title from reddit.com/r/showerthoughts
 #
 # Author:
 #   Matthew Dordal
@@ -25,7 +25,7 @@ findThought = (arr, prop) ->
   if arr.length == 0
     return 'Nothing really.'
 
-  # Remain calm and find another item
+  # Keep calm and find another item
   else if item[prop] == true
     arr.splice i, 1
     return findThought(arr, prop)

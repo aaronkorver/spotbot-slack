@@ -8,7 +8,7 @@
 #   None
 #
 # Commands:
-#   spotbot more cowbell
+#   hubot more cowbell
 #
 # Author:
 #   SpencerGBull

@@ -8,19 +8,18 @@
 #   None
 #
 # Commands:
-#   welcome `@username`
-#   disown  `@username`
+#   hubot welcome `@username`
 #
 # Author:
 #   therynamo
 
 
 
-random = Math.random
 
 module.exports = (robot) ->
   robot.respond /(welcome)( @.*)/i ,(msg) ->
     user = msg.match[2]
+
     welcomes = [
         "Welcome#{user}! (awesome)"
         "Holy Cow!#{user} is here!? (awwyiss)"
@@ -32,4 +31,5 @@ module.exports = (robot) ->
         "Welcome#{user}. It is customary to buy everyone in the room coffee..."
         "Welcome#{user}! You're my new favorite. To tell the truth I don't like any of these other people."
     ]
+
     msg.send msg.random welcomes

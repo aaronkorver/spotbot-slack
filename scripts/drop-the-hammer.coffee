@@ -16,11 +16,11 @@
 #   dak
 
 module.exports = (robot) ->
-	robot.hear /\benterprise\b/i, (message) ->
+	robot.hear /enterprise hammer/i, (msg) ->
 	message.send "https://s3.amazonaws.com/uploads.hipchat.com/171096/1551645/QcPuGKRGKm2Q71u/enterprise-hammer.gif"
 
-	robot.hear /\bspring mvc\b/i, (message) ->
+	robot.hear /spring hammer/i, (message) ->
 	message.send "https://s3.amazonaws.com/uploads.hipchat.com/171096/1551645/huEU4xNgrxRDVNX/spring-mvc-hammer.gif"
 
-	robot.hear /\bjava\b/i, (message) ->
+	robot.hear /java hammer/i, (message) ->
 	message.send "https://s3.amazonaws.com/uploads.hipchat.com/171096/1551645/6drhKpChH2BWrUq/java-hammer.gif"

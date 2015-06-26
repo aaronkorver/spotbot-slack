@@ -47,11 +47,12 @@ module.exports = (robot) ->
 
     templateName = msg.match[2].strip()
 
-    if ! memeIds[templateName]?
-      msg.send "I don't know that meme.  Open a pull request to add it."
-      return
+    if ! memeIds[templateName]
+      template = templateName
+      msg.send "I don't have that meme. Open a pull request to add it."
+    else
+      template = memeIds[templateName]["id"]
 
-    template = memeIds[templateName]["id"]
     topText = encodeURIComponent(msg.match[3].strip())
     bottomText = encodeURIComponent(msg.match[4].strip())
 
@@ -60,9 +61,8 @@ module.exports = (robot) ->
     msg
       .http(url)
         .get() (err, res, body) ->
-
-          if err?
-            msg.send err
+          if err
+            msg.send "Encountered an error: #{err}"
             return
 
           msg.send JSON.parse(body)["data"]["url"]

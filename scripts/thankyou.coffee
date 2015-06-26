@@ -17,17 +17,17 @@
 #
 
 response = [
-  "you're welcome",
-  "no problem",
-  "not at all",
-  "don’t mention it",
-  "it’s no bother",
-  "it’s my pleasure",
-  "my pleasure",
-  "it’s all right",
-  "it’s nothing",
-  "think nothing of it",
-  "sure",
+  "you're welcome"
+  "no problem"
+  "not at all"
+  "don’t mention it"
+  "it’s no bother"
+  "it’s my pleasure"
+  "my pleasure"
+  "it’s all right"
+  "it’s nothing"
+  "think nothing of it"
+  "sure"
   "sure thing"
 ]
 

@@ -14,7 +14,7 @@
 threshold = 0.1
 
 module.exports = (robot) ->
-  robot.hear /proxy/i, (msg) ->
+  robot.hear /(proxy)/i, (msg) ->
 
     random = Math.random()
     if random < threshold

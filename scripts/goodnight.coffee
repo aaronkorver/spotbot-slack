@@ -8,7 +8,7 @@
 #   None
 #
 # Commands:
-#   good night
+#   hubot good night
 #
 # Author:
 #  BrentNelson
@@ -21,8 +21,6 @@ goodNights = [
     "Buenas noches"
     "Hasta la vista baby"
     "Farewell, friend"
-
-
 ]
 
 

@@ -42,7 +42,7 @@ reddit = (msg) ->
           msg.send "Spotbot has saved you from a NSFW reddit post! If you want to know what it was ask #{hardCoreRedditor} (he's likely already seen it)"
           return
         post = getPost(posts)
-        if post.url.match('(.png|.gif|.jp[eg]|.bmp)') or post.domain.match('(gfycat.com|imgur.com|livememe.com|memedad.com)')
+        if (post.url.match('(.png|.gif|.jp[eg]|.bmp)') or post.domain.match('(gfycat.com|imgur.com|livememe.com|memedad.com)')) and not post.url.match('.gifv')
           msg.send post.title
           msg.send post.url
         else

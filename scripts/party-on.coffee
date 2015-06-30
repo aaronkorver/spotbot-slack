@@ -8,12 +8,16 @@
 #   None
 #
 # Commands:
-#   party on spotbot
+#   party on hubot
 #
 # Author:
 #   dak
 
+
 module.exports = (robot) ->
-  robot.hear /party on spotbot\b/i, (message) ->
-	sender = msg.message.user.mention_name.toLowerCase()
-	message.send "party on @#{sender}"
+  robot.hear ///party \s on \s #{robot.name}///i, (msg) ->
+    if msg.message.user.mention_name?
+      sender =  msg.message.user.mention_name.toLowerCase()
+    else
+      sender = msg.message.user.name
+    msg.send "party on @#{sender}"

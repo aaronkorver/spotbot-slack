@@ -35,13 +35,13 @@ reddit = (msg) ->
     .http(url)
       .get() (err, res, body) ->
         posts = JSON.parse(body)
-        if posts.error?
+        post = getPost(posts)
+        if post.error?
           msg.send "Something went wrong... #{hardCoreRedditor} reddited too hard? [http response #{posts.error}]"
           return
-        if posts.over_18?
+        if post.over_18 == true
           msg.send "Spotbot has saved you from a NSFW reddit post! If you want to know what it was ask #{hardCoreRedditor} (he's likely already seen it)"
           return
-        post = getPost(posts)
         if (post.url.match('(.png|.gif|.jp[eg]|.bmp)') or post.domain.match('(gfycat.com|imgur.com|livememe.com|memedad.com)')) and not post.url.match('.gifv')
           msg.send post.title
           msg.send post.url

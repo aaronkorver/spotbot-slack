@@ -25,20 +25,22 @@ module.exports = (robot) ->
 
   robot.hear /(s\/).*/i, (msg) ->
 
-    if msg.message.user.mention_name?
-      sender =  encodeURIComponent(msg.message.user.mention_name.toLowerCase().strip())
-    else
-      sender = encodeURIComponent(msg.message.user.name.strip())
 
-    url = "https://api.imgflip.com/caption_image?username=#{username}&password=#{password}&template_id=#{template}&text0=#{sender}&text1=#{bottomText}"
+    random = Math.floor(Math.random() * 100)
+    if random%5 == 0
 
-    msg
-      .http(url)
-        .get() (err, res, body) ->
-          if err
-            msg.send "Encountered an error: #{err}"
-            return
+      if msg.message.user.mention_name?
+        sender =  encodeURIComponent(msg.message.user.mention_name.toLowerCase().strip())
+      else
+        sender = encodeURIComponent(msg.message.user.name.strip())
 
-          random = Math.floor(Math.random() * 100)
-          if random%5 == 0
-            msg.send JSON.parse(body)["data"]["url"]
+        url = "https://api.imgflip.com/caption_image?username=#{username}&password=#{password}&template_id=#{template}&text0=#{sender}&text1=#{bottomText}"
+
+      msg
+        .http(url)
+          .get() (err, res, body) ->
+            if err
+              msg.send "Encountered an error: #{err}"
+              return
+            else
+              msg.send JSON.parse(body)["data"]["url"]

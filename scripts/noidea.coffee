@@ -40,5 +40,5 @@ module.exports = (robot) ->
             return
 
           random = Math.floor(Math.random() * 100)
-          if random%2 == 0
+          if random%5 == 0
             msg.send JSON.parse(body)["data"]["url"]

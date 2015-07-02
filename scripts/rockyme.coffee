@@ -15,4 +15,4 @@
 
 module.exports = (robot) ->
   robot.respond /(rocky)( me)/i, (msg) ->
-    msg.send "(rocky) | (rocky) | (rocky) : You lose!"
+    msg.send "(rocky) | (rocky) | (rocky) : You Rocky!"

@@ -26,6 +26,7 @@ old_tech_task = [
    'downloading IBM VisualAge'
    'writing Struts applications'
    'using GridBagLayout'
+   'using tables for layout'
 ]
 
 young_kid_task = [
@@ -40,6 +41,7 @@ young_kid_task = [
    'building pillow forts and crying about his broken GI Joes'
    'asking mommy for more fruit snacks'
    'sitting on Santa\'s lap'
+   'trying to convince people that your peach fuzz was actually a beard'
 ]
 
 module.exports = (robot) ->
@@ -50,4 +52,4 @@ module.exports = (robot) ->
           youngin = 'you'
           verb = 'were'
 
-        msg.reply("I was #{ msg.random old_tech_task } back when #{youngin} #{verb} #{ msg.random young_kid_task }.")
+        msg.reply("(rocky) says \"I was #{ msg.random old_tech_task } back when #{youngin} #{verb} #{ msg.random young_kid_task }.\"")

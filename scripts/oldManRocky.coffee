@@ -36,7 +36,7 @@ young_kid_task = [
    'asking dad to remove the training wheels'
    'trying to climb out of their crib'
    'listening to N-Sync'
-   'watching Teen Age Mutant Ninja Turles'
+   'watching Teenage Mutant Ninja Turles'
    'learning to count to 5'
    'building pillow forts and crying about his broken GI Joes'
    'asking mommy for more fruit snacks'

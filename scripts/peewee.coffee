@@ -15,15 +15,11 @@
 #   Jordan McGowan and Rory Straubel
 
 secretWord = "default"
-
-
 done = [
   "Consider it done"
   "You got it, coach"
   "Anything you say"
 ]
-
-
 
 module.exports = (robot) ->
 
@@ -45,7 +41,6 @@ module.exports = (robot) ->
       msg.send "The secret word is " + secretWord
     else
       msg.send "You are not an admin, you cannot do that!"
-
 
   robot.respond /the secret word is (.*)/i, (msg) ->
     if msg.message.user.mention_name?

@@ -25,9 +25,9 @@ module.exports = (robot) ->
 
   robot.hear /(s\/).*/i, (msg) ->
 
-
-    random = Math.floor(Math.random() * 100)
-    if random%5 == 0
+    threshold = 0.2
+    random = Math.random()
+    if threshold>random
 
       if msg.message.user.mention_name?
         sender =  encodeURIComponent(msg.message.user.mention_name.toLowerCase().strip())

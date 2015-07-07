@@ -52,4 +52,4 @@ module.exports = (robot) ->
           youngin = 'you'
           verb = 'were'
 
-        msg.reply("(rocky) says \"I was #{ msg.random old_tech_task } back when #{youngin} #{verb} #{ msg.random young_kid_task }.\"")
+        msg.send("(rocky) says \"I was #{ msg.random old_tech_task } back when #{youngin} #{verb} #{ msg.random young_kid_task }.\"")

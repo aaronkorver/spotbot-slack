@@ -14,7 +14,7 @@
 # Author:
 #   Jordan McGowan and Rory Straubel
 
-secretWord = "default"
+secretWord = "astrobleme"
 done = [
   "Consider it done"
   "You got it, coach"

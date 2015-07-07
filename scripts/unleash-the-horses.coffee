@@ -8,7 +8,7 @@
 #   None
 #
 # Commands:
-#   unleash the horses | unleashes the horses
+#   unleash the horses - unleashes the horses
 #
 # Author:
 #   dak

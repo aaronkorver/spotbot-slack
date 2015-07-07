@@ -23,11 +23,11 @@ done = [
 
 module.exports = (robot) ->
 
-  unless process.env.SPOTBOT_PEEWEE_ADMIN?
-    robot.logger.warning 'The SPOTBOT_PEEWEE_ADMIN environment variable not set'
+  unless process.env.HUBOT_PEEWEE_ADMIN?
+    robot.logger.warning 'The HUBOT_PEEWEE_ADMIN environment variable not set'
 
-  if process.env.SPOTBOT_PEEWEE_ADMIN?
-    admins = process.env.SPOTBOT_PEEWEE_ADMIN.split ','
+  if process.env.HUBOT_PEEWEE_ADMIN?
+    admins = process.env.HUBOT_PEEWEE_ADMIN.split ','
   else
     admins = []
 
@@ -52,7 +52,7 @@ module.exports = (robot) ->
       secretWord = msg.match[1]
       msg.send msg.random done
     else
-      msg.send "You are not an admin, you cannot do that!"
+      msg.send "#{sender} is not an admin, you cannot do that!"
 
   robot.hear //, (msg) ->
     patt = new RegExp secretWord

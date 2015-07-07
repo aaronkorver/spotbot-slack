@@ -9,7 +9,7 @@
 #   None
 #
 # Commands:
-#   triggers when anyone uses 's/' to correct something
+#   None
 #
 # Author:
 #   Rory Straubel and Jordan McGowan and thanks to Matt Rick

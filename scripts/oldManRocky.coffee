@@ -27,6 +27,10 @@ old_tech_task = [
    'writing Struts applications'
    'using GridBagLayout'
    'using tables for layout'
+   'drinking beers'
+   'listening to bro country'
+   'talking about design patterns'
+   'writing OO JavaScript'
 ]
 
 young_kid_task = [
@@ -42,6 +46,9 @@ young_kid_task = [
    'asking mommy for more fruit snacks'
    'sitting on Santa\'s lap'
    'trying to convince people that your peach fuzz was actually a beard'
+   'squeezing his pimples in the mirror'
+   'stroking his baby blankie'
+   'pissing his pants'
 ]
 
 module.exports = (robot) ->

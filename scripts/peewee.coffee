@@ -55,7 +55,9 @@ module.exports = (robot) ->
       msg.send "#{sender} is not an admin, you cannot do that!"
 
   robot.hear //, (msg) ->
-    patt = new RegExp secretWord
-    if patt.test(msg.message)
-      msg.send "YOU SAID THE SECRET WORD! EVERYBODY SCREAM REAL LOUD!"
-      msg.send "https://s3.amazonaws.com/uploads.hipchat.com/171096/2268827/ZzKYO7E7K2nZu8v/ZWARaOZ.gif"
+    word = new RegExp secretWord
+    spot = new RegExp 'spotbot'
+    if word.test(msg.message)
+      if not spot.test(msg.message)
+        msg.send "YOU SAID THE SECRET WORD! EVERYBODY SCREAM REAL LOUD!"
+        msg.send "https://s3.amazonaws.com/uploads.hipchat.com/171096/2268827/ZzKYO7E7K2nZu8v/ZWARaOZ.gif"

@@ -16,7 +16,10 @@ threshold = 0.25
 
 module.exports = (robot) ->
   robot.hear /.*/i, (msg) ->
-    sender = msg.message.user.mention_name.toLowerCase()
+    if msg.message.user.mention_name?
+      sender = msg.message.user.mention_name.toLowerCase()
+    else
+      sender = msg.message.user.name
     trolls = [
       "https://s3.amazonaws.com/uploads.hipchat.com/171096/1551645/u5b7cVNWbFVfWTE/freedom.gif"
     ]

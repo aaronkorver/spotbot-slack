@@ -34,7 +34,7 @@ module.exports = (robot) ->
       else
         sender = encodeURIComponent(msg.message.user.name.strip())
 
-        url = "https://api.imgflip.com/caption_image?username=#{username}&password=#{password}&template_id=#{template}&text0=#{sender}&text1=#{bottomText}"
+      url = "https://api.imgflip.com/caption_image?username=#{username}&password=#{password}&template_id=#{template}&text0=#{sender}&text1=#{bottomText}"
 
       msg
         .http(url)

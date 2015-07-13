@@ -8,7 +8,7 @@
 #   None
 #
 # Commands:
-#   outta nowhere
+#   outta nowhere - Displays RKO gif outta nowhere
 #
 # Author:
 #   Peyton Zeller-Av

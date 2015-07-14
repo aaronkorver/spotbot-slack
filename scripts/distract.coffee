@@ -16,7 +16,7 @@
 
 #TODO make these configurable per room
 bombThreshold = 10
-hardCoreRedditor = "@MattRick"
+hardCoreRedditor = "Matt Rick"
 
 module.exports = (robot) ->
   robot.respond /(reddit|distract) me/i, (msg) ->

@@ -16,7 +16,7 @@
 
 announcements = [
    "That bad, huh?"
-   "We should take away @MattRick's hipchat access"
+   "We should take away Matt Rick's hipchat access"
    "The goggles, they do nothing!"
    "Puppies incoming in 3...2...1..."
    "Let me guess... Canned chicken?"

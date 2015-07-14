@@ -54,7 +54,7 @@ module.exports = (robot) ->
     else
       msg.send "#{sender} is not an admin, you cannot do that!"
 
-  robot.hear //, (msg) ->
+  robot.hear /.*/, (msg) ->
     word = new RegExp secretWord
     spot = new RegExp 'spotbot'
     if word.test(msg.message)

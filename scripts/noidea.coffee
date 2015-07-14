@@ -23,7 +23,7 @@ bottomText = encodeURIComponent("has no idea what they are doing".strip())
 
 module.exports = (robot) ->
 
-  robot.hear /(s\/).*/i, (msg) ->
+  robot.hear /^(s\/).*\//i, (msg) ->
 
     threshold = 0.2
     random = Math.random()

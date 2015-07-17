@@ -13,7 +13,12 @@
 # Author:
 #   akorver
 
+threshold = 0.2
 
 module.exports = (robot) ->
   robot.respond /(case)( me)/i, (msg) ->
-    msg.send "(bicepleft)(case)(bicepright)"
+    random = Math.random()
+    if random < threshold
+      msg.send "http://i.imgur.com/cU8RzMd.png"
+    else
+      msg.send "(bicepleft)(case)(bicepright)"

@@ -5,7 +5,7 @@
 #   None
 #
 # Configuration:
-#   None
+#   HUBOT_HIPCHAT_TOKEN
 #
 # Commands:
 #   hubot emoji me - Returns a random emoji
@@ -27,6 +27,25 @@ module.exports = (robot) ->
     message.send spin_emoji()
   robot.respond /emoji card( me)?/i, (message) ->
     message.send card_emoji()
+
+  if process.env.HUBOT_HIPCHAT_TOKEN?
+    robot.http("https://api.hipchat.com/v2/emoticon")
+      .header('Accept', 'application/json')
+      .query({
+        auth_token: process.env.HUBOT_HIPCHAT_TOKEN
+        'max-results': 1000
+      })
+      .get() (err, res, body) ->
+        emoji_obj = JSON.parse(body)
+        
+        unless emoji_obj.items?
+          return
+
+        emoji = []
+        emoji_obj.items.forEach (item) ->
+          emoji.push item.shortcut
+
+        return emoji
 
 random_emoji = (num = 1) ->
   return "(#{emoji[random_index(emoji)]})" if num == 1

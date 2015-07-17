@@ -5,7 +5,7 @@
 #   None
 #
 # Configuration:
-#   None
+#   HUBOT_HIPCHAT_TOKEN
 #
 # Commands:
 #   hubot emoji me - Returns a random emoji

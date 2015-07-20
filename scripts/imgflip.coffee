@@ -73,6 +73,16 @@ class MemeUsageStorage
       @roomStorage(msg)['uses'][memeId] = memeUsageDetails
     memeUsageDetails
 
+  getMemesUsed : (msg, ammount = 5) ->
+    tally = []
+
+    for memeId, details of @roomStorage(msg)['uses']
+      tally.push(memeId: memeId, count: details.count)
+
+    ammount = Math.min(ammount, tally.length)
+    tally.sort((a,b) -> b.count - a.count)
+    tally.slice(0, ammount)
+
   save : ->
       @robot.brain.data.memeUses = @memeUses
 
@@ -85,14 +95,17 @@ module.exports = (robot) ->
     for key of memeIds
       msg.send "    #{key}: #{memeIds[key]["usage"]}"
 
-  robot.respond /meme usage (.*)/i, (msg) ->
-    memeId = msg.match[1].trim()
-    memeUsageDetails = memeUsageStorage.getMemeUsageDetails(msg, memeId)
+  robot.respond /memes used/i, (msg) ->
+    memeUses = memeUsageStorage.getMemesUsed(msg)
+    memes = []
 
-    if memeUsageDetails
-      msg.send "#{memeId} has been used #{memeUsageDetails.count} times in this room"
+    if memeUses
+      for tally in memeUses
+        memes.push "#{tally.memeId} has been used #{tally.count} times in this room"
     else
-      msg.send "#{memeId} has never been used in this room"
+      msg.send "No meme usage has ever been recorded in this room"
+
+    msg.send memes.join("\n")
 
   robot.respond /(meme) me (.*):(.*)\/(.*)/i, (msg) ->
 

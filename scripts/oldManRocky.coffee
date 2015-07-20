@@ -31,6 +31,9 @@ old_tech_task = [
    'listening to bro country'
    'talking about design patterns'
    'writing OO JavaScript'
+   'fixing Y2K bugs'
+   'rocking Perl CGI'
+   'holding forth on the superiority of Smalltalk'
 ]
 
 young_kid_task = [

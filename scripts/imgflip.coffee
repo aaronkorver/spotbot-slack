@@ -91,9 +91,11 @@ module.exports = (robot) ->
   memeUsageStorage = new MemeUsageStorage robot
 
   robot.respond /meme list/i, (msg) ->
-    msg.send "Supported memes:"
+    memeList = []
+    memeList.push "Supported memes:"
     for key of memeIds
-      msg.send "    #{key}: #{memeIds[key]["usage"]}"
+      memeList.push "    #{key}: #{memeIds[key]["usage"]}"
+    msg.send memeList.join("\n")
 
   robot.respond /memes used/i, (msg) ->
     memeUses = memeUsageStorage.getMemesUsed(msg)

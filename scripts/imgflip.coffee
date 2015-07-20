@@ -14,6 +14,8 @@
 # Author:
 #   mrick
 
+Util = require "util"
+
 String::strip = -> if String::trim? then @trim() else @replace /^\s+|\s+$/g, ""
 
 username = "spotbot"
@@ -38,11 +40,59 @@ memeIds = {
     "xx" :        {"id" : 61532,    "usage" : "I don't always x / but when I do, I y"}
   };
 
+class MemeUsageDetails
+  constructor: ->
+    @count = 0
+
+class MemeUsageStorage
+  constructor: (@robot) ->
+    @memeUses = {}
+
+    @robot.brain.on 'loaded', =>
+        @memeUses = @robot.brain.data.memeUses || {}
+
+  roomStorage : (msg) ->
+    room = msg.message.room
+    result = @memeUses[room]
+
+    if (!result)
+        result = {uses: {}}
+        @memeUses[room] = result
+    result
+
+  memeUsed : (msg, memeId) ->
+    roomUses = @roomStorage(msg)['uses']
+    memeUsageDetails = @getMemeUsageDetails(msg, memeId)
+    memeUsageDetails.count += 1;
+    @save()
+
+  getMemeUsageDetails : (msg, memeId) ->
+    memeUsageDetails = @roomStorage(msg)['uses'][memeId]
+    if (!memeUsageDetails)
+      memeUsageDetails = new MemeUsageDetails()
+      @roomStorage(msg)['uses'][memeId] = memeUsageDetails
+    memeUsageDetails
+
+  save : ->
+      @robot.brain.data.memeUses = @memeUses
+
 module.exports = (robot) ->
+
+  memeUsageStorage = new MemeUsageStorage robot
+
   robot.respond /meme list/i, (msg) ->
     msg.send "Supported memes:"
     for key of memeIds
       msg.send "    #{key}: #{memeIds[key]["usage"]}"
+
+  robot.respond /meme usage (.*)/i, (msg) ->
+    memeId = msg.match[1].trim()
+    memeUsageDetails = memeUsageStorage.getMemeUsageDetails(msg, memeId)
+
+    if memeUsageDetails
+      msg.send "#{memeId} has been used #{memeUsageDetails.count} times in this room"
+    else
+      msg.send "#{memeId} has never been used in this room"
 
   robot.respond /(meme) me (.*):(.*)\/(.*)/i, (msg) ->
 
@@ -56,6 +106,8 @@ module.exports = (robot) ->
 
     topText = encodeURIComponent(msg.match[3].strip())
     bottomText = encodeURIComponent(msg.match[4].strip())
+
+    memeUsageStorage.memeUsed(msg, templateName)
 
     url = "https://api.imgflip.com/caption_image?username=#{username}&password=#{password}&template_id=#{template}&text0=#{topText}&text1=#{bottomText}"
 

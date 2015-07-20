@@ -73,14 +73,14 @@ class MemeUsageStorage
       @roomStorage(msg)['uses'][memeId] = memeUsageDetails
     memeUsageDetails
 
-  getMemesUsed : (msg, ammount = 5) ->
+  getMemesUsed : (msg, asc, ammount) ->
     tally = []
 
     for memeId, details of @roomStorage(msg)['uses']
       tally.push(memeId: memeId, count: details.count)
 
     ammount = Math.min(ammount, tally.length)
-    tally.sort((a,b) -> b.count - a.count)
+    tally.sort((a,b) -> if asc then b.count - a.count else a.count - b.count)
     tally.slice(0, ammount)
 
   save : ->
@@ -97,8 +97,18 @@ module.exports = (robot) ->
       memeList.push "    #{key}: #{memeIds[key]["usage"]}"
     msg.send memeList.join("\n")
 
-  robot.respond /memes used/i, (msg) ->
-    memeUses = memeUsageStorage.getMemesUsed(msg)
+  robot.respond /((top|bottom)( \d+)? )?memes used/i, (msg) ->
+
+    asc = true
+    ammount = 5
+
+    if msg.match[2]
+      asc = ("#{msg.match[2]}".trim() is "top")
+
+    if msg.match[3]
+      ammount = "#{msg.match[3]}".trim()
+
+    memeUses = memeUsageStorage.getMemesUsed(msg, asc, ammount)
     memes = []
 
     if memeUses

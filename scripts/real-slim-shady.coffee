@@ -15,27 +15,24 @@
 
 module.exports = (robot) ->
 
-  users = robot.brain.data.users
-
   robot.respond /who's the real Slim Shady\?/i, (msg) ->
-    theRealSlimShady(users, msg)
+    room = msg.envelope.room
+
+    if process.env.HUBOT_HIPCHAT_TOKEN
+      robot.http('https://api.hipchat.com/v2/room/' + room)
+        .header('Accept', 'applicaiton/json')
+        .query({
+          auth_token: process.env.HUBOT_HIPCHAT_TOKEN
+          'max-results': 1000
+        })
+        .get() (err, response, body) ->
+          data = JSON.parse(body)
+          users = data.participants
+          theRealSlimShady(users, msg)
+    else
+      msg.send 'I\'m the real Slim Shady. All those other Slim Shady\'s are just imitating.'
 
 theRealSlimShady = (users, msg) ->
-  me = msg.message.user.name
-  comeAtMeBro = '@' + me + ', is the real Slim Shady. All those other Slim Shady\'s are just imitating.'
-  list = [];
+  slim = msg.random users
 
-  for key, value of users
-    list.push( "#{value.name}" )
-
-
-  if list.length == 0
-    msg.send 'I\'m the real Slim Shady!'
-    return
-  else if me == 'MatthewDordal'
-    msg.send comeAtMeBro
-    return
-  else
-    user = msg.random list
-    msg.send "@#{user} is the real Slim Shady."
-    return
+  msg.send "#{slim.name} is the real Slim Shady."

@@ -8,11 +8,14 @@
 #   None
 #
 # Commands:
-#   hubot meme me <meme> : <top text> / <bottom text>
-#   hubot meme list
+#   hubot meme me <meme> : <top text> / <bottom text> - generates a meme
+#   hubot meme list - lists aliased meme templates
+#   hubot [top|bottom [n]] memes used - lists the most used meme templates 
 #
 # Author:
 #   mrick
+
+Util = require "util"
 
 String::strip = -> if String::trim? then @trim() else @replace /^\s+|\s+$/g, ""
 
@@ -31,6 +34,7 @@ memeIds = {
     "hindsight" : {"id" : 101708,   "usage" : "If you didn't want x / why did you directly cause x?"}
     "marvin" :    {"id" : 21807506, "usage" : "Holding food and wrapper / threw out food, ate wrapper"}
     "picard" :    {"id" : 245898,   "usage" : "Why the heck / are you not using this meme?"}
+    "sohappy":    {"id" : 6781963,  "usage" : "I would be so happy" / "If you used this meme correctly"}
     "sohot" :     {"id" : 21604248, "usage" : "Zoolander / so hot right now"}
     "success" :   {"id" : 61544,    "usage" : "Brag about doing something"}
     "wonka" :     {"id" : 61582,    "usage" : "Memes are so hard / please tell me all about it"}
@@ -38,11 +42,84 @@ memeIds = {
     "xx" :        {"id" : 61532,    "usage" : "I don't always x / but when I do, I y"}
   };
 
+class MemeUsageDetails
+  constructor: ->
+    @count = 0
+
+class MemeUsageStorage
+  constructor: (@robot) ->
+    @memeUses = {}
+
+    @robot.brain.on 'loaded', =>
+        @memeUses = @robot.brain.data.memeUses || {}
+
+  roomStorage : (msg) ->
+    room = msg.message.room
+    result = @memeUses[room]
+
+    if (!result)
+        result = {uses: {}}
+        @memeUses[room] = result
+    result
+
+  memeUsed : (msg, memeId) ->
+    roomUses = @roomStorage(msg)['uses']
+    memeUsageDetails = @getMemeUsageDetails(msg, memeId)
+    memeUsageDetails.count += 1;
+    @save()
+
+  getMemeUsageDetails : (msg, memeId) ->
+    memeUsageDetails = @roomStorage(msg)['uses'][memeId]
+    if (!memeUsageDetails)
+      memeUsageDetails = new MemeUsageDetails()
+      @roomStorage(msg)['uses'][memeId] = memeUsageDetails
+    memeUsageDetails
+
+  getMemesUsed : (msg, asc, amount) ->
+    tally = []
+
+    for memeId, details of @roomStorage(msg)['uses']
+      tally.push(memeId: memeId, count: details.count)
+
+    amount = Math.min(amount, tally.length)
+    tally.sort((a,b) -> if asc then b.count - a.count else a.count - b.count)
+    tally.slice(0, amount)
+
+  save : ->
+      @robot.brain.data.memeUses = @memeUses
+
 module.exports = (robot) ->
+
+  memeUsageStorage = new MemeUsageStorage robot
+
   robot.respond /meme list/i, (msg) ->
-    msg.send "Supported memes:"
+    memeList = []
+    memeList.push "Supported memes:"
     for key of memeIds
-      msg.send "    #{key}: #{memeIds[key]["usage"]}"
+      memeList.push "    #{key}: #{memeIds[key]["usage"]}"
+    msg.send memeList.join("\n")
+
+  robot.respond /((top|bottom)( \d+)? )?memes used/i, (msg) ->
+
+    asc = true
+    amount = 5
+
+    if msg.match[2]
+      asc = ("#{msg.match[2]}".trim() is "top")
+
+    if msg.match[3]
+      amount = "#{msg.match[3]}".trim()
+
+    memeUses = memeUsageStorage.getMemesUsed(msg, asc, amount)
+    memes = []
+
+    if memeUses
+      for tally in memeUses
+        memes.push "#{tally.memeId} has been used #{tally.count} times in this room"
+    else
+      msg.send "No meme usage has ever been recorded in this room"
+
+    msg.send memes.join("\n")
 
   robot.respond /(meme) me (.*):(.*)\/(.*)/i, (msg) ->
 
@@ -56,6 +133,8 @@ module.exports = (robot) ->
 
     topText = encodeURIComponent(msg.match[3].strip())
     bottomText = encodeURIComponent(msg.match[4].strip())
+
+    memeUsageStorage.memeUsed(msg, templateName)
 
     url = "https://api.imgflip.com/caption_image?username=#{username}&password=#{password}&template_id=#{template}&text0=#{topText}&text1=#{bottomText}"
 

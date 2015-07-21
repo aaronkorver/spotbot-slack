@@ -1,3 +1,19 @@
+# Description:
+#   Random Chris Farley gifs
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   farley - summons a farley gif
+#
+# Author:
+#   nicholasmaki
+
+
 farley = [
   "http://replygif.net/i/1078.gif"
   "http://replygif.net/i/1378.gif"
@@ -8,5 +24,5 @@ farley = [
 ]
 
 module.exports = (robot) ->
-  robot.hear /[Ff]arley/i, (message) ->
+  robot.hear /farley/i, (message) ->
     message.send message.random farley

@@ -8,8 +8,9 @@
 #   None
 #
 # Commands:
-#   hubot meme me <meme> : <top text> / <bottom text>
-#   hubot meme list
+#   hubot meme me <meme> : <top text> / <bottom text> - generates a meme
+#   hubot meme list - lists aliased meme templates
+#   hubot [top|bottom [n]] memes used - lists the most used meme templates 
 #
 # Author:
 #   mrick
@@ -74,15 +75,15 @@ class MemeUsageStorage
       @roomStorage(msg)['uses'][memeId] = memeUsageDetails
     memeUsageDetails
 
-  getMemesUsed : (msg, asc, ammount) ->
+  getMemesUsed : (msg, asc, amount) ->
     tally = []
 
     for memeId, details of @roomStorage(msg)['uses']
       tally.push(memeId: memeId, count: details.count)
 
-    ammount = Math.min(ammount, tally.length)
+    amount = Math.min(amount, tally.length)
     tally.sort((a,b) -> if asc then b.count - a.count else a.count - b.count)
-    tally.slice(0, ammount)
+    tally.slice(0, amount)
 
   save : ->
       @robot.brain.data.memeUses = @memeUses
@@ -101,15 +102,15 @@ module.exports = (robot) ->
   robot.respond /((top|bottom)( \d+)? )?memes used/i, (msg) ->
 
     asc = true
-    ammount = 5
+    amount = 5
 
     if msg.match[2]
       asc = ("#{msg.match[2]}".trim() is "top")
 
     if msg.match[3]
-      ammount = "#{msg.match[3]}".trim()
+      amount = "#{msg.match[3]}".trim()
 
-    memeUses = memeUsageStorage.getMemesUsed(msg, asc, ammount)
+    memeUses = memeUsageStorage.getMemesUsed(msg, asc, amount)
     memes = []
 
     if memeUses

@@ -212,3 +212,14 @@ Add the subdomain hubot should connect to. If you web URL looks like
 
 You may want to get comfortable with `heroku logs` and `heroku restart` if
 you're having issues.
+
+## Submission guidelines
+
+### Robot.hear
+
+While there are a lot of `robot.hear` scripts currently, as spotbot has grown past
+its humble beginings, we've generally come to the consensus that such scripts are
+not suitable unless they:
+
+1. Have a trigger threshold (only trigger on some percentage of matches, typically 10%)
+1. Are configurable by room (persist an on/off flag to the reddis brain per room)

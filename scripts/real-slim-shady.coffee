@@ -20,7 +20,7 @@ module.exports = (robot) ->
 
     if process.env.HUBOT_HIPCHAT_TOKEN
       robot.http('https://api.hipchat.com/v2/room/' + room)
-        .header('Accept', 'applicaiton/json')
+        .header('Accept', 'application/json')
         .query({
           auth_token: process.env.HUBOT_HIPCHAT_TOKEN
           'max-results': 1000

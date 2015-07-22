@@ -8,7 +8,7 @@
 #   None
 #
 # Commands:
-#   hubot coffee-time
+#   Coffee - Display a coffee gif when someone mentions coffee
 #
 # Author:
 #   therynamo
@@ -32,5 +32,5 @@ coffeeGifs= [
 ]
 
 module.exports = (robot) ->
-  robot.hear /(coffee)(time)?/i, (msg) ->
+  robot.hear /(^|[^\.])\bcoffee\b/i, (msg) ->
     msg.send msg.random coffeeGifs

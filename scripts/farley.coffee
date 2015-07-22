@@ -24,5 +24,5 @@ farley = [
 ]
 
 module.exports = (robot) ->
-  robot.hear /farley/i, (message) ->
+  robot.respond /farley/i, (message) ->
     message.send message.random farley

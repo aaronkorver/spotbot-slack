@@ -19,7 +19,7 @@ module.exports = (robot) ->
     room = msg.message.room
 
     if process.env.HUBOT_HIPCHAT_TOKEN
-      robot.http('https://tgtbullseye.hipchat.com/v2/room/' + room)
+      robot.http('http://tgtbullseye.hipchat.com/v2/room/' + room)
         .header('Accept', 'application/json')
         .query({
           auth_token: process.env.HUBOT_HIPCHAT_TOKEN

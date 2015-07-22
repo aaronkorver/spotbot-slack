@@ -22,7 +22,7 @@ module.exports = (robot) ->
       robot.http('http://tgtbullseye.hipchat.com/v2/room/' + room)
         .header('Accept', 'application/json')
         .query({
-          auth_token: process.env.HUBOT_HIPCHAT_TOKEN
+          auth_token: "#{process.env.HUBOT_HIPCHAT_TOKEN}"
           'max-results': 1000
         })
         .get() (err, response, body) ->

@@ -217,9 +217,10 @@ you're having issues.
 
 ### Robot.hear
 
-While there are a lot of `robot.hear` scripts currently, as spotbot has grown past
-its humble beginings, we've generally come to the consensus that such scripts are
-not suitable unless they:
+While there are a lot of `robot.hear` scripts currently, Hipchat has exploded to
+nearly 3000 users, up from 170 at the time of spotbot's humble beginnings, and
+we've generally come to the consensus that such scripts are not suitable to
+inflict on the userbase unless they:
 
 1. Have a trigger threshold (only trigger on some percentage of matches, typically 10%)
-1. Are configurable by room (persist an on/off flag to the reddis brain per room)
+1. Are configurable by room (persist an on/off flag to the redis brain per room)

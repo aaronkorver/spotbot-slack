@@ -14,5 +14,5 @@
 #   Greyson Dehn
 
 module.exports = (robot) ->
-  robot.hear /(\b|#)dank(\b)/i, (message) ->
+  robot.hear /\bdank\b/i, (message) ->
     message.send "https://i.imgur.com/bnWmD60.png"

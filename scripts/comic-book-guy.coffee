@@ -8,7 +8,7 @@
 #   None
 #
 # Commands:
-#   hubot comic book guy => random comic book guy quote
+#   hubot comic book guy - random comic book guy quote
 
 # Author:
 #   MatthewDordal
@@ -25,6 +25,7 @@ comicBookGuyQuotes = [
   'You may purchase this charming Hamburglar adventure. A child has already solved the jumble using crayons. The answer is "fries"'
   'Ooh, your powers of deduction are exceptional. I simply can\'t allow you to waste them here when there are so many crimes going unsolved at this very moment. Go! Go! For the good of the city!'
   'Someone has mixed an "Amazing Spider-Man" in with the "Peter Parker - The Spectacular Spider-Man" series. This will not stand.'
+  '100 tacos for $100? Yes, this should provide adequate sustenance for the Doctor Who marathon.'
 ]
 
 module.exports = (robot) ->

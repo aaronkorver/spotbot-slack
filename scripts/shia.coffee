@@ -8,7 +8,7 @@
 #   None
 #
 # Commands:
-#   hubot just do it
+#  just do it- A random Shia will provide us with inspiration to just do it.
 #
 # Author:
 #   SteveMin

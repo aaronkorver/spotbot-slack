@@ -223,4 +223,4 @@ we've generally come to the consensus that such scripts are not suitable to
 inflict on the userbase unless they:
 
 1. Have a trigger threshold (only trigger on some percentage of matches, typically 10%)
-1. Are configurable by room (persist an on/off flag to the redis brain per room)
+1. Are configurable by room (persist a threshold to the redis brain per room. For reference example see [this commit](https://git.target.com/aaronkorver/spotbot/commit/a90c014c90928ce1f0d336b9d84cac6466da86c4))

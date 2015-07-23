@@ -3,11 +3,23 @@
 #   This is intended to be used by other scripts to make persisting room
 #   specific thresholds for robot.hear scripts simple and consistent.
 #
+# Example usage (for foo.coffee):
+#   threshold = 0.1
+#   roomThreshold = robot.thresholdStorage.getThreshold(msg, "foo") || threshold
+#   if Math.random > roomThreshold
+#     # Do stuff here
+#
 # Dependencies:
 #   None
 #
 # Configuration:
 #   None
+#
+# Commands:
+#   hubot set threshold <threshold-name> <value> - Creates or updates a threshold
+#   hubot remove threshold <threshold-name> - Removes a threshold
+#   hubot what is the threshold for <threshold-name> - Displays the value for a threshold
+#   hubot list thresholds - Displays the values for all thresholds
 #
 # Author:
 #   Matt Rick2

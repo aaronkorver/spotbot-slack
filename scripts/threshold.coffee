@@ -65,7 +65,8 @@ module.exports = (robot) ->
     if threshold <= 100 && threshold > 1
       threshold = threshold / 100
     else if threshold > 100
-      msg.reply "I really can't turn it up past 11"
+      msg.reply "I really can't turn up to 11"
+      return
 
     robot.thresholdStorage.setThreshold(msg, msg.match[1], threshold)
 

@@ -42,7 +42,7 @@ class ThresholdStorage
 
   setThreshold : (msg, scriptName, threshold) ->
     @roomThresholds(msg)[scriptName] = threshold
-    @save
+    @save()
 
   getThreshold : (msg, scriptName) ->
     @roomThresholds(msg)[scriptName]

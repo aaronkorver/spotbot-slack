@@ -13,7 +13,7 @@
 # Author:
 #   cormick.white (based on brilliantfantastic's ackbar script)
 
-threshold = 0.5
+threshold = 0.75
 hamsters = [
     "http://i.kinja-img.com/gawker-media/image/upload/s--FKeB6IVI--/wk6expz4dxvkr9hzk7lp.gif"
     "http://www.manteresting.com/sites/default/files/field/image/nail/2014/Jul/21/giphy.gif"
@@ -28,5 +28,6 @@ hamsters = [
 module.exports = (robot) ->
     robot.hear /(^|[\s])\blunch\b/i, (msg) ->
         random = Math.random()
-        if random < threshold
+        roomThreshold = robot.thresholdStorage.getThreshold(msg, "lunch") || threshold
+        if random < roomThreshold
             msg.send msg.random hamsters

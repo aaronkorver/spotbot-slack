@@ -8,7 +8,7 @@
 #   None
 #
 # Commands:
-#   farley - summons a farley gif
+#   hubot farley - summons a farley gif
 #
 # Author:
 #   nicholasmaki

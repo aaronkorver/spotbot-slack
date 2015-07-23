@@ -10,7 +10,7 @@
 # Commands:
 #   hubot meme me <meme> : <top text> / <bottom text> - generates a meme
 #   hubot meme list - lists aliased meme templates
-#   hubot [top|bottom [n]] memes used - lists the most used meme templates 
+#   hubot [top|bottom [n]] memes used - lists the most used meme templates
 #
 # Author:
 #   mrick
@@ -34,7 +34,7 @@ memeIds = {
     "hindsight" : {"id" : 101708,   "usage" : "If you didn't want x / why did you directly cause x?"}
     "marvin" :    {"id" : 21807506, "usage" : "Holding food and wrapper / threw out food, ate wrapper"}
     "picard" :    {"id" : 245898,   "usage" : "Why the heck / are you not using this meme?"}
-    "sohappy":    {"id" : 6781963,  "usage" : "I would be so happy" / "If you used this meme correctly"}
+    "sohappy":    {"id" : 6781963,  "usage" : "I would be so happy / If you used this meme correctly"}
     "sohot" :     {"id" : 21604248, "usage" : "Zoolander / so hot right now"}
     "success" :   {"id" : 61544,    "usage" : "Brag about doing something"}
     "wonka" :     {"id" : 61582,    "usage" : "Memes are so hard / please tell me all about it"}

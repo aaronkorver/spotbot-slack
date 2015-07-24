@@ -64,11 +64,7 @@ module.exports = (robot) ->
   robot.respond /emoji( me)?$/i, (message) ->
     message.send random_emoji()
   robot.respond /emoji spin( me)?$/i, (message) ->
-    if message.message.user.mention_name?
-      sender = message.message.user.mention_name.toLowerCase()
-    else
-      sender = message.message.user.name
-    message.send spin_emoji(sender)
+    message.send spin_emoji(message.message.user.name)
   robot.respond /emoji spin( (top|bottom)( [0-9]+)?)? win(ner)?s/i, (message) ->
     message.send spin_report(message.match[2], message.match[3], true)
   robot.respond /emoji spin( (top|bottom)( [0-9]+)?)? (play(er)?|spin(ner)?)s/i, (message) ->

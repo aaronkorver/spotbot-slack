@@ -8,11 +8,12 @@
 #   None
 #
 # Commands:
-#   it's a trap - Display an Admiral Ackbar piece of wonder
+#   None
 #
 # Author:
 #   brilliantfantastic
 
+threshold = 1
 ackbars = [
   "http://i.imgur.com/OTByx1b.jpg"
   "http://farm4.static.flickr.com/3572/3637082894_e23313f6fb_o.jpg"
@@ -34,4 +35,7 @@ ackbars = [
 
 module.exports = (robot) ->
   robot.hear /it['’]?s a trap\b/i, (msg) ->
-    msg.send msg.random ackbars
+    random = Math.random()
+    roomThreshold = robot.thresholdStorage.getThreshold(msg, "ackbar") || threshold
+    if random < roomThreshold
+      msg.send msg.random ackbars

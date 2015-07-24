@@ -13,6 +13,11 @@
 # Author:
 #   Just fix it
 
+threshold = .9
+
 module.exports = (robot) ->
   robot.hear /fix ?it\b/i, (msg) ->
-    msg.send "http://media20.giphy.com/media/KqWzEMydtRHX2/giphy.gif?w=250"
+    random = Math.random()
+    roomThreshold = robot.thresholdStorage.getThreshold(msg, "fixit") || threshold
+    if random < roomThreshold
+      msg.send "http://media20.giphy.com/media/KqWzEMydtRHX2/giphy.gif?w=250"

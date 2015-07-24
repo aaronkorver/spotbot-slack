@@ -13,6 +13,7 @@
 # Author:
 #   Jordan McGowan
 
+threshold = 1
 hammers= [
   "https://s3.amazonaws.com/uploads.hipchat.com/171096/2268827/v0p3JPz7QLDzAoy/WOjy315.gif"
   "https://s3.amazonaws.com/uploads.hipchat.com/171096/2268827/QcvLa1uDWqeMG33/giphy.gif"
@@ -25,4 +26,7 @@ hammers= [
 
 module.exports = (robot) ->
   robot.hear /ban ?hammer/i, (msg) ->
-    msg.send msg.random hammers
+    random = Math.random()
+    roomThreshold = robot.thresholdStorage.getThreshold(msg, "banhammer") || threshold
+    if random < roomThreshold
+      msg.send msg.random hammers

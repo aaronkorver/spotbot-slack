@@ -10,6 +10,8 @@
 # Commands:
 #   hubot emoji me - Returns a random emoji
 #   hubot emoji spin me - Spin the emoji slots
+#   hubot emoji spin [top|bottom[ n]] spinners - List the users that make the most spins
+#   hubot emoji spin [top|bottom[ n]] winners - Lists the users with the most wins
 #   hubot emoji card me - Returns a random card against humanity with emoji
 #
 # Author:

@@ -13,6 +13,7 @@
 # Author:
 #   Kevin Behrens
 
+threshold = 1
 hails= [
   "http://31.media.tumblr.com/47df4d135cd0e351743e2b2a763940f1/tumblr_inline_n3yxqvbZM51rjdz5i.png"
   "http://cdn.screenrant.com/wp-content/uploads/Say-Hail-Hydra-Again.jpg"
@@ -42,4 +43,7 @@ hails= [
 
 module.exports = (robot) ->
   robot.hear /hail ?hydra/i, (msg) ->
-    msg.send msg.random hails
+    random = Math.random()
+    roomThreshold = robot.thresholdStorage.getThreshold(msg, "hydra") || threshold
+    if random < roomThreshold
+      msg.send msg.random hails

@@ -13,6 +13,8 @@
 # Author:
 #   dakota.reesebrown (based on brilliantfantastic's ackbar script)
 
+threshold = 1
+
 connies = [
   "http://i.giphy.com/10Iu43S5QuBTMc.gif",
   "http://i.giphy.com/5wBBmDD10iAg.gif",
@@ -37,4 +39,7 @@ connies = [
 
 module.exports = (robot) ->
   robot.hear /connie\b/i, (msg) ->
-    msg.send msg.random connies
+    random = Math.random()
+    roomThreshold = robot.thresholdStorage.getThreshold(msg, "connie") || threshold
+    if random < roomThreshold
+      msg.send msg.random connies

@@ -14,7 +14,7 @@
 #   therynamo
 #
 
-
+threshold = 0.50
 coffeeGifs= [
     'https://s3.amazonaws.com/uploads.hipchat.com/171096/1531191/L8I7tI87ESXCI4n/ZeA4YK5.jpg'
     'https://s3.amazonaws.com/uploads.hipchat.com/171096/1611704/ryhIlFkfCgzwJe7/coffee-time.gif'
@@ -33,4 +33,7 @@ coffeeGifs= [
 
 module.exports = (robot) ->
   robot.hear /(^|[^\.])\bcoffee\b/i, (msg) ->
-    msg.send msg.random coffeeGifs
+    random = Math.random()
+    roomThreshold = robot.thresholdStorage.getThreshold(msg, "coffee-time") || threshold
+    if random < roomThreshold
+      msg.send msg.random coffeeGifs

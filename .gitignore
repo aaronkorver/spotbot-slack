@@ -4,3 +4,4 @@ npm-debug.log
 .hubot_history
 .idea/
 *.iml
+*.rdb

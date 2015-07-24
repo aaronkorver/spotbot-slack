@@ -27,8 +27,8 @@ module.exports = (robot) ->
 
     threshold = 0.2
     random = Math.random()
-    if threshold>random
-
+    roomThreshold = robot.thresholdStorage.getThreshold(msg, "noidea") || threshold
+    if random < roomThreshold
       if msg.message.user.mention_name?
         sender =  encodeURIComponent(msg.message.user.mention_name.toLowerCase().strip())
       else

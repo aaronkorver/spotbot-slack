@@ -13,6 +13,10 @@
 # Author:
 #   Nick Pabon
 
+threshold = 1
 module.exports = (robot) ->
   robot.hear /none ?of ?my ?business/i, (msg) ->
-    msg.send 'http://i.imgur.com/oyjb1pd.gif'
+    random = Math.random()
+    roomThreshold = robot.thresholdStorage.getThreshold(msg, "sip-tea") || threshold
+    if random < roomThreshold
+      msg.send 'http://i.imgur.com/oyjb1pd.gif'

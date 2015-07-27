@@ -16,7 +16,7 @@
 module.exports = (robot) ->
 
   robot.respond /who's the real Slim Shady\?/i, (msg) ->
-    room = msg.message.room
+    room = msg.envelope.room
 
     if process.env.HUBOT_HIPCHAT_TOKEN
       robot.http('http://tgtbullseye.hipchat.com/v2/room/' + room)

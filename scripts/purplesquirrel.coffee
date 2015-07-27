@@ -24,7 +24,7 @@ purpleSquirrels = [
 
 
 module.exports = (robot) ->
-  robot.hear /(Engineer|Developer|Purple Squirrel)/i, (msg) ->
+  robot.hear /(Engineers?\b|Developers?|Purple Squirrels?)/i, (msg) ->
     random = Math.random()
     roomThreshold = robot.thresholdStorage.getThreshold(msg, "purplesquirrel") || threshold
     if random < roomThreshold

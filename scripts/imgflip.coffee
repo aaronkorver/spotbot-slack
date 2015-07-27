@@ -5,7 +5,8 @@
 #   None
 #
 # Configuration:
-#   None
+#   HUBOT_IMGFLIP_USERNAME
+#   HUBOT_IMGFLIP_PASSWORD
 #
 # Commands:
 #   hubot meme me <meme> : <top text> / <bottom text> - generates a meme
@@ -19,8 +20,8 @@ Util = require "util"
 
 String::strip = -> if String::trim? then @trim() else @replace /^\s+|\s+$/g, ""
 
-username = "spotbot"
-password = "Like4Rock"
+username = process.env.HUBOT_IMGFLIP_USERNAME
+password = process.env.HUBOT_IMGFLIP_PASSWORD
 
 # Keep this in order, or I will find you
 memeIds = {
@@ -90,6 +91,14 @@ class MemeUsageStorage
 
 module.exports = (robot) ->
 
+  unless process.env.HUBOT_IMGFLIP_USERNAME?
+    robot.logger.warning "The HUBOT_IMGFLIP_USERNAME environment variable is not set"
+    return false
+
+  unless process.env.HUBOT_IMGFLIP_PASSWORD?
+    robot.logger.warning "The HUBOT_IMGFLIP_PASSWORD environment variable is not set"
+    return false
+
   memeUsageStorage = new MemeUsageStorage robot
 
   robot.respond /meme list/i, (msg) ->
@@ -144,5 +153,8 @@ module.exports = (robot) ->
           if err
             msg.send "Encountered an error: #{err}"
             return
-
-          msg.send JSON.parse(body)["data"]["url"]
+          imgflipResponse = JSON.parse(body)
+          if imgflipResponse.success == true
+            msg.send imgflipResponse.data.url
+          else
+            msg.send "Call to imgflip.com failed: #{imgflipResponse.error_message}"

@@ -6,7 +6,8 @@
 #   None
 #
 # Configuration:
-#   None
+#   HUBOT_IMGFLIP_USERNAME
+#   HUBOT_IMGFLIP_PASSWORD
 #
 # Commands:
 #   None
@@ -16,12 +17,20 @@
 
 String::strip = -> if String::trim? then @trim() else @replace /^\s+|\s+$/g, ""
 
-username = "spotbot"
-password = "Like4Rock"
 template = 8647077
 bottomText = encodeURIComponent("has no idea what they are doing".strip())
+username = process.env.HUBOT_IMGFLIP_USERNAME
+password = process.env.HUBOT_IMGFLIP_PASSWORD
 
 module.exports = (robot) ->
+
+  unless process.env.HUBOT_IMGFLIP_USERNAME?
+    robot.logger.warning "The HUBOT_IMGFLIP_USERNAME environment variable is not set"
+    return false
+
+  unless process.env.HUBOT_IMGFLIP_PASSWORD?
+    robot.logger.warning "The HUBOT_IMGFLIP_PASSWORD environment variable is not set"
+    return false
 
   robot.hear /^(s\/).*\//i, (msg) ->
 
@@ -42,5 +51,8 @@ module.exports = (robot) ->
             if err
               msg.send "Encountered an error: #{err}"
               return
+            imgflipResponse = JSON.parse(body)
+            if imgflipResponse.success == true
+              msg.send imgflipResponse.data.url
             else
-              msg.send JSON.parse(body)["data"]["url"]
+              msg.send "Call to imgflip.com failed: #{imgflipResponse.error_message}"

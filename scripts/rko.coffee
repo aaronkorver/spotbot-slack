@@ -24,6 +24,6 @@ takeouts= [
 module.exports = (robot) ->
   robot.hear /outta nowhere/i, (message) ->
     random = Math.random()
-    roomThreshold = robot.thresholdStorage.getThreshold(msg, "rko") || threshold
+    roomThreshold = robot.thresholdStorage.getThreshold(message, "rko") || threshold
     if random < roomThreshold
       message.send message.random takeouts

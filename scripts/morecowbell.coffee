@@ -8,11 +8,12 @@
 #   None
 #
 # Commands:
-#   hubot more cowbell
+#   more cowbell
 #
 # Author:
 #   SpencerGBull
 
+threshold = 1
 cowbells = [
   "http://media.giphy.com/media/whOs1JywNpe6c/giphy.gif"
   "http://media.giphy.com/media/CMtBKBCUL2tvG/giphy.gif"
@@ -29,4 +30,7 @@ cowbells = [
 
 module.exports = (robot) ->
   robot.hear /more cowbell\b/i, (msg) ->
-    msg.send msg.random cowbells
+    random = Math.random()
+    roomThreshold = robot.thresholdStorage.getThreshold(msg, "morecowbell") || threshold
+    if random < roomThreshold
+      msg.send msg.random cowbells

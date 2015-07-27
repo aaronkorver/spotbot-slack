@@ -13,6 +13,7 @@
 # Author:
 #   Nick Pabon
 
+threshold = 1
 sands= [
  "http://i.imgur.com/cMzI6gu.gif"
  "http://i.imgur.com/HTBXvCN.jpg"
@@ -27,4 +28,7 @@ sands= [
 
 module.exports = (robot) ->
   robot.hear /pocket ?sand/i, (msg) ->
-    msg.send msg.random sands
+    random = Math.random()
+    roomThreshold = robot.thresholdStorage.getThreshold(msg, "sand") || threshold
+    if random < roomThreshold
+      msg.send msg.random sands

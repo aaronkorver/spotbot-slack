@@ -13,6 +13,7 @@
 # Author:
 #   SteveMin
 
+threshold = 0.5
 shias = [
   "http://media.giphy.com/media/wErJXg1tIgHXG/giphy.gif"
   "http://media.giphy.com/media/87xihBthJ1DkA/giphy.gif"
@@ -25,4 +26,7 @@ shias = [
 
 module.exports = (robot) ->
   robot.hear /just do it\b/i, (msg) ->
-    msg.send msg.random shias
+    random = Math.random()
+    roomThreshold = robot.thresholdStorage.getThreshold(msg, "shia") || threshold
+    if random < roomThreshold
+      msg.send msg.random shias

@@ -19,7 +19,9 @@ module.exports = (robot) ->
     room = msg.envelope.room
 
     if process.env.HUBOT_HIPCHAT_TOKEN
-      robot.http('http://tgtbullseye.hipchat.com/v2/room/' + room)
+      url = 'http://tgtbullseye.hipchat.com/v2/room/' + room
+      robot.logger.warning "url: #{url}"
+      robot.http(url)
         .header('Accept', 'application/json')
         .query({
           auth_token: process.env.HUBOT_HIPCHAT_TOKEN

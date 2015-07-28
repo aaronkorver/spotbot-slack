@@ -58,7 +58,7 @@ module.exports = (robot) ->
     robot.respond /old man rocky(.*)?/i, (msg) ->
         youngin = msg.match[1]?.trim()
         verb = 'was'
-        if (!youngin)
+        if (!youngin | youngin is 'me')
           youngin = 'you'
           verb = 'were'
 

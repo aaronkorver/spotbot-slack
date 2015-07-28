@@ -16,10 +16,10 @@
 module.exports = (robot) ->
 
   robot.respond /who's the real Slim Shady\?/i, (msg) ->
-    room = msg.envelope.room
+    room_id = room?.room_id
 
     if process.env.HUBOT_HIPCHAT_TOKEN
-      url = 'http://tgtbullseye.hipchat.com/v2/room/' + room
+      url = 'http://tgtbullseye.hipchat.com/v2/room/' + room_id
       robot.logger.warning "url: #{url}"
       robot.http(url)
         .header('Accept', 'application/json')
@@ -34,6 +34,7 @@ module.exports = (robot) ->
             theRealSlimShady(users, msg)
           else
             robot.logger.warning "real-slim-shady room: #{room}"
+            robot.logger.warning "real-slim-shady room_id: #{room_id}"
             robot.logger.warning "real-slim-shady token: #{process.env.HUBOT_HIPCHAT_TOKEN}"
             robot.logger.warning "real-slim-shady error: #{err}"
             robot.logger.warning "real-slim-shady response: #{response}"

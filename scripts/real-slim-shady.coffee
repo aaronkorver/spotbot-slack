@@ -36,6 +36,13 @@ module.exports = (robot) ->
             robot.logger.warning "real-slim-shady error: #{err}"
             robot.logger.warning "real-slim-shady response: #{response}"
             robot.logger.warning "real-slim-shady body: #{body}"
+            for k,v of msg.envelope
+              robot.logger.warning "real-slim-shady msg.envelope key : " + k + " has value " + v
+            for k,v of msg.message
+              robot.logger.warning "real-slim-shady msg.message key : " + k + " has value " + v
+            if msg.message.user
+              for k,v of msg.message.user
+                robot.logger.warning "real-slim-shady msg.message.user key : " + k + " has value " + v
             iAmSlimShady(msg)
     else
       iAmSlimShady(msg)

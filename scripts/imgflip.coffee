@@ -11,7 +11,7 @@
 # Commands:
 #   hubot meme me <meme> : <top text> / <bottom text> - generates a meme
 #   hubot meme list - lists aliased meme templates
-#   hubot [top|bottom [n]] memes used - lists the most used meme templates
+#   hubot [top|bottom [n]] memes used [global] - lists the most used meme templates
 #
 # Author:
 #   mrick
@@ -86,6 +86,24 @@ class MemeUsageStorage
     tally.sort((a,b) -> if asc then b.count - a.count else a.count - b.count)
     tally.slice(0, amount)
 
+  globalMemesUsed : (asc, amount) ->
+    memes = {}
+    tally = []
+
+    for room, roomStorage of @memeUses
+      for memeId, details of roomStorage['uses']
+        if memes[memeId] ?
+          memes[memeId] += details.count
+        else
+          memes[memeId] = details.count
+
+    for memeId, count of memes
+      tally.push(memeId: memeId, count: count)
+
+    amount = Math.min(amount, tally.length)
+    tally.sort((a,b) -> if asc then b.count - a.count else a.count - b.count)
+    tally.slice(0, amount)
+
   save : ->
       @robot.brain.data.memeUses = @memeUses
 
@@ -108,10 +126,12 @@ module.exports = (robot) ->
       memeList.push "    #{key}: #{memeIds[key]["usage"]}"
     msg.send memeList.join("\n")
 
-  robot.respond /((top|bottom)( \d+)? )?memes used/i, (msg) ->
+  robot.respond /((top|bottom)( \d+)? )?memes used( global(ly)?)?/i, (msg) ->
 
     asc = true
     amount = 5
+    global = false
+    messageSuffix = "in this room"
 
     if msg.match[2]
       asc = ("#{msg.match[2]}".trim() is "top")
@@ -119,12 +139,19 @@ module.exports = (robot) ->
     if msg.match[3]
       amount = "#{msg.match[3]}".trim()
 
-    memeUses = memeUsageStorage.getMemesUsed(msg, asc, amount)
+    if msg.match[4]
+      global = "#{msg.match[4]}".trim()?
+
+    if global
+      memeUses = memeUsageStorage.getMemesUsed(msg, asc, amount)
+      messageSuffix = "globally"
+    else
+      memeUses = memeUsageStorage.globalMemesUsed(asc, amount)
     memes = []
 
     if memeUses
       for tally in memeUses
-        memes.push "#{tally.memeId} has been used #{tally.count} times in this room"
+        memes.push "#{tally.memeId} has been used #{tally.count} times #{messageSuffix}"
     else
       msg.send "No meme usage has ever been recorded in this room"
 

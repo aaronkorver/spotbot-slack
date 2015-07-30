@@ -91,6 +91,7 @@ class MemeUsageStorage
     tally = []
 
     for room, roomStorage of @memeUses
+      console.log("#{room} => #{Util.inspect(roomStorage)}")
       for memeId, details of roomStorage['uses']
         if memes[memeId] ?
           memes[memeId] += details.count
@@ -143,10 +144,10 @@ module.exports = (robot) ->
       global = "#{msg.match[4]}".trim()?
 
     if global
-      memeUses = memeUsageStorage.getMemesUsed(msg, asc, amount)
+      memeUses = memeUsageStorage.globalMemesUsed(asc, amount)
       messageSuffix = "globally"
     else
-      memeUses = memeUsageStorage.globalMemesUsed(asc, amount)
+      memeUses = memeUsageStorage.getMemesUsed(msg, asc, amount)
     memes = []
 
     if memeUses

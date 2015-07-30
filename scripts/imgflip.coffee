@@ -91,9 +91,8 @@ class MemeUsageStorage
     tally = []
 
     for room, roomStorage of @memeUses
-      console.log("#{room} => #{Util.inspect(roomStorage)}")
       for memeId, details of roomStorage['uses']
-        if memes[memeId] ?
+        if memes[memeId]?
           memes[memeId] += details.count
         else
           memes[memeId] = details.count

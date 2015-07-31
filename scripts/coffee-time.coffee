@@ -34,6 +34,6 @@ coffeeGifs= [
 module.exports = (robot) ->
   robot.hear /(^|[^\.])\bcoffee\b/i, (msg) ->
     random = Math.random()
-    roomThreshold = robot.thresholdStorage.getThreshold(msg, "coffee-time") || threshold
+    roomThreshold = robot.thresholdStorage.getThreshold(msg, "coffee-time", threshold)
     if random < roomThreshold
       msg.send msg.random coffeeGifs

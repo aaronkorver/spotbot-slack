@@ -44,6 +44,6 @@ hails= [
 module.exports = (robot) ->
   robot.hear /hail ?hydra/i, (msg) ->
     random = Math.random()
-    roomThreshold = robot.thresholdStorage.getThreshold(msg, "hydra") || threshold
+    roomThreshold = robot.thresholdStorage.getThreshold(msg, "hydra", threshold)
     if random < roomThreshold
       msg.send msg.random hails

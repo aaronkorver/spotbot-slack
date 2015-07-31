@@ -31,6 +31,6 @@ cowbells = [
 module.exports = (robot) ->
   robot.hear /more cowbell\b/i, (msg) ->
     random = Math.random()
-    roomThreshold = robot.thresholdStorage.getThreshold(msg, "morecowbell") || threshold
+    roomThreshold = robot.thresholdStorage.getThreshold(msg, "morecowbell", threshold)
     if random < roomThreshold
       msg.send msg.random cowbells

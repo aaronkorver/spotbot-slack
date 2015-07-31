@@ -20,18 +20,18 @@ threshold = 1
 module.exports = (robot) ->
   robot.hear /enterprise hammer/i, (msg) ->
     random = Math.random()
-    roomThreshold = robot.thresholdStorage.getThreshold(msg, "drop-the-hammer") || threshold
+    roomThreshold = robot.thresholdStorage.getThreshold(msg, "drop-the-hammer", threshold)
     if random < roomThreshold
       msg.send "https://s3.amazonaws.com/uploads.hipchat.com/171096/1551645/QcPuGKRGKm2Q71u/enterprise-hammer.gif"
 
   robot.hear /spring hammer/i, (msg) ->
     random = Math.random()
-    roomThreshold = robot.thresholdStorage.getThreshold(msg, "drop-the-hammer") || threshold
+    roomThreshold = robot.thresholdStorage.getThreshold(msg, "drop-the-hammer", threshold)
     if random < roomThreshold
       msg.send "https://s3.amazonaws.com/uploads.hipchat.com/171096/1551645/huEU4xNgrxRDVNX/spring-mvc-hammer.gif"
 
   robot.hear /java hammer/i, (msg) ->
     random = Math.random()
-    roomThreshold = robot.thresholdStorage.getThreshold(msg, "drop-the-hammer") || threshold
+    roomThreshold = robot.thresholdStorage.getThreshold(msg, "drop-the-hammer", threshold)
     if random < roomThreshold
       msg.send "https://s3.amazonaws.com/uploads.hipchat.com/171096/1551645/6drhKpChH2BWrUq/java-hammer.gif"

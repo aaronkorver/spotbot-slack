@@ -36,6 +36,6 @@ ackbars = [
 module.exports = (robot) ->
   robot.hear /it['’]?s a trap\b/i, (msg) ->
     random = Math.random()
-    roomThreshold = robot.thresholdStorage.getThreshold(msg, "ackbar") || threshold
+    roomThreshold = robot.thresholdStorage.getThreshold(msg, "ackbar", threshold)
     if random < roomThreshold
       msg.send msg.random ackbars

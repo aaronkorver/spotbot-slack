@@ -27,6 +27,6 @@ shias = [
 module.exports = (robot) ->
   robot.hear /just do it\b/i, (msg) ->
     random = Math.random()
-    roomThreshold = robot.thresholdStorage.getThreshold(msg, "shia") || threshold
+    roomThreshold = robot.thresholdStorage.getThreshold(msg, "shia", threshold)
     if random < roomThreshold
       msg.send msg.random shias

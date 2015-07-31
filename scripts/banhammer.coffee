@@ -27,6 +27,6 @@ hammers= [
 module.exports = (robot) ->
   robot.hear /ban ?hammer/i, (msg) ->
     random = Math.random()
-    roomThreshold = robot.thresholdStorage.getThreshold(msg, "banhammer") || threshold
+    roomThreshold = robot.thresholdStorage.getThreshold(msg, "banhammer", threshold)
     if random < roomThreshold
       msg.send msg.random hammers

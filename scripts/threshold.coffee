@@ -5,7 +5,7 @@
 #
 # Example usage (for foo.coffee):
 #   threshold = 0.1
-#   roomThreshold = robot.thresholdStorage.getThreshold(msg, "foo") || threshold
+#   roomThreshold = robot.thresholdStorage.getThreshold(msg, "foo", threshold)
 #   if Math.random > roomThreshold
 #     # Do stuff here
 #
@@ -44,8 +44,13 @@ class ThresholdStorage
     @roomThresholds(msg)[scriptName] = threshold
     @save()
 
-  getThreshold : (msg, scriptName) ->
-    @roomThresholds(msg)[scriptName]
+
+  getThreshold : (msg, scriptName, defaultThreshold) ->
+    threshold = @roomThresholds(msg)[scriptName]
+    if !threshold? && defaultThreshold?
+      threshold = defaultThreshold
+      @setThreshold(msg, scriptName, threshold)
+    threshold
 
   save : ->
     @robot.brain.data.thresholds = @thresholds

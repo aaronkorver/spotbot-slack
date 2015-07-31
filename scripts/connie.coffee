@@ -40,6 +40,6 @@ connies = [
 module.exports = (robot) ->
   robot.hear /connie\b/i, (msg) ->
     random = Math.random()
-    roomThreshold = robot.thresholdStorage.getThreshold(msg, "connie") || threshold
+    roomThreshold = robot.thresholdStorage.getThreshold(msg, "connie", threshold)
     if random < roomThreshold
       msg.send msg.random connies

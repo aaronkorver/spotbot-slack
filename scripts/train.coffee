@@ -17,6 +17,6 @@ threshold = 0.25
 module.exports = (robot) ->
   robot.hear /\btrain\b/i, (msg) ->
     random = Math.random()
-    roomThreshold = robot.thresholdStorage.getThreshold(msg, "train") || threshold
+    roomThreshold = robot.thresholdStorage.getThreshold(msg, "train", threshold)
     if random < roomThreshold
         msg.send "Choo! Choo!"

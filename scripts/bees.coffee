@@ -18,6 +18,6 @@ threshold = 0.75
 module.exports = (robot) ->
   robot.hear /\bbee+s?\b/i, (message) ->
     random = Math.random()
-    roomThreshold = robot.thresholdStorage.getThreshold(message, "bees") || threshold
+    roomThreshold = robot.thresholdStorage.getThreshold(message, "bees", threshold)
     if random < roomThreshold
       message.send "http://i.imgur.com/qrLEV.gif"

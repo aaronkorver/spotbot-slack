@@ -29,6 +29,6 @@ sands= [
 module.exports = (robot) ->
   robot.hear /pocket ?sand/i, (msg) ->
     random = Math.random()
-    roomThreshold = robot.thresholdStorage.getThreshold(msg, "sand") || threshold
+    roomThreshold = robot.thresholdStorage.getThreshold(msg, "sand", threshold)
     if random < roomThreshold
       msg.send msg.random sands

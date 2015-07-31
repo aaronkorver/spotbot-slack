@@ -26,7 +26,7 @@ module.exports = (robot) ->
 
   robot.hear /.*/i, (msg) ->
 
-    roomThreshold = robot.thresholdStorage.getThreshold(msg, "rocky-lol") || threshold
+    roomThreshold = robot.thresholdStorage.getThreshold(msg, "rocky-lol", threshold)
 
     if msg.message.user.mention_name?
       sender =  msg.message.user.mention_name.toLowerCase()

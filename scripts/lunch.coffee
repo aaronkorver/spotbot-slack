@@ -28,6 +28,6 @@ hamsters = [
 module.exports = (robot) ->
     robot.hear /(^|[\s])\blunch\b/i, (msg) ->
         random = Math.random()
-        roomThreshold = robot.thresholdStorage.getThreshold(msg, "lunch") || threshold
+        roomThreshold = robot.thresholdStorage.getThreshold(msg, "lunch", threshold)
         if random < roomThreshold
             msg.send msg.random hamsters

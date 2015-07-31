@@ -19,6 +19,6 @@ module.exports = (robot) ->
     else
       sender = msg.message.user.name
     random = Math.random()
-    roomThreshold = robot.thresholdStorage.getThreshold(msg, "vendor") || threshold
+    roomThreshold = robot.thresholdStorage.getThreshold(msg, "vendor", threshold)
     if random < roomThreshold
       msg.send "@#{sender}, I think you meant 'Strategic Partners'"

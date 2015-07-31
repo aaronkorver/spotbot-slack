@@ -5,7 +5,7 @@
 #
 # Example usage (for foo.coffee):
 #   threshold = 0.1
-#   roomThreshold = robot.thresholdStorage.getThreshold(msg, "foo") || threshold
+#   roomThreshold = robot.thresholdStorage.getThreshold(msg, "foo", threshold)
 #   if Math.random > roomThreshold
 #     # Do stuff here
 #

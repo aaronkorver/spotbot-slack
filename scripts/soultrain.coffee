@@ -1,4 +1,4 @@
-﻿# Description:
+# Description:
 #   soultrain
 #
 # Dependencies:
@@ -19,7 +19,6 @@ soulTrains = [
     "http://giphy.com/gifs/train-soul-10KDoqHq5myKQ"
     "http://www.out.com/sites/out.com/files/imce/soul-train-4.gif"
     "http://i.imgur.com/PNEuMOB.gif"
-    
 ]
 
 module.exports = (robot) ->
@@ -27,4 +26,4 @@ module.exports = (robot) ->
     random = Math.random()
     roomThreshold = robot.thresholdStorage.getThreshold(msg, "soultrain") || threshold
     if random < roomThreshold
-      msg.send msg.random soulTrains
+      msg.send msg.random soulTrains

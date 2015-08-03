@@ -8,11 +8,11 @@
 #   None
 #
 # Commands:
-#   hubot google me (query) - gives link for google search of query
-#   hubot google lucky me (query) - gives link for Im Feeling Lucky of query
+#   hubot google me <query> - gives link for google search of query
+#   hubot google lucky me <query> - gives link for Im Feeling Lucky of query
 #
 # Author:
-#   Jordan.McGowan2
+#   jordanmcgowan
 
 module.exports = (robot) ->
   robot.respond /google me (.*)/i, (msg) ->

@@ -10,6 +10,13 @@
 #
 # Commands:
 #   hubot devops card me - Returns a random card against humanity with emoji
+#   hubot devops start game - Starts a new devops agains humanity game
+#   hubot devops join - Joins an existing game
+#   hubot devops who is the dealer - Mentions the dealer
+#   hubot devops black card - Displays a black card, setting it for the round if you're the dealer
+#   hubot devops play card <n> <m> <o> - Plays cards from your hand
+#   hubot devops reveal cards - Reveals all the card combinations
+#   hubot devops <n> won - Announces the winner of the round
 #
 # Author:
 #   KevinBehrens
@@ -119,8 +126,8 @@ black_cards = [
   "__________-ility"
   "We just achieved __________s per second!"
   "__________ is that even HA?"
-  "My LinkedIn Endorsements include __________."
-  "__________ just Endorsed me for __________ on LinkedIn"
+  "My LinkedIn endorsements include __________."
+  "__________ just endorsed me for __________ on LinkedIn"
   "Users are __________."
   "Robots are going to make __________ obsolete."
   "Accidental __________."
@@ -160,7 +167,7 @@ black_cards = [
   "That talk outline said it would be about __________, but it ended up being more like __________."
   "I will replace you with a very small __________."
   "Jordan Sissel hates __________ so much that he created a new opensource project called __________ to work around it."
-  "__________ isn't a job title"
+  "__________ isn't a job title."
   "For the next project we are going to use __________ to solve __________."
   "My editor of choice is __________."
   "__________ it; ship it."
@@ -191,9 +198,8 @@ black_cards = [
   "I'll just have Ops spin up a couple of __________ environments."
   "I'm writing my next IRC bot with __________."
   "I cannot wait until someone makes a __________ cluster out of these."
-  "C will finally be displaced by __________"
-  "____________________.io"
-  "We don't need to worry about __________, We're using MongoDB."
+  "C will finally be displaced by __________."
+  "We don't need to worry about __________, we're using MongoDB."
   "Why is __________ better than Hadoop?"
   "FC067: __________"
   "Oh, the __________ is just a hack to get the __________ to run."
@@ -202,16 +208,16 @@ black_cards = [
   "ERROR: __________ NOT FOUND"
   "We don't need backups, we've got __________."
   "Fixing your father's computer with __________."
-  "it's always a __________ DNS problem."
+  "It's always a __________ DNS problem."
   "__________ with this one weird trick."
   "__________ isn't new, we used to do it in the '70s on mainframes."
   "Puppet is better than Chef because __________ and __________."
   "How is __________ better than __________?"
-  "Learn __________ the hard way"
-  "vagrant up __________"
-  "bollocks up __________"
+  "Learn __________ the hard way."
+  "Vagrant up __________."
+  "Bollocks up __________."
   "You can fix  __________ with __________ ."
-  "We took the plunge and rewrote __________ in Go"
+  "We took the plunge and rewrote __________ in Go."
   "Implementing __________ should take only 2 lines of code."
   "Good enough for __________ work."
   "Yeah, but can it run __________?"
@@ -227,8 +233,8 @@ black_cards = [
   "Richard Stallman will kill you with his teeth for __________."
   "DB tuning with __________."
   "Can anyone help me get __________ running on Cisco IOS?"
-  "Real __________ don't use __________"
-  "__________ on XEN"
+  "Real __________ don't use __________."
+  "__________ on XEN."
   "Please bring back __________. You broke my workflow."
   "I cut-and-pasted this StackOverflow code for my __________."
   "I'm just finishing up my manifesto on __________."
@@ -241,14 +247,13 @@ black_cards = [
   "alt.binaries.__________"
   "It is completely dark. You are likely to be eaten by a __________."
   "Conway's Game of __________."
-  "Next year I'll start learning __________"
-  "s/__________/__________/g"
-  "__________ is the newest gTLD"
+  "Next year I'll start learning __________."
+  # "s/__________/__________/g" # TODO: Fix this.  Its awesome, but doesn't work.
+  "__________ is the newest gTLD."
   "Works on my __________."
-  "One does not simply __________"
+  "One does not simply __________."
   "Sorry, you'll need to open a ticket before we can __________."
   "ln -s __________ __________"
-  "__________"
   "__________ is dead."
   "__________. WTF does that even mean?"
   "Make it __________."
@@ -257,8 +262,8 @@ black_cards = [
   "grep __________ | mail __________"
   "__________ just got pwned."
   "It's like __________, but with __________ and list comprehensions."
-  "Software Defined __________."
-  "I don't have any UNIX Beards in stock, but we do have  __________."
+  "Software defined __________."
+  "I don't have any UNIX Beards in stock, but we do have __________."
   "Amazon does __________, why can't we?"
   "__________ nagios"
   "I can't believe you're still using __________."
@@ -289,24 +294,23 @@ black_cards = [
   "We turned off __________ and everything magically got better."
   "I found a Samba share full of __________."
   "__________. What could go wrong?"
-  "Install __________"
+  "Install __________."
   "I installed __________ by accident."
   "Read-eval-__________-loop."
   "We should try it with an actual __________."
   "Is __________ something we need to optimize for?"
   "Hack __________ into redis."
-  "__________ Considered Harmful"
-  "Never __________ before a demonstration"
-  "The __________ is used when the CPU is on fire"
-  "modperl can be used to implement __________"
-  "__________ runs Ruby as root"
-  "Larry Wall trained as missionary then __________"
-  "Listening to the fans in the server farm leads to __________"
-  "__________ and __________ are rumoured to be working on a python module for a helicam"
-  "A lot of disk space is needed for __________"
+  "__________ considered harmful"
+  "Never __________ before a demonstration."
+  "The __________ is used when the CPU is on fire."
+  "modperl can be used to implement __________."
+  "__________ runs Ruby as root."
+  "Larry Wall trained as missionary then __________."
+  "Listening to the fans in the server farm leads to __________."
+  "__________ and __________ are rumoured to be working on a python module for a helicam."
+  "A lot of disk space is needed for __________."
   "automagical __________"
   "Whoever made the unscheduled change to production on Friday will be forced to use __________."
-  "Install __________"
   "Never question the __________."
   "I can't wait until we no longer use __________."
   "I bet if we switch to __________ it will just work."
@@ -316,13 +320,13 @@ black_cards = [
   "__________ running on a rack of __________."
   "No, __________ being hopelessly broken is NOT an emergency."
   "Our new startup is the __________ for __________."
-  "__________ make me a sandwich"
+  "__________ make me a sandwich."
   "__________ over IP"
   "__________ is a hardware problem."
   "I AM working, I'm waiting for __________ to finish."
   "The first rule of __________ is: You do not talk about __________."
   "Google Analytics says 100% of my website visitors are __________."
-  "__________ will never get job in Microsoft"
+  "__________ will never get you a job at Microsoft."
   "4chan.org is powered by __________."
   "We can __________ just like Netflix."
   "__________ is how I resolve all merge conflicts."
@@ -331,11 +335,11 @@ black_cards = [
   "Our only hope at recovering the data is __________."
   "__________: the gift that keeps on giving."
   "__________ has been killed with fire.  My work is done here."
-  "Problem exists between Keyboard and __________."
+  "Problem exists between keyboard and __________."
   "100% government funded __________!"
   "The __________ certification program."
   "I just finished writing an API for __________."
-  "__________ is a batch command to shut the fuck up."
+  "__________ is a batch command to shut the heck up."
   "__________.  Failed to cache catalog."
   "Everytime you allocate you have to __________ when you're done."
   "Sorry, I'm all out of __________-fu."
@@ -365,7 +369,7 @@ black_cards = [
   "Who thought that __________ was a good idea?"
   "It's not the recommended configuration to use __________ with __________, but it's in production right now."
   "We wrote our own build tool based on __________."
-  "I've received a Microsoft MVP Award for __________."
+  "I've received a Microsoft MVP award for __________."
   "We rewrote __________ in __________."
   "The ticket to install __________?  I deletegated it."
   "Some people, when confronted with a problem, think \"I know, I'll use __________.\" Now they have two problems."
@@ -432,7 +436,7 @@ black_cards = [
   "My __________ for a __________."
   "Nice __________ I'll take it."
   "@horse__________"
-  "Such __________. wow."
+  "Such __________. Wow."
   "That's funny, did __________ used to be here?"
   "I can't believe you improved __________ by deleting __________."
   "The only thing more dangerous than __________ is a programmer with __________."
@@ -447,51 +451,51 @@ black_cards = [
   "Don't worry, we have unit tests for __________."
   "As a __________, I want __________."
   "The only non-conformance in this year's audit was __________."
-  "Blaming interns for the __________"
-  "__________ is my favourite thing about __________"
-  "I wish that we had more __________ in our office"
-  "I've once been so drunk that __________ actually made sense"
+  "We're blaming interns for the __________."
+  "__________ is my favourite thing about __________."
+  "I wish that we had more __________ in our office."
+  "I've once been so drunk that __________ actually made sense."
   "To understand __________ you must first understand __________."
   "__________ @ 127.0.0.1 -p __________"
   "__________? You mean __________!"
-  "__________ is coming out of stealth mode"
+  "__________ is coming out of stealth mode."
   "__________ ate all my memory"
   "__________ is always a good practice."
   "Don't mind me, I'm just practicing __________."
   "We accidently the whole __________."
-  "It's easy! Just run __________"
+  "It's easy! Just run __________."
   "I assure you __________ is secure!"
   "Our backup policy is __________."
   "pacman -Syu accidentally __________ everything"
-  "I saw a high availability blog post about __________"
+  "I saw a high availability blog post about __________."
   "We didn't think anyone was using __________!"
   "Do you wanna build a __________?"
-  "IBM just created JSONxx to encapsulate JSON in XML in __________"
+  "IBM just created JSONxx to encapsulate JSON in XML in __________."
   "I never truly understood eXtreme programming until I encountered __________."
-  "The Agile Manifesto taught me to pick __________ over __________"
+  "The Agile Manifesto taught me to pick __________ over __________."
   "__________ should be a singleton!"
   "Flash is dying because __________."
-  "Neo, the matrix has one fatal flaw, you must find __________"
-  "Javascript is the best language ever, thanks to __________"
+  "Neo, the matrix has one fatal flaw, you must find __________."
+  "Javascript is the best language ever, thanks to __________."
   "Last night while drunk, the W3C declared __________ as a new web standard."
-  "North Korea finally launched warheads because of __________"
+  "North Korea finally launched warheads because of __________."
   "Last night I accidentally ran sudo chmod -R 777 /. I just blamed __________."
   "During the lunch break I like to think about __________."
   "Nobody will value your work if you don't use __________."
-  "__________, because scientists don't know how to code"
+  "__________, because scientists don't know how to code."
   "__________, because Knuth."
-  "The entire system failed because of __________"
-  "The meeting between Europe and the USA was cancelled because of __________"
-  "We missed the launch window due to confusion from __________"
-  "__________ wasted thousands of dollars"
-  "No one can authenticate because of __________"
-  "__________ caused the servers to melt down"
-  "__________ invalidated all the assumptions in our monitoring system"
+  "The entire system failed because of __________."
+  "The meeting between Europe and the USA was cancelled because of __________."
+  "We missed the launch window due to confusion from __________."
+  "__________ wasted thousands of dollars."
+  "No one can authenticate because of __________."
+  "__________ caused the servers to melt down."
+  "__________ invalidated all the assumptions in our monitoring system."
   "__________ because __________."
   "CAMS is outdated because of __________."
   "__________: Easy one-step installation"
   "__________, because even the hobos of Market Street need a cluster scheduler."
-  "We need to update the __________"
+  "We need to update the __________."
   "It's cool, they use __________ at Etsy."
   "Code as __________."
   "__________ is how the cloud works."
@@ -516,31 +520,31 @@ black_cards = [
   "We would have gotten the funding, if only our slide deck included __________."
   "Have you tried __________ and __________?"
   "I left __________ in the server room."
-  "I stuck my hand in a sysadmin's beard and pulled out __________"
-  "Before exiting, the program kills __________"
-  "Cookbooks containing __________ have been known to cause __________"
-  "Once we added __________ to the firewall rules, __________ worked perfectly"
+  "I stuck my hand in a sysadmin's beard and pulled out __________."
+  "Before exiting, the program kills __________."
+  "Cookbooks containing __________ have been known to cause __________."
+  "Once we added __________ to the firewall rules, __________ worked perfectly."
   "My pre-commit hook replaces tab characters with __________."
   "I was up all night debugging __________."
   "Error: insufficient __________"
   "The Product Team handed me a spec, they want __________ in the next release of __________."
   "The malware came from an infected ad on __________.com"
   "Killing child processes releases resources back to __________."
-  "That regular expression is designed to match __________ but not __________"
+  "That regular expression is designed to match __________ but not __________."
   "The vendor solution didn't have log aggregation, but it did have __________."
   "Our custom log rotation scripts have the added feature of __________."
-  "This year, Cross-Site Request Forgery was knocked out of the OWASP Top 10, and replaced by __________"
-  "Nagios sucks, let's replace it with __________"
-  "My pull request was rejected because it contained __________"
-  "My stacktrace revealed __________"
-  "Chef encountered an error attempting to create __________"
-  "Since the 1950s, engineers have been striving toward a more effective means of generating __________"
-  "Our code was efficient, except for the module containing __________, which was slower than __________"
-  "I need to re-munge the CSV, replacing the commas with __________"
-  "We strive for continuous deployment, continuous delivery, and continuous __________"
-  "Data-driven decisions are to be replaced with __________"
-  "The ruby gem is useless, it's a lesser implementation of __________"
-  "Windows ME had a service pack that solved the problem of __________"
+  "This year, Cross-Site Request Forgery was knocked out of the OWASP Top 10, and replaced by __________."
+  "Nagios sucks, let's replace it with __________."
+  "My pull request was rejected because it contained __________."
+  "My stacktrace revealed __________."
+  "Chef encountered an error attempting to create __________."
+  "Since the 1950s, engineers have been striving toward a more effective means of generating __________."
+  "Our code was efficient, except for the module containing __________, which was slower than __________."
+  "I need to re-munge the CSV, replacing the commas with __________."
+  "We strive for continuous deployment, continuous delivery, and continuous __________."
+  "Data-driven decisions are to be replaced with __________."
+  "The ruby gem is useless, it's a lesser implementation of __________."
+  "Windows ME had a service pack that solved the problem of __________."
   "Lennart Poettering's latest project is __________."
   "__________ is the quickest way to identify what is burning in the server room."
   "Oh, we store all our docs in __________."
@@ -554,7 +558,8 @@ black_cards = [
   "That's the first time I've ever seen ProGuard used to obfuscate __________."
   "Every day at work I implement __________ and my mother still tells her friends I \"do computers\"."
   "That's the first time I've ever seen comments written in __________."
-  "It's not a problem, I'll just __________ it later"
+  "It's not a problem, I'll just __________ it later."
+  "I, for one, welcome our new __________ overlords."
 ]
 
 white_cards = [
@@ -630,7 +635,7 @@ white_cards = [
   "a cron job that reboots the server every 5 minutes"
   "Apache Zookeeper on a 286"
   "sadness as a service"
-  "Cloud-based business strategy"
+  "cloud-based business strategy"
   "Cloud 2.0"
   "the next Y2K"
   "an army of chaos monkeys, all carrying flamethrowers"
@@ -788,7 +793,7 @@ white_cards = [
   "COBOL"
   "in b4 FIRST"
   "Donald Knuth"
-  "rebooting All the things"
+  "rebooting all the things"
   "running Openstack in production"
   "the Berkshelf way"
   "DNS"
@@ -1334,33 +1339,334 @@ white_cards = [
   "CTRL - C! CTRL - C! CTRL - C!"
   "Greg Case"
   "updating build.gradle"
+  "GIT_HISTORY_ALL_FUCKED_UP_IN_HERE = TURBO"
+  "Cowboy Neal"
+  "insensitive clod"
 ]
 
+Util = require "util"
+
+class DahGameStorage
+
+  constructor: () ->
+    @data = {}
+
+  # Dealer functions ###########################################################
+  getDealer: (room) ->
+    dealer = undefined
+    for name, player of @roomData(room)['users']
+      if player['isDealer']
+        dealer = player
+    dealer
+
+  setDealer: (player, room) ->
+    for name, data of @roomData(room)['users']
+      if player == name
+        data['isDealer'] = true
+      else
+        data['isDealer'] = false
+
+  isSenderDealer: (name, room) ->
+    @userData(name, room)['isDealer']
+
+  # Black card functions #######################################################
+  getBlackCard: (room) ->
+    @roomData(room)['blackCard']
+
+  setBlackCard: (room, blackCard) ->
+    @roomData(room)['blackCard'] = blackCard
+
+  # Player card functions ######################################################
+  getAllPlayedCards: (room) ->
+    @roomData(room)['combos']
+
+  getCards: (name, room) ->
+    @userData(name, room)['cards']
+
+  getCardsPlayed: (name, room) ->
+    @roomData(room)['combos'][name]
+
+  setCards: (name, room, cards) ->
+    @userData(name, room)['cards'] = cards
+
+  setCardsPlayed: (name, room, completion) ->
+    @roomData(room)['combos'][name] = {'completion': completion}
+
+  # Player score functions #####################################################
+  getScore: (name, room) ->
+    @userData(name, room)['score']
+
+  scorePoint: (name, room) ->
+    @userData(name, room)['score']++
+
+  # Misc functions #############################################################
+  clearRoomData: (room) ->
+    @data[room] = {}
+
+  clearRoundData: (room) ->
+    delete @data[room]['blackCard']
+    delete @data[room]['combos']
+
+  # Helper functions ###########################################################
+  roomData: (room) ->
+    result = @data[room]
+    if (!result || !(result['users'] || result['blackCard']))
+      result = {'users': {}, 'combos': {}}
+      @data[room] = result
+    result
+
+  userData: (name, room) ->
+    userData = @roomData(room)['users'][name]
+    if (!userData)
+      userData = {'name': name, 'cards': [], 'score': 0, 'isDealer': false}
+      @roomData(room)['users'][name] = userData
+    userData
+
+dahGameStorage = undefined
+
 module.exports = (robot) ->
+
+  dahGameStorage = new DahGameStorage()
+
   robot.respond /devops card( me)?/i, (message) ->
-    message.send draw_cards()
+    message.send randomCompletion()
 
-draw_cards = ->
-  black_card = draw_black_card().split(' ')
-  firstWord = true
+  robot.respond /devops (draw )?black card/i, (message) ->
+    blackCard = drawBlackCard()
+    room = getRoomName(message)
+    if dahGameStorage.isSenderDealer(getSenderName(message),room) && !dahGameStorage.getBlackCard(room)
+      dahGameStorage.setBlackCard(room, blackCard)
+      message.send "Setting black card to:\n#{blackCard}"
+    else
+      # Uncomment the next line for local testing
+      # dahGameStorage.setBlackCard(room, blackCard)
+      message.send blackCard
 
-  for word in black_card
+  robot.respond /devops reveal cards/i, (message) ->
+    if dahGameStorage.isSenderDealer(getSenderName(message), getRoomName(message)) && dahGameStorage.getBlackCard(room)
+      playedCardInfo = dahGameStorage.getAllPlayedCards(getRoomName(message))
+      players = []
+      response = []
+      for player, play of playedCardInfo
+        players.splice(randomIndex(players), 0, player)
+      for player in players
+        response.push("#{_i+1}) #{playedCardInfo[player]['completion']}")
+        playedCardInfo[player]['index'] = _i+1
+      message.send response.join("\n")
+    else
+      dealer = dahGameStorage.getDealer(getRoomName(message)
+      if dealer
+        message.reply "only the dealer can reveal the combinations."
+        message.send "@#{dealer}, is it time?}"
+      else
+        message.reply "There is no dealer currently.  Perhaps it's time to start a game?"
+
+  robot.respond /devops (what is (the )?)?current black card/i, (message) ->
+    blackCard = dahGameStorage.getBlackCard(getRoomName(message))
+    if (blackCard)
+      message.send blackCard
+    else
+      dealer = dahGameStorage.getDealer(getSenderName(message), getRoomName(message))
+      if (dealer)
+        message.send "There is no current black card.  Maybe @#{dealer.name} should draw one?"
+      else
+        message.send "There isn't a black card currently.  Maybe you should start a game?"
+
+  robot.respond /devops ([0-9]+) won/i, (message) ->
+    sender = getSenderName(message)
+    room = getRoomName(message)
+    if dahGameStorage.getDealer(room) && dahGameStorage.isSenderDealer(sender, room) && dahGameStorage.getBlackCard(room)
+      playedCardInfo = dahGameStorage.getAllPlayedCards(room)
+      winnerIndex = message.match[1]
+      players = Object.keys(playedCardInfo)
+      if winnerIndex > 0 && winnerIndex <= players.length
+        winningPlayer = undefined
+        for player, play of playedCardInfo
+          if "#{play['index']}" is "#{winnerIndex}"
+            winningPlayer = player
+        if winningPlayer
+          dahGameStorage.scorePoint(player, room)
+          dahGameStorage.setDealer(players[randomIndex(players)], room)
+          for player in players
+            giveUserCards(player, room)
+          dahGameStorage.clearRoundData(room)
+          message.send "@#{player} won.  #{player}'s score is now #{dahGameStorage.getScore(player, room)}."
+          message.send "@#{dahGameStorage.getDealer(room)['name']} is the new dealer."
+        else
+          message.reply "I couldn't find that card combination.  Have white cards been revealed?"
+      else
+        message.reply "There were only #{Object.keys(playedCardInfo)} cards played.  Maybe pick one of those?"
+    else if !dahGameStorage.getDealer(room)
+      message.reply "There is no devops dealer currently.  Maybe you should start a game?"
+    else if !dahGameStorage.isSenderDealer(sender, room)
+      message.reply "You have to be the dealer to award points.  Stop trying to cheat."
+    else if !dahGameStorage.getBlackCard(room)
+      message.reply "You haven't drawn a black card yet.  How can you know who won?"
+
+  robot.respond /devops white card/i, (message) ->
+    message.send drawWhiteCard(true)
+
+  robot.respond /devops (start )?new game/i, (message) ->
+    sender = getSenderName(message)
+    room = getRoomName(message)
+    dahGameStorage.clearRoomData(room)
+    dahGameStorage.setDealer(sender, room)
+    dahGameStorage.userData(sender, room)['jid'] = message.message.user.jid
+    message.send "Starting a new devops game."
+
+  robot.respond /devops (I'm )?join(ing)?/i, (message) ->
+    addSenderToGame(message)
+
+  robot.respond /devops (what are )?my cards/i, (message) ->
+    jid = message.message.user.jid
+    cards = getCards(getSenderName(message), getRoomName(message))
+    if jid?
+      robot.message jid cards
+    else
+      message.send cards
+
+  robot.respond /devops play card (\d+)( \d+)?( \d+)?/i, (message) ->
+    playCards(message)
+
+  robot.respond /devops (who is the )?dealer/i, (message) ->
+    dealer = dahGameStorage.getDealer(getSenderName(message), getRoomName(message))
+    if dealer?
+      message.send "@#{dealer.name} is currently the devops dealer."
+    else
+      message.send "There is no devops dealer currently.  Maybe you should start a game?"
+
+# Called directly by robot.respond()s ##########################################
+addSenderToGame = (message) ->
+  sender = getSenderName(message)
+  room = getRoomName(message)
+  if (dahGameStorage.isSenderDealer(sender, room))
+    response = "You're the currently the devops dealer.  Maybe ask for a black card?"
+  else if (!dahGameStorage.getCards(sender, room).length)
+    giveUserCards(sender, room)
+    dahGameStorage.userData(sender, room)['jid'] = jid
+    jid = message.message.user.jid
+    response = getCards(sender, room)
+  else
+    response = "You're already playing.  Do you want to know what devops cards you have?"
+  if jid?
+    robot.message jid cards
+  else
+    message.send response
+
+drawBlackCard = ->
+  black_cards[randomIndex(black_cards)]
+
+drawWhiteCard = ->
+  white_cards[randomIndex(white_cards)]
+
+playCards = (message) ->
+  cardIndices = [message.match[1], message.match[2], message.match[3]]
+  sender = getSenderName(message)
+  room = getRoomName(message)
+  cards = dahGameStorage.getCards(sender, room)
+  blackCard = dahGameStorage.getBlackCard(getRoomName(message))
+  if (dahGameStorage.getCardsPlayed(sender, room))
+    cardWord = "card"
+    if (blanks > 1)
+      cardWord = "cards"
+    message.reply "increase your calm.  You've already played your #{cardWord} this round."
+  if dahGameStorage.isSenderDealer(sender, room)
+    if (blackCard)
+      message.reply "you're the currently the devops dealer.  Maybe you should reveal the responses?"
+    else
+      message.reply "you're the currently the devops dealer.  Maybe ask for a black card?"
+  else if cards.length
+    if (blackCard)
+      blanks = countBlackCardBlanks(blackCard)
+      plays = []
+      # Get all the cards played
+      for index in cardIndices
+        if index? && index > 0 && index < 6
+          plays.push cards[index-1]
+        else if index?
+          message.reply "you only have 5 cards in your hand.  You can't play card \##{index}."
+          plays = undefined
+          break
+        else
+          cardIndices.splice(index,cardIndices.length - index)
+          break
+      # Play the cards
+      if (plays.length && plays.length == countBlackCardBlanks(blackCard))
+        newHand = []
+        for card in cards
+          if !(card in plays)
+            newHand.push card
+        dahGameStorage.setCards(sender, room, newHand)
+        dahGameStorage.setCardsPlayed(sender, room, getCombinedText(blackCard, plays))
+      else if (plays.length)
+        verb = "is"
+        if (blanks > 1)
+          verb = "are"
+        message.reply "you specified the wrong number of cards.  There #{verb} #{countBlackCardBlanks(blackCard)} blanks."
+        cards.splice(0,0,plays)
+    else
+      message.reply "you're getting ahead of yourself.  There is no black card in play."
+  else
+    message.reply "you don't have any cards.  Maybe you should join the game?"
+
+randomCompletion = ->
+  black_card = drawBlackCard()
+  random_white_cards = []
+  blanks = countBlackCardBlanks(black_card)
+  for num in [1..blanks]
+    white_card = drawWhiteCard()
+    random_white_cards.push white_card
+  getCombinedText(black_card, random_white_cards)
+
+# Game logic helpers ###########################################################
+getCards = (sender, room) ->
+  cards = []
+  for card in dahGameStorage.getCards(sender, room)
+    cards.push "#{_i+1}) #{card}"
+  if cards.length > 0
+    cards.join("\n")
+  else
+    "You have no devops cards.  Maybe you should join the game?"
+
+getRoomName = (message) ->
+  message.message.room
+
+getSenderName = (message) ->
+  name = message.message.user.mention_name
+  if (!name)
+    name = message.message.user.name
+  name
+
+giveUserCards = (sender, room) ->
+  cards = dahGameStorage.getCards(sender, room)
+  for num in [cards.length..4]
+    cards.push drawWhiteCard()
+  dahGameStorage.setCards(sender, room, cards)
+
+# Card completion helpers ######################################################
+getCombinedText = (black_card, random_white_cards) ->
+  black_card_tokens = black_card.split(' ')
+  shouldCapitalize = true
+  currentWhiteCard = random_white_cards.shift()
+  for word in black_card_tokens
     if word.match(/_{10}/)
-      black_card[_i] = black_card[_i].replace('__________', draw_white_card(firstWord))
-    firstWord = false
-  black_card.join " "
+      if shouldCapitalize
+        currentWhiteCard = capitalizeFirstLetter(currentWhiteCard)
+      black_card_tokens[_i] = black_card_tokens[_i].replace('__________', currentWhiteCard)
+      currentWhiteCard = random_white_cards.shift()
+    shouldCapitalize = ".?".indexOf(black_card_tokens[_i].slice(-1)) > -1
+  black_card_tokens.join " "
 
-draw_black_card = ->
-  black_cards[random_index(black_cards)]
-
-draw_white_card = (firstWord) ->
-
-  white_card = white_cards[random_index(white_cards)]
-  if firstWord && ! white_card.charAt(0) is '"'
-    white_card = white_card.charAt(0) + white_card.charAt(1).toUpperCase() + white_card.slice(2)
-  else if firstWord
-    white_card = white_card.charAt(0).toUpperCase() + white_card.slice(1)
+capitalizeFirstLetter = (text) ->
+  if text.charAt(0) is '"'
+    white_card = text.charAt(0) + text.charAt(1).toUpperCase() + text.slice(2)
+  else
+    white_card = text.charAt(0).toUpperCase() + text.slice(1)
   white_card
 
-random_index = (array) ->
+countBlackCardBlanks = (black_card) ->
+  (black_card.match(/__________/g) || []).length
+
+# Utility ######################################################################
+randomIndex = (array) ->
   Math.floor(Math.random() * array.length)

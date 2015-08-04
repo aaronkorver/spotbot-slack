@@ -8,7 +8,7 @@
 #   None
 #
 # Commands:
-#   hubot food me => random Skyway restaurant
+#   hubot food me - Returns a random skyway restaurant
 #
 # Author:
 #   Ashley Montgomery, Sara Schram, Katrina Schreiber, Jiaqi Chen, Jonathon Lacher
@@ -30,7 +30,7 @@ skyway_restaurants = [
   'Hen House Eatery'
   'Leann Chin'
   'Taco John\'s'
-  'Which Which'
+  'Which Wich'
 ]
 
 module.exports = (robot) ->

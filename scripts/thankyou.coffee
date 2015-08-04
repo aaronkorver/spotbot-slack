@@ -29,6 +29,8 @@ response = [
   "think nothing of it"
   "sure"
   "sure thing"
+  "frak yeah!"
+  "you betcha"
 ]
 
 module.exports = (robot) ->

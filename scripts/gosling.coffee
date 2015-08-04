@@ -31,10 +31,10 @@ module.exports = (robot) ->
   robot.respond /(theryn)( me)/i, (msg) ->
     getGoslingImage(msg)
 
-  robot.respond /gos(ling)? me/, (msg) ->
+  robot.respond /gos(ling)? me/i, (msg) ->
     getGoslingImage(msg)
 
-  robot.respond /gos(ling)? bomb (\d+)/, (msg) ->
+  robot.respond /gos(ling)? bomb (\d+)/i, (msg) ->
     count = msg.match[2] || 5
     for num in [count..1]
       getGoslingImage(msg)

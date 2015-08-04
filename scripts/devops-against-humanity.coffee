@@ -1523,7 +1523,7 @@ module.exports = (robot) ->
 
   robot.respond /devops (what are )?my cards/i, (message) ->
     cards = getCards(getSenderName(message), getRoomName(message))
-    robot.messageRoom message.message.user.name, cards
+    robot.send({'user': message.message.user.jid}, cards)
 
   robot.respond /devops play card (\d+)( \d+)?( \d+)?/i, (message) ->
     playCards(message)
@@ -1546,7 +1546,7 @@ addSenderToGame = (message) ->
     response = getCards(sender, room)
   else
     response = "You're already playing.  Do you want to know what devops cards you have?"
-  robot.messageRoom message.message.user.name, response
+  robot.send({'user': message.message.user.jid}, response)
 
 drawBlackCard = ->
   black_cards[randomIndex(black_cards)]

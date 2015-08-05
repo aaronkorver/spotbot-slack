@@ -5,7 +5,7 @@
 #   None
 #
 # Configuration:
-#   HUBOT_PEEWEE_ADMIN
+#   HUBOT_SECRETWORD_ADMIN
 #
 # Commands:
 #   hubot the secret word is <word> - changes secret word to <word> if user is admin
@@ -20,14 +20,15 @@ done = [
   "You got it, Coach."
   "Anything you say."
 ]
+threshold = 1
 
 module.exports = (robot) ->
 
-  unless process.env.HUBOT_PEEWEE_ADMIN?
-    robot.logger.warning 'The HUBOT_PEEWEE_ADMIN environment variable not set'
+  unless process.env.HUBOT_SECRETWORD_ADMIN?
+    robot.logger.warning 'The HUBOT_SECRETWORD_ADMIN environment variable not set'
 
-  if process.env.HUBOT_PEEWEE_ADMIN?
-    admins = (admin.toLowerCase() for admin in process.env.HUBOT_PEEWEE_ADMIN.split ',')
+  if process.env.HUBOT_SECRETWORD_ADMIN?
+    admins = (admin.toLowerCase() for admin in process.env.HUBOT_SECRETWORD_ADMIN.split ',')
   else
     admins = []
 
@@ -59,9 +60,11 @@ module.exports = (robot) ->
       msg.send "#{sender} is not an admin, you cannot do that!"
 
   robot.hear /.*/, (msg) ->
+    random = Math.random()
+    roomThreshold = robot.thresholdStorage.getThreshold(msg, "secret-word", threshold)
     word = ///(\b#{secretWord}\b)///i
     bot = ///^#{robot.name}\b///i
     if word.test(msg.message)
-      if not bot.test(msg.message)
+      if not bot.test(msg.message) and random < roomThreshold
         msg.send "YOU SAID THE SECRET WORD! EVERYBODY SCREAM REAL LOUD!"
         msg.send "https://s3.amazonaws.com/uploads.hipchat.com/171096/2268827/ZzKYO7E7K2nZu8v/ZWARaOZ.gif"

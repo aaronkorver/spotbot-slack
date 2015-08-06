@@ -107,10 +107,12 @@ class DahGameStorage
     userData
 
 dahGameStorage = undefined
+theRobot = undefined
 
 module.exports = (robot) ->
 
   dahGameStorage = new DahGameStorage()
+  theRobot = robot
 
   robot.respond /devops card( me)?/i, (message) ->
     message.send randomCompletion()
@@ -227,7 +229,7 @@ addSenderToGame = (message) ->
     response = getCards(sender, room)
   else
     response = "You're already playing.  Do you want to know what devops cards you have?"
-  robot.send({'user': message.message.user.jid}, response)
+  theRobot.send({'user': message.message.user.jid}, response)
 
 drawBlackCard = ->
   black_cards[randomIndex(black_cards)]

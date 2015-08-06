@@ -89,7 +89,7 @@ class DahGameStorage
 
   clearRoundData: (room) ->
     delete @data[room]['blackCard']
-    delete @data[room]['combos']
+    @data[room]['combos'] = {}
 
   # Helper functions ###########################################################
   roomData: (room) ->
@@ -107,10 +107,12 @@ class DahGameStorage
     userData
 
 dahGameStorage = undefined
+theRobot = undefined
 
 module.exports = (robot) ->
 
   dahGameStorage = new DahGameStorage()
+  theRobot = robot
 
   robot.respond /devops card( me)?/i, (message) ->
     message.send randomCompletion()
@@ -227,7 +229,7 @@ addSenderToGame = (message) ->
     response = getCards(sender, room)
   else
     response = "You're already playing.  Do you want to know what devops cards you have?"
-  robot.send({'user': message.message.user.jid}, response)
+  theRobot.send({'user': message.message.user.jid}, response)
 
 drawBlackCard = ->
   black_cards[randomIndex(black_cards)]
@@ -246,11 +248,11 @@ playCards = (message) ->
     if (blanks > 1)
       cardWord = "cards"
     message.reply "increase your calm.  You've already played your #{cardWord} this round."
-  if dahGameStorage.isSenderDealer(sender, room)
+  else if dahGameStorage.isSenderDealer(sender, room)
     if (blackCard)
-      message.reply "you're the currently the devops dealer.  Maybe you should reveal the responses?"
+      message.reply "you're currently the devops dealer.  Maybe you should reveal the responses?"
     else
-      message.reply "you're the currently the devops dealer.  Maybe ask for a black card?"
+      message.reply "you're currently the devops dealer.  Maybe ask for a black card?"
   else if cards.length
     if (blackCard)
       blanks = countBlackCardBlanks(blackCard)

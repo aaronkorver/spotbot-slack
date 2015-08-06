@@ -89,7 +89,7 @@ class DahGameStorage
 
   clearRoundData: (room) ->
     delete @data[room]['blackCard']
-    delete @data[room]['combos']
+    @data[room]['combos'] = {}
 
   # Helper functions ###########################################################
   roomData: (room) ->
@@ -246,11 +246,11 @@ playCards = (message) ->
     if (blanks > 1)
       cardWord = "cards"
     message.reply "increase your calm.  You've already played your #{cardWord} this round."
-  if dahGameStorage.isSenderDealer(sender, room)
+  else if dahGameStorage.isSenderDealer(sender, room)
     if (blackCard)
-      message.reply "you're the currently the devops dealer.  Maybe you should reveal the responses?"
+      message.reply "you're currently the devops dealer.  Maybe you should reveal the responses?"
     else
-      message.reply "you're the currently the devops dealer.  Maybe ask for a black card?"
+      message.reply "you're currently the devops dealer.  Maybe ask for a black card?"
   else if cards.length
     if (blackCard)
       blanks = countBlackCardBlanks(blackCard)

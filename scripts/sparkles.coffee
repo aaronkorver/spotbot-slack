@@ -33,7 +33,6 @@ class SparkleStorage
 
     @robot.brain.on 'loaded', =>
         @sparkles = @robot.brain.data.sparkles || {}
-        console.log("loaded sparkles from brain : #{Util.inspect(@sparkles)}")
 
 
   roomStorage : (msg) ->
@@ -104,7 +103,6 @@ class SparkleStorage
 
   save : ->
       @robot.brain.data.sparkles = @sparkles
-      console.log("saved sparkles to brain : #{Util.inspect(@robot.brain.data.sparkles)}")
 
   rename : (msg, singular, plural) ->
       roomPoints = @roomStorage msg

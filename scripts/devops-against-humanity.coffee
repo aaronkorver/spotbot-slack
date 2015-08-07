@@ -144,7 +144,7 @@ module.exports = (robot) ->
       dealer = dahGameStorage.getDealer(room)
       if dealer
         message.reply "only the dealer can reveal the combinations."
-        message.send "@#{dealer}, is it time for the big reveal?"
+        message.send "@#{dealer.name}, is it time for the big reveal?"
       else
         message.reply "There is no dealer currently.  Perhaps it's time to start a game?"
 
@@ -155,7 +155,7 @@ module.exports = (robot) ->
     else
       dealer = dahGameStorage.getDealer(getRoomName(message))
       if (dealer)
-        message.send "There is no current black card.  Maybe @#{dealer.name} should draw one?"
+        message.send "There is no current black card.  Maybe @#{dealer['name']} should draw one?"
       else
         message.reply "There isn't a black card currently.  Maybe you should start a game?"
 

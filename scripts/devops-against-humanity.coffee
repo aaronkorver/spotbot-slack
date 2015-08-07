@@ -142,9 +142,11 @@ module.exports = (robot) ->
       message.send response.join("\n")
     else
       dealer = dahGameStorage.getDealer(room)
-      if dealer
+      if dahGameStorage.isSenderDealer(getSenderName(message), room)
+        message.reply "maybe you should set the black card before revealing white cards."
+      else if dealer
         message.reply "only the dealer can reveal the combinations."
-        message.send "@#{dealer}, is it time for the big reveal?"
+        message.send "@#{dealer.name}, is it time for the big reveal?"
       else
         message.reply "There is no dealer currently.  Perhaps it's time to start a game?"
 
@@ -155,7 +157,7 @@ module.exports = (robot) ->
     else
       dealer = dahGameStorage.getDealer(getRoomName(message))
       if (dealer)
-        message.send "There is no current black card.  Maybe @#{dealer.name} should draw one?"
+        message.send "There is no current black card.  Maybe @#{dealer['name']} should draw one?"
       else
         message.reply "There isn't a black card currently.  Maybe you should start a game?"
 
@@ -172,12 +174,12 @@ module.exports = (robot) ->
           if "#{play['index']}" is "#{winnerIndex}"
             winningPlayer = player
         if winningPlayer
-          dahGameStorage.scorePoint(player, room)
+          dahGameStorage.scorePoint(winningPlayer, room)
           dahGameStorage.setDealer(players[randomIndex(players)], room)
           for player in players
             giveUserCards(player, room)
           dahGameStorage.clearRoundData(room)
-          message.send "@#{player} won.  #{player}'s score is now #{dahGameStorage.getScore(player, room)}."
+          message.send "@#{winningPlayer} won.  #{winningPlayer}'s score is now #{dahGameStorage.getScore(winningPlayer, room)}."
           message.send "@#{dahGameStorage.getDealer(room)['name']} is the new dealer."
         else
           message.reply "I couldn't find that card combination.  Have white cards been revealed?"

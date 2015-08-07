@@ -172,12 +172,12 @@ module.exports = (robot) ->
           if "#{play['index']}" is "#{winnerIndex}"
             winningPlayer = player
         if winningPlayer
-          dahGameStorage.scorePoint(player, room)
+          dahGameStorage.scorePoint(winningPlayer, room)
           dahGameStorage.setDealer(players[randomIndex(players)], room)
           for player in players
             giveUserCards(player, room)
           dahGameStorage.clearRoundData(room)
-          message.send "@#{player} won.  #{player}'s score is now #{dahGameStorage.getScore(player, room)}."
+          message.send "@#{winningPlayer} won.  #{winningPlayer}'s score is now #{dahGameStorage.getScore(winningPlayer, room)}."
           message.send "@#{dahGameStorage.getDealer(room)['name']} is the new dealer."
         else
           message.reply "I couldn't find that card combination.  Have white cards been revealed?"

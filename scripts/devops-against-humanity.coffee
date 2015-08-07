@@ -142,7 +142,9 @@ module.exports = (robot) ->
       message.send response.join("\n")
     else
       dealer = dahGameStorage.getDealer(room)
-      if dealer
+      if dahGameStorage.isSenderDealer(getSenderName(message), room)
+        message.reply "maybe you should set the black card before revealing white cards."
+      else if dealer
         message.reply "only the dealer can reveal the combinations."
         message.send "@#{dealer.name}, is it time for the big reveal?"
       else

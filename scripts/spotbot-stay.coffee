@@ -1,0 +1,49 @@
+# Description:
+#   Makes hubot stay in a room after hubot is restarted.
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot stay - The robot rejoins the room after restarts.
+#   hubot leave - The robot no longer joins the room after restarts.
+#   hubot list rooms - Lists the rooms the robot joins after restarts.
+#
+# Author:
+#   Matthew.Rick2 (the evil twin!!!1!!)
+
+rooms = []
+
+module.exports = (robot) ->
+
+  robot.brain.on 'loaded', =>
+    rooms = robot.brain.data.rooms || {}
+    for room in rooms
+      robot.joinRoom(room)
+
+  robot.respond /stay$/i, (msg) ->
+    rooms.push msg.message.user.replyTo
+    robot.brain.data.rooms = rooms
+    msg.send "Woof!"
+
+  robot.respond /leave$/i, (msg) ->
+    banishingRoom = msg.message.user.replyTo
+    newRooms = []
+    for room in rooms
+      if ! room is banishingRoom
+        newRooms.push room
+    rooms = newRooms
+    robot.brain.data.rooms = rooms
+    msg.send "Spotbot no longer joins this room automatically."
+
+  robot.respond /list rooms$/i, (msg) ->
+    response = "Spotbot doesn't join any rooms automatically."
+    if rooms.length
+      lines = ["Spotbot joins these rooms on restart:"]
+      for room in rooms
+        lines.push "\t#{room}"
+      response = lines.join("\n")
+    msg.send response

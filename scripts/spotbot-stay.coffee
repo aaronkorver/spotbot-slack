@@ -15,6 +15,7 @@
 # Author:
 #   Matthew.Rick2 (the evil twin!!!1!!)
 
+Util = require "util"
 rooms = []
 
 module.exports = (robot) ->
@@ -37,13 +38,16 @@ module.exports = (robot) ->
         newRooms.push room
     rooms = newRooms
     robot.brain.data.rooms = rooms
-    msg.send "Spotbot no longer joins this room automatically."
+    msg.send "#{getRobotName()} no longer joins this room automatically."
 
   robot.respond /list rooms$/i, (msg) ->
-    response = "Spotbot doesn't join any rooms automatically."
+    response = "#{getRobotName()} doesn't join any rooms automatically."
     if rooms.length
-      lines = ["Spotbot joins these rooms on restart:"]
+      lines = ["#{getRobotName()} joins these rooms on restart:"]
       for room in rooms
         lines.push "\t#{room}"
       response = lines.join("\n")
     msg.send response
+
+  getRobotName = ->
+    robot.name.charAt(0).toUpperCase() + robot.name.slice(1)

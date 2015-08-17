@@ -31,14 +31,16 @@ module.exports = (robot) ->
     msg.send "Woof!"
 
   robot.respond /do(n't| not) stay$/i, (msg) ->
+    response = "#{getRobotName()} did not automatically join this room."
     banishingRoom = msg.message.user.replyTo
     newRooms = []
     for room in rooms
       if ! room is banishingRoom
         newRooms.push room
-    rooms = newRooms
-    robot.brain.data.rooms = rooms
-    msg.send "#{getRobotName()} no longer joins this room automatically."
+      else
+        response = "#{getRobotName()} will no longer join this room automatically."
+    robot.brain.data.rooms = newRooms
+    msg.send response
 
   robot.respond /list rooms$/i, (msg) ->
     response = "#{getRobotName()} doesn't join any rooms automatically."

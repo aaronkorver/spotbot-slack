@@ -26,7 +26,7 @@ module.exports = (robot) ->
       robot.joinRoom(room)
 
   robot.respond /stay$/i, (msg) ->
-    rooms.push msg.message.user.replyTo
+    rooms.push msg.message.user.reply_to
     robot.brain.data.rooms = rooms
     msg.send "Woof!"
 

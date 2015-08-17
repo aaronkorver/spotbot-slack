@@ -21,7 +21,7 @@ rooms = []
 module.exports = (robot) ->
 
   robot.brain.on 'loaded', =>
-    rooms = robot.brain.data.rooms || {}
+    rooms = robot.brain.data.rooms || []
     for room in rooms
       robot.joinRoom(room)
 
@@ -39,7 +39,8 @@ module.exports = (robot) ->
         newRooms.push room
       else
         response = "#{getRobotName()} will no longer join this room automatically."
-    robot.brain.data.rooms = newRooms
+    rooms = newRooms
+    robot.brain.data.rooms = rooms
     msg.send response
 
   robot.respond /list rooms$/i, (msg) ->

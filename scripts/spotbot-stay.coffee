@@ -9,7 +9,7 @@
 #
 # Commands:
 #   hubot stay - The robot rejoins the room after restarts.
-#   hubot leave - The robot no longer joins the room after restarts.
+#   hubot don't stay - The robot no longer joins the room after restarts.
 #   hubot list rooms - Lists the rooms the robot joins after restarts.
 #
 # Author:
@@ -30,7 +30,7 @@ module.exports = (robot) ->
     robot.brain.data.rooms = rooms
     msg.send "Woof!"
 
-  robot.respond /leave$/i, (msg) ->
+  robot.respond /do(n't| not) stay$/i, (msg) ->
     banishingRoom = msg.message.user.replyTo
     newRooms = []
     for room in rooms

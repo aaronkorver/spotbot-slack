@@ -21,9 +21,10 @@ rooms = []
 module.exports = (robot) ->
 
   robot.brain.on 'loaded', =>
-    rooms = robot.brain.data.rooms || []
-    for room in rooms
-      robot.joinRoom(room)
+    if robot.adapter.connector?
+      rooms = robot.brain.data.rooms || []
+      for room in rooms
+        robot.adapter.connector.join(room, 0)
 
   robot.respond /stay$/i, (msg) ->
     rooms.push msg.message.user.reply_to

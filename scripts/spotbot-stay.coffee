@@ -36,7 +36,7 @@ module.exports = (robot) ->
     banishingRoom = msg.message.user.replyTo
     newRooms = []
     for room in rooms
-      if ! room is banishingRoom
+      if !(room is banishingRoom)
         newRooms.push room
       else
         response = "#{getRobotName()} will no longer join this room automatically."

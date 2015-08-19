@@ -14,14 +14,19 @@
 # Author:
 #   dlinsin
 
+String::strip = -> if String::trim? then @trim() else @replace /^\s+|\s+$/g, ""
+
+
 module.exports = (robot) ->
 
-  robot.respond /(chuck norris)( me )?(.*)/i, (msg)->
-    user = msg.match[3]
-    if user.length == 0
-      askChuck msg, "http://api.icndb.com/jokes/random"
+  robot.respond /(chuck norris)(\sme)?(\s\w+)?(\s\w+)?/i, (msg)->
+    firstName = msg.match[3]?.strip()
+    lastName = msg.match[4]?.strip() ? lastname=""
+
+    if (typeof firstName != "undefined")
+      askChuck msg, "http://api.icndb.com/jokes/random?exclude=[explicit]&firstName="+firstName+"&lastName="+lastName
     else
-      askChuck msg, "http://api.icndb.com/jokes/random?firstName="+user+"&lastName="
+      askChuck msg, "http://api.icndb.com/jokes/random?exclude=[explicit]"
 
   askChuck = (msg, url) ->
     msg.http(url)

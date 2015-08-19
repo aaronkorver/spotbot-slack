@@ -19,15 +19,15 @@ module.exports = (robot) ->
 
   swashbuckle = [
     "NAME fights like a Dairy Farmer!"
-    "This is the END for you,NAME, you gutter crawling cur!"
-    "I've spoken with apes more polite thanNAME!"
-    "SoonNAME will be wearing my sword like a shish kebab!"
-    "I once owned a dog that was smarter thanNAME."
-    "Have you stopped wearing diapers yet,NAME?"
-    "Your hemorroids are flaring up again eh,NAME?"
-    "First you better stop waving it about like a feather duster,NAME."
+    "This is the END for you, NAME, you gutter crawling cur!"
+    "I've spoken with apes more polite than NAME!"
+    "Soon NAME will be wearing my sword like a shish kebab!"
+    "I once owned a dog that was smarter than NAME."
+    "Have you stopped wearing diapers yet, NAME?"
+    "Your hemorroids are flaring up again eh, NAME?"
+    "First you better stop waving it about like a feather duster, NAME."
     "NAME is no match for my brains, you poor fool."
-    "I hope now you've learned to stop picking your nose,NAME."
+    "I hope now you've learned to stop picking your nose, NAME."
   ]
 
   swashbuckleMe = [
@@ -47,7 +47,7 @@ module.exports = (robot) ->
     response = msg.random swashbuckleMe
     msg.reply (response)
 
-  robot.respond /(insult)(.*)/i, (msg) ->
+  robot.respond /(insult) (.*)/i, (msg) ->
     whom = msg.match[2]
     response = msg.random swashbuckle
     response = response.replace(/NAME/, whom)

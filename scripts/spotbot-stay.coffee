@@ -33,7 +33,7 @@ module.exports = (robot) ->
 
   robot.respond /do(n't| not) stay$/i, (msg) ->
     response = "#{getRobotName()} did not automatically join this room."
-    banishingRoom = msg.message.user.replyTo
+    banishingRoom = msg.message.user.reply_to
     newRooms = []
     for room in rooms
       if !(room is banishingRoom)

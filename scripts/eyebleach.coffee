@@ -52,7 +52,7 @@ eyebleach = (msg) ->
         while (foundCount < eyebleachCount && idx < items.length)
           post = items[idx++]
           url = post.data.url
-          if (url.match('(.png|.gif|.jpg|.jpeg|.bmp)') or post.data.domain.match('(gfycat.com|imgur.com|livememe.com|memedad.com)')) and not url.match('.gifv') and not post.data.over_18
+          if (url.match('(.png|.gif|.jpg|.jpeg|.bmp)') or post.data.domain.match('(gfycat.com|imgur.com|livememe.com|memedad.com)')) and not post.data.over_18
             msg.send url
             foundCount++
 

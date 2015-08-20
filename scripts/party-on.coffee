@@ -20,4 +20,4 @@ module.exports = (robot) ->
       sender =  msg.message.user.mention_name.toLowerCase()
     else
       sender = msg.message.user.name
-    msg.send "party on @#{sender}"
+    msg.send "Party on, @#{sender}!"

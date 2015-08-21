@@ -13,12 +13,13 @@
 # Author:
 #   akorver
 
-threshold = 0.2
-
 module.exports = (robot) ->
+
+  cases = [
+    "https://s3.amazonaws.com/uploads.hipchat.com/171096/1551645/7PYohL39KqHeglc/animated.gif"
+    "https://s3.amazonaws.com/uploads.hipchat.com/171096/1531535/x1TM3MVqOMyE2qn/case-small.png"
+    "(bicepleft)(case)(bicepright)"
+  ]
+
   robot.respond /(case)( me)/i, (msg) ->
-    random = Math.random()
-    if random < threshold
-      msg.send "http://i.imgur.com/cU8RzMd.png"
-    else
-      msg.send "(bicepleft)(case)(bicepright)"
+    msg.send (msg.random cases)

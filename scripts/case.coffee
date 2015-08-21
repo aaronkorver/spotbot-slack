@@ -1,5 +1,5 @@
 # Description:
-#   Display case and his gunz
+#   Display Case.
 #
 # Dependencies:
 #   None
@@ -19,7 +19,10 @@ module.exports = (robot) ->
     "https://s3.amazonaws.com/uploads.hipchat.com/171096/1551645/7PYohL39KqHeglc/animated.gif"
     "https://s3.amazonaws.com/uploads.hipchat.com/171096/1531535/x1TM3MVqOMyE2qn/case-small.png"
     "(bicepleft)(case)(bicepright)"
+    "https://s3.amazonaws.com/uploads.hipchat.com/171096%2F1531207%2Fp8e80fufYYCoftw%2Fgreg_waterfall_sm.gif"
+    "https://s3.amazonaws.com/uploads.hipchat.com/171096%2F1531191%2FijQaSW0yxZeufbI%2Fa77ae2df_o.jpeg"
+    "https://s3.amazonaws.com/uploads.hipchat.com/171096%2F1531191%2F0cUbET6jiIzuI28%2F9d33d889_o.gif"
   ]
 
   robot.respond /(case)( me)/i, (msg) ->
-    msg.send (msg.random cases)
+    msg.send msg.random cases

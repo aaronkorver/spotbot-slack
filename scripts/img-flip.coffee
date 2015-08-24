@@ -15,11 +15,11 @@ username = process.env.HUBOT_IMGFLIP_USERNAME
 password = process.env.HUBOT_IMGFLIP_PASSWORD
 
 unless process.env.HUBOT_IMGFLIP_USERNAME?
-  robot.logger.warning "The HUBOT_IMGFLIP_USERNAME environment variable is not set"
+  console.log "The HUBOT_IMGFLIP_USERNAME environment variable is not set"
   return false
 
 unless process.env.HUBOT_IMGFLIP_PASSWORD?
-  robot.logger.warning "The HUBOT_IMGFLIP_PASSWORD environment variable is not set"
+  console.log "The HUBOT_IMGFLIP_PASSWORD environment variable is not set"
   return false
 
 module.exports =

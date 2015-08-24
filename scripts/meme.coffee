@@ -4,10 +4,6 @@
 # Dependencies:
 #   None
 #
-# Configuration:
-#   HUBOT_IMGFLIP_USERNAME
-#   HUBOT_IMGFLIP_PASSWORD
-#
 # Commands:
 #   hubot meme me <meme> : <top text> / <bottom text> - generates a meme
 #   hubot meme list - lists aliased meme templates
@@ -17,11 +13,9 @@
 #   mrick
 
 Util = require "util"
+createMeme = require "./img-flip"
 
 String::strip = -> if String::trim? then @trim() else @replace /^\s+|\s+$/g, ""
-
-username = process.env.HUBOT_IMGFLIP_USERNAME
-password = process.env.HUBOT_IMGFLIP_PASSWORD
 
 # Keep this in order, or I will find you
 memeIds = {
@@ -109,14 +103,6 @@ class MemeUsageStorage
 
 module.exports = (robot) ->
 
-  unless process.env.HUBOT_IMGFLIP_USERNAME?
-    robot.logger.warning "The HUBOT_IMGFLIP_USERNAME environment variable is not set"
-    return false
-
-  unless process.env.HUBOT_IMGFLIP_PASSWORD?
-    robot.logger.warning "The HUBOT_IMGFLIP_PASSWORD environment variable is not set"
-    return false
-
   memeUsageStorage = new MemeUsageStorage robot
 
   robot.respond /meme list/i, (msg) ->
@@ -171,17 +157,4 @@ module.exports = (robot) ->
     bottomText = encodeURIComponent(msg.match[4].strip())
 
     memeUsageStorage.memeUsed(msg, templateName)
-
-    url = "https://api.imgflip.com/caption_image?username=#{username}&password=#{password}&template_id=#{template}&text0=#{topText}&text1=#{bottomText}"
-
-    msg
-      .http(url)
-        .get() (err, res, body) ->
-          if err
-            msg.send "Encountered an error: #{err}"
-            return
-          imgflipResponse = JSON.parse(body)
-          if imgflipResponse.success == true
-            msg.send imgflipResponse.data.url
-          else
-            msg.send "Call to imgflip.com failed: #{imgflipResponse.error_message}"
+    createMeme(msg, template, topText, bottomText)

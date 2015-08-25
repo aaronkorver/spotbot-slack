@@ -20,8 +20,6 @@ logger = new Log process.env.HUBOT_LOG_LEVEL or 'info'
 
 module.exports = (msg, template, topText, bottomText) ->
 
-    console.log("#{template}, #{topText}, #{bottomText}")
-
     unless process.env.HUBOT_IMGFLIP_USERNAME? && process.env.HUBOT_IMGFLIP_PASSWORD?
       msg.reply "HUBOT_IMGFLIP_USERNAME and/or HUBOT_IMGFLIP_PASSWORD have not been set.  Contact your admin to set them."
       return

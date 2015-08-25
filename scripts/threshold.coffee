@@ -71,7 +71,7 @@ module.exports = (robot) ->
       msg.reply "I really can't turn up to 11."
       return
     robot.thresholdStorage.setThreshold(msg, scriptName, threshold)
-    msg.send "#{scriptName}'s threshold is now #{threshold * 100}%.'"
+    msg.send "#{scriptName}'s threshold is now #{threshold * 100}%."
 
   robot.respond /threshold (delete|remove) ([a-zA-z0-9_\-]+)/i, (msg) ->
     scriptName = msg.match[2]

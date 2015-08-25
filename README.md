@@ -71,7 +71,7 @@ writing it yourself, you can use existing plugins.
 
 Hubot is able to load plugins from third-party `npm` packages. This is the
 recommended way to add functionality to your hubot. You can get a list of
-available hubot plugins on [npmjs.com](npmjs) or by using `npm search`:
+available hubot plugins on [npmjs.com](npmjs.com) or by using `npm search`:
 
     % npm search hubot-scripts panda
     NAME             DESCRIPTION                        AUTHOR DATE       VERSION KEYWORDS

@@ -16,7 +16,7 @@
 #   Rory Straubel and Jordan McGowan and thanks to Matt Rick
 
 Util = require "util"
-createMeme = require('./img-flip')
+createMeme = require('./lib/img-flip')
 
 String::strip = -> if String::trim? then @trim() else @replace /^\s+|\s+$/g, ""
 

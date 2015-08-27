@@ -20,21 +20,22 @@ String::strip = -> if String::trim? then @trim() else @replace /^\s+|\s+$/g, ""
 # Keep this in order, or I will find you
 memeIds = {
     "aliens" :    {"id" : 101470,   "usage" : "Not saying it was aliens / but ALIENS"}
-    "archer" :    {"id" : 10628640, "usage" : "Do you want x / because that's how you get x"}
+    "allthings" : {"id" : 61533,    "usage" : "X / all of the Y"}
+    "archer" :    {"id" : 10628640, "usage" : "Do you want X / because that's how you get X"}
     "boromir" :   {"id" : 61579,    "usage" : "One does not simply / misuse this meme"}
     "brace" :     {"id" : 61546,    "usage" : "Brace yourself / Game of Thrones references are coming"}
     "brian" :     {"id" : 61585,    "usage" : "Uses this meme / dies"}
     "drkev" :     {"id" : 41050220, "usage" : "Dr. Kev says / X"}
     "fry" :       {"id" : 61520,    "usage" : "Not sure if X / or Y"}
-    "hindsight" : {"id" : 101708,   "usage" : "If you didn't want x / why did you directly cause x?"}
+    "hindsight" : {"id" : 101708,   "usage" : "If you didn't want X / why did you directly cause X?"}
     "marvin" :    {"id" : 21807506, "usage" : "Holding food and wrapper / threw out food, ate wrapper"}
     "picard" :    {"id" : 245898,   "usage" : "Why the heck / are you not using this meme?"}
-    "sohappy":    {"id" : 6781963,  "usage" : "I would be so happy / If you used this meme correctly"}
+    "sohappy" :   {"id" : 6781963,  "usage" : "I would be so happy / If you used this meme correctly"}
     "sohot" :     {"id" : 21604248, "usage" : "Zoolander / so hot right now"}
     "success" :   {"id" : 61544,    "usage" : "Brag about doing something"}
     "wonka" :     {"id" : 61582,    "usage" : "Memes are so hard / please tell me all about it"}
     "yuno" :      {"id" : 61527,    "usage" : "Y U NO / speak only in memes?"}
-    "xx" :        {"id" : 61532,    "usage" : "I don't always x / but when I do, I y"}
+    "xx" :        {"id" : 61532,    "usage" : "I don't always X / but when I do, I Y"}
   };
 
 class MemeUsageDetails

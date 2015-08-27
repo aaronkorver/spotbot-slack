@@ -20,7 +20,7 @@ logger = new Log process.env.HUBOT_LOG_LEVEL or 'info'
 
 module.exports = (msg, template, topText, bottomText) ->
 
-    unless process.env.HUBOT_IMGFLIP_USERNAME? && process.env.HUBOT_IMGFLIP_PASSWORD?
+    unless username? && password?
       msg.reply "HUBOT_IMGFLIP_USERNAME and/or HUBOT_IMGFLIP_PASSWORD have not been set.  Contact your admin to set them."
       return
 
@@ -37,8 +37,8 @@ module.exports = (msg, template, topText, bottomText) ->
           else
             msg.send "Call to imgflip.com failed: #{imgflipResponse.error_message}"
 
-unless process.env.HUBOT_IMGFLIP_USERNAME?
+unless username?
   logger.warning "The HUBOT_IMGFLIP_USERNAME environment variable is not set"
 
-unless process.env.HUBOT_IMGFLIP_PASSWORD?
+unless password?
   logger.warning "The HUBOT_IMGFLIP_PASSWORD environment variable is not set"

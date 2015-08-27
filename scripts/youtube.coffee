@@ -33,7 +33,6 @@ module.exports = (robot) ->
       })
       .get() (err, res, body) ->
         results = JSON.parse(body)
-        msg.send body
         # If the results don't contain videos, we don't want to crash
         if results.items && results.items[0]
           videoID = results.items[0].id.videoId

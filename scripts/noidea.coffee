@@ -20,7 +20,7 @@ createMeme = require('./lib/img-flip')
 
 String::strip = -> if String::trim? then @trim() else @replace /^\s+|\s+$/g, ""
 
-template = 8647077
+templates = [8647077,44448051,44448759]
 bottomText = encodeURIComponent("has no idea what they are doing".strip())
 
 module.exports = (robot) ->
@@ -36,4 +36,4 @@ module.exports = (robot) ->
       else
         topText = encodeURIComponent(msg.message.user.name.strip())
 
-      createMeme(msg, template, topText, bottomText)
+      createMeme(msg, "#{msg.random templates}", topText, bottomText)

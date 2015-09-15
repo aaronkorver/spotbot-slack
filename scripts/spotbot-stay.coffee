@@ -29,7 +29,7 @@ module.exports = (robot) ->
   robot.respond /stay$/i, (msg) ->
     rooms.push msg.message.user.reply_to
     robot.brain.data.rooms = rooms
-    msg.send "Woof!"
+    msg.send "I'm here to stay. Try typing '#{getRobotName()} help' to see what I can do."
 
   robot.respond /do(n't| not) stay$/i, (msg) ->
     response = "#{getRobotName()} did not automatically join this room."

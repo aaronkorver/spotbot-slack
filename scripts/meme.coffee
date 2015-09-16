@@ -28,10 +28,14 @@ memeIds = {
     "drkev" :     {"id" : 41050220, "usage" : "Dr. Kev says / X"}
     "fry" :       {"id" : 61520,    "usage" : "Not sure if X / or Y"}
     "hindsight" : {"id" : 101708,   "usage" : "If you didn't want X / why did you directly cause X?"}
+    "madmoney"  : {"id" : 1613953,  "usage" : "1613953 is out / invest in madmoney"}
     "marvin" :    {"id" : 21807506, "usage" : "Holding food and wrapper / threw out food, ate wrapper"}
+    "morpheus" :  {"id" : 100947,   "usage" : "What if I told you / you can use this alias now?"}
+    "paddlin" :   {"id" : 5265532,  "usage" : "Not using this meme? / That's a paddlin'"}
     "picard" :    {"id" : 245898,   "usage" : "Why the heck / are you not using this meme?"}
     "sohappy" :   {"id" : 6781963,  "usage" : "I would be so happy / If you used this meme correctly"}
     "sohot" :     {"id" : 21604248, "usage" : "Zoolander / so hot right now"}
+    "stop" :      {"id" : 27700015, "usage" : "Stop trying to make this meme happen / it's not going to happen"}
     "success" :   {"id" : 61544,    "usage" : "Brag about doing something"}
     "wonka" :     {"id" : 61582,    "usage" : "Memes are so hard / please tell me all about it"}
     "yuno" :      {"id" : 61527,    "usage" : "Y U NO / speak only in memes?"}

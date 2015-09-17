@@ -37,6 +37,7 @@ memeIds = {
     "sohot" :     {"id" : 21604248, "usage" : "Zoolander / so hot right now"}
     "stop" :      {"id" : 27700015, "usage" : "Stop trying to make this meme happen / it's not going to happen"}
     "success" :   {"id" : 61544,    "usage" : "Brag about doing something"}
+    "toohigh" :   {"id" : 61580,    "usage" : "X / is too damn high"}
     "wonka" :     {"id" : 61582,    "usage" : "Memes are so hard / please tell me all about it"}
     "yuno" :      {"id" : 61527,    "usage" : "Y U NO / speak only in memes?"}
     "xx" :        {"id" : 61532,    "usage" : "I don't always X / but when I do, I Y"}

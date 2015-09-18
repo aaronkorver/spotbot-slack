@@ -176,7 +176,7 @@ module.exports = (robot) ->
         msg.send lines.join("\n")
 
 
-    robot.respond /sparkle(?:s)? ((?!top|bottom|report|forget|reset).+?)( (for) (.+))?\s?$/i, (msg) ->
+    robot.respond /sparkle(?:s)? ((?!top|bottom|report|forget|reset).+?)( (for|because) (.+))?\s?$/i, (msg) ->
 
         users = robot.brain.usersForFuzzyName(msg.match[1].trim())
         if users.length is 1
@@ -199,7 +199,7 @@ module.exports = (robot) ->
           sparkleStorage.awardPoints(msg, user, 1, reason)
 
 
-    robot.respond /(?:un|de)sparkle(?:s)? (.+?)( (for) (.+))?\s?$/i, (msg) ->
+    robot.respond /(?:un|de)sparkle(?:s)? (.+?)( (for|because) (.+))?\s?$/i, (msg) ->
 
         users = robot.brain.usersForFuzzyName(msg.match[1].trim())
         if users.length is 1

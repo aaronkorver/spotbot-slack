@@ -128,7 +128,7 @@ spin_report = (ordering, count, sortByWins) ->
   sliceSize = 5
   report = []
   if (ordering && ordering.toLowerCase() == 'bottom' )
-    acs = false
+    asc = false
   if (count)
     sliceSize = count
   records = spinStorage.getRecords(sliceSize,asc,sortByWins)

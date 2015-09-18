@@ -13,6 +13,8 @@
 # Author:
 #   arudge
 
+threshold = 0.75
+
 wtf = [
   "http://i.imgur.com/P2vkwAS.gif"
   "http://media.giphy.com/media/xw1vTI3HYbB6M/giphy.gif"
@@ -28,4 +30,7 @@ wtf = [
 
 module.exports = (robot) ->
   robot.hear /wtf\b/i, (message) ->
-    message.send message.random wtf
+    random = Math.random()
+    roomThreshold = robot.thresholdStorage.getThreshold(message, "wtf", threshold)
+    if random < roomThreshold
+      message.send message.random wtf

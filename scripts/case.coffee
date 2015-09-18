@@ -26,6 +26,7 @@ module.exports = (robot) ->
     "https://s3.amazonaws.com/uploads.hipchat.com/171096/1531535/WGyWMG3LXRsV4WF/greg-fireman-bed.png"
     "https://s3.amazonaws.com/uploads.hipchat.com/171096/1551645/icv0loozkw1Miym/deal-with-case.gif"
     "https://s3.amazonaws.com/uploads.hipchat.com/171096/1531535/KAJhtNB0yCX3vD4/greg-horserace.png"
+    "https://s3.amazonaws.com/uploads.hipchat.com/171096/2297566/bEn8xT7CH7Zf7Dp/Case-crossing-the-Alps.png"
   ]
 
   robot.respond /(case)( me)/i, (msg) ->

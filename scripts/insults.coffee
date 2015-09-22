@@ -24,8 +24,13 @@ swashbuckle = [
   "Have you stopped wearing diapers yet, NAME?"
   "Your hemorroids are flaring up again eh, NAME?"
   "First you better stop waving it about like a feather duster, NAME."
-  "NAME is no match for my brains, you poor fool."
+  "NAME is no match for my brains, the poor fool."
   "I hope now you've learned to stop picking your nose, NAME."
+  "There are no words for how disgusting NAME is."
+  "NAME has the manners of a beggar."
+  "After meeting NAME, I know what filth and stupidity really are."
+  "NAME is as repulsive as a monkey in a negligee."
+  "When your father first saw you, he must have been mortified, NAME!"
 ]
 
 swashbuckleMe = [
@@ -36,9 +41,14 @@ swashbuckleMe = [
   "I once owned a dog that was smarter than you."
   "Have you stopped wearing diapers yet?"
   "Your hemorroids are flaring up again eh?"
-  "First you better stop waving it about like a feather duster."
   "You're no match for my brains, you poor fool."
   "I hope now you've learned to stop picking your nose."
+  "There are no words for how disgusting you are."
+  "You have the manners of a beggar."
+  "Now I know what filth and stupidity really are."
+  "You're as repulsive as a monkey in a negligee."
+  "When your father first saw you, he must have been mortified!"
+  "You can't match my witty repartee!"
 ]
 
 module.exports = (robot) ->

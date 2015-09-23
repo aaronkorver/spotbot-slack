@@ -57,7 +57,7 @@ reddit = (msg) ->
           msg.send "Something went wrong... #{redditStorage.getHardCoreRedditor(room)} reddited too hard? [http response #{posts.error}]"
           return
         if post.over_18 == true
-          msg.send "Spotbot has saved you from a NSFW reddit post! If you want to know what it was ask #{redditStorage.getHardCoreRedditor(room)} (he's likely already seen it)"
+          msg.send "Spotbot has saved you from a NSFW reddit post! If you want to know what it was ask #{redditStorage.getHardCoreRedditor(room)} (they've likely already seen it)"
           return
         if post.url.match('(.png|.gif|.jp[eg]|.bmp)') or post.domain.match('(gfycat.com|imgur.com|livememe.com|memedad.com)')
           msg.send post.title

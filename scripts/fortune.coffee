@@ -28,7 +28,7 @@ quotes =
 	["It's not a toy, it's a vehicle.", "--Markus Silpala"]
 	["So the when and the then are the where and the what? Yes, yes they are.", "--Tim Johnson"]
 	["It's horrible in every way.", "--Greg Case"]
-	["Pants just slow you down.", "--Max Theyn"]
+	["Pants just slow you down.", "--Max Thyen"]
 	["Greg Case generates all the code for me.", "--Aaron Korver"]
 	["How did they get that squirrel in the suit of armor!?", "--Theryn Groetken"]
 	["Screw you guys, I'm switching to TMHS.", "--Alex Wall"]

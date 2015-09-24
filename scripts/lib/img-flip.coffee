@@ -24,6 +24,9 @@ module.exports = (msg, template, topText, bottomText) ->
       msg.reply "HUBOT_IMGFLIP_USERNAME and/or HUBOT_IMGFLIP_PASSWORD have not been set.  Contact your admin to set them."
       return
 
+    topText = encodeURIComponent(topText)
+    bottomText = encodeURIComponent(bottomText)
+
     url = "https://api.imgflip.com/caption_image?username=#{username}&password=#{password}&template_id=#{template}&text0=#{topText}&text1=#{bottomText}"
     msg
       .http(url)

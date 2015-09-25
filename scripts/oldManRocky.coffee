@@ -12,7 +12,10 @@
 
 # Author:
 #   Greg Case
-old_tech_task = [
+
+createMeme = require('./lib/img-flip')
+
+old_tech_tasks = [
    'writing cobol code'
    'creating thick client applets'
    'generating endpoints from WSDL'
@@ -36,7 +39,7 @@ old_tech_task = [
    'holding forth on the superiority of Smalltalk'
 ]
 
-young_kid_task = [
+young_kid_tasks = [
    'playing hopscotch in the driveway'
    'tasting glue in art class'
    'learning to wipe their ass'
@@ -58,8 +61,15 @@ module.exports = (robot) ->
     robot.respond /old man rocky(.*)?/i, (msg) ->
         youngin = msg.match[1]?.trim()
         verb = 'was'
+        old_tech_task = old_tech_tasks[random_index(old_tech_tasks)]
+        young_kid_task = young_kid_tasks[random_index(young_kid_tasks)]
         if (!youngin | youngin is 'me')
           youngin = 'you'
           verb = 'were'
 
-        msg.send("Rocky says \"I was #{ msg.random old_tech_task } back when #{youngin} #{verb} #{ msg.random young_kid_task }.\"")
+        topText = "I was #{old_tech_task} back when #{youngin} #{verb} #{young_kid_task}"
+
+        createMeme(msg, 46284733, topText, "")
+
+random_index = (array) ->
+  Math.floor(Math.random() * array.length)

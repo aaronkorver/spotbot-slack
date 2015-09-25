@@ -1,5 +1,6 @@
 # Description:
-#   Makes hubot stay in a room after hubot is restarted.
+#   Allows users to persist hubot in rooms after restart without the need to set
+#   HUBOT_HIPCHAT_ROOMS
 #
 # Dependencies:
 #   None

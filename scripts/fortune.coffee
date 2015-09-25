@@ -36,6 +36,7 @@ quotes =
 	["This is a change without a difference.", "--Matt Rick"]
 	["PHP was crawling around in Huggies when Perl was already at wizard level.", "--Rocky DeVries"]
 	["I kind of want to pick up this story with no description . . . only because it's issue # 1337.", "--Matt Rick"]
+	["That needing to wait till noon to drink thing is a myth.  You can drink anytime of the day.", "--Greg Case"]
 ]
 
 module.exports = (robot) ->

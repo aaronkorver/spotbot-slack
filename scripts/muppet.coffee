@@ -3,8 +3,8 @@
 #
 # Commands:
 #   hubot muppet me - responds with an animated gif of Bruce saying something about Muppets
-#   hubot bruce me - responds with bruce type message
-#   hubot ask bruce about [name] - Spotbot will ask Bruce about a person
+#   hubot Bruce me - responds with Bruce type message
+#   hubot ask Bruce about <name> - Spotbot will ask Bruce about a person
 
 
 
@@ -22,7 +22,7 @@ brucisms = [
     "They're all bloody muppets!"
     "No. You don't want to do that, not while you have a hole in your bum."
     "... it'd be fast, like greased weasel $hit."
-    "Every night I get home and have palpitations." 
+    "Every night I get home and have palpitations."
     "The whole thing went tits up."
     "Cheers"
     "He is a yard dog."
@@ -61,11 +61,11 @@ module.exports = (robot) ->
   robot.respond /(muppet)( me)?/i, (msg) ->
     msg.send 'https://s3.amazonaws.com/uploads.hipchat.com/171096/1531191/5QypdcNRxtsthTR/fmuppets.gif'
 
-  robot.respond /(bruce)( me)?/i, (msg) ->
+  robot.respond /(Bruce)( me)?/i, (msg) ->
     response = msg.random brucisms
     msg.send ('Bruce says: "' + response + '"')
 
-  robot.respond /(ask bruce about )( me )?(.*)/i, (msg) ->
+  robot.respond /(ask Bruce about )( me )?(.*)/i, (msg) ->
     whom = msg.match[3]
     insult = msg.random abouts
     insult = insult.replace(/NAME/, whom)

@@ -159,8 +159,8 @@ module.exports = (robot) ->
     else
       template = memeIds[templateName]["id"]
 
-    topText = encodeURIComponent(msg.match[3].strip())
-    bottomText = encodeURIComponent(msg.match[4].strip())
+    topText = msg.match[3].strip()
+    bottomText = msg.match[4].strip()
 
     memeUsageStorage.memeUsed(msg, templateName)
     createMeme(msg, template, topText, bottomText)

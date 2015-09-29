@@ -32,8 +32,8 @@ module.exports = (robot) ->
     roomThreshold = robot.thresholdStorage.getThreshold(msg, "noidea", threshold)
     if random < roomThreshold
       if msg.message.user.mention_name?
-        topText = encodeURIComponent("@#{msg.message.user.mention_name.toLowerCase().strip()}")
+        topText = "@#{msg.message.user.mention_name.toLowerCase().strip()}"
       else
-        topText = encodeURIComponent(msg.message.user.name.strip())
+        topText = msg.message.user.name.strip()
 
       createMeme(msg, "#{msg.random templates}", topText, bottomText)

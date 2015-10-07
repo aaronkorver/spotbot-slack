@@ -89,3 +89,7 @@ module.exports = (robot) ->
   robot.respond /what are we going to do\b/i, (msg) ->
     msg.send "The question isn't 'what are we going to do,' the question is 'what aren't we going to do?'"
 
+# Beverly Hills Cop
+  robot.respond /we're not gonna fall for a banana in the tailpipe\b/i, (msg) ->
+    msg.send "You're not gonna fall for the banana in the tailpipe? It should be more natural, brother. It should flow out, like this - 'Look, man, I ain't fallin' for no banana in my tailpipe!'"
+

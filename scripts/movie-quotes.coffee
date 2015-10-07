@@ -67,7 +67,7 @@ module.exports = (robot) ->
     msg.send "Yeah, there were horses, and a man on fire, and I killed a guy with a trident."
 
 # Airplane
-  robot.respond /surely, you can't be serious\b/i, (msg) ->
+  robot.respond /surely,? you can't be serious\b/i, (msg) ->
     msg.send "I am serious. And don't call me Shirley."
 
 # Big Lebowski
@@ -77,6 +77,10 @@ module.exports = (robot) ->
 # Avengers
   robot.respond /no one needs to break anything\b/i, (msg) ->
     msg.send "Clearly you've never made an omelette."
+
+# Kindergarten Cop
+  robot.respond /it might be a tumor\b/i, (msg) ->
+    msg.send "It's not a tumor!"
 
 
 

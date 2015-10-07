@@ -82,5 +82,10 @@ module.exports = (robot) ->
   robot.respond /it might be a tumor\b/i, (msg) ->
     msg.send "It's not a tumor!"
 
+# Ferris Bueller's Day Off
+  robot.respond /bueller\b/i, (msg) ->
+    msg.send "Um, he's sick. My best friend's sister's boyfriend's brother's girlfriend heard from this guy who knows this kid who's going with the girl who saw Ferris pass out at 31 Flavors last night. I guess it's pretty serious."
 
+  robot.respond /what are we going to do\b/i, (msg) ->
+    msg.send "The question isn't 'what are we going to do,' the question is 'what aren't we going to do?'"
 

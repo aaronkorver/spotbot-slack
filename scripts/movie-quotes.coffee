@@ -8,7 +8,7 @@
 #   None
 #
 # Commands:
-#   a lot of them
+#
 #
 # Author:
 #   dak
@@ -67,7 +67,7 @@ module.exports = (robot) ->
     msg.send "Yeah, there were horses, and a man on fire, and I killed a guy with a trident."
 
 # Airplane
-  robot.respond /surely you can't be serious\b/i, (msg) ->
+  robot.respond /surely, you can't be serious\b/i, (msg) ->
     msg.send "I am serious. And don't call me Shirley."
 
 # Big Lebowski

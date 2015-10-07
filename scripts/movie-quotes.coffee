@@ -1,5 +1,5 @@
 # Description:
-#   move quotes - the user starts a quote and spotbot completes it
+#   movie quotes - the user starts a quote and spotbot completes it
 #
 # Dependencies:
 #   None
@@ -48,7 +48,7 @@ module.exports = (robot) ->
     msg.send "Take a bow, @#{sender}!"
 
 # Monty Python
-  robot.hear /Knights who say ni\b/i, (msg) ->
+  robot.hear /knights who say ni\b/i, (msg) ->
     msg.send "NI!"
 
 # Star Wars
@@ -76,7 +76,7 @@ module.exports = (robot) ->
 
 # Avengers
   robot.respond /no one needs to break anything\b/i, (msg) ->
-    msg.send "Clearly you've never made an Omelette."
+    msg.send "Clearly you've never made an omelette."
 
 
 

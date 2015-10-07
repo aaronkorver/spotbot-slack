@@ -48,7 +48,7 @@ module.exports = (robot) ->
     msg.send "Take a bow, @#{sender}!"
 
 # Monty Python
-  robot.hear /we are the Knights who say ni\b/i, (msg) ->
+  robot.hear /Knights who say ni\b/i, (msg) ->
     msg.send "NI!"
 
 # Star Wars

@@ -58,6 +58,16 @@ module.exports = (robot) ->
   robot.respond /the odds of\b/i, (msg) ->
     msg.send "NEVER TELL ME THE ODDS!"
 
+  robot.hear ///your \s powers \s are \s weak,? \s #{robot.name}///i, (msg) ->
+    if msg.message.user.mention_name?
+      sender =  msg.message.user.mention_name.toLowerCase()
+    else
+      sender = msg.message.user.name
+    msg.send "You can't win, @#{sender}. If you strike me down, I shall become more powerful than you could possibly imagine."
+
+  robot.respond /is there anything i can do\b/i, (msg) ->
+    msg.send "Not unless you can alter time, speed up the harvest or teleport me off this rock."
+
 # Spaceballs
   robot.respond /the radar is jammed\b/i, (msg) ->
     msg.send "Raspberry. There's only one man who would dare give me the raspberry! LONE STARR!"

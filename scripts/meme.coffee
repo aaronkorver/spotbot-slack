@@ -25,6 +25,7 @@ memeIds = {
     "boromir" :   {"id" : 61579,    "usage" : "One does not simply / misuse this meme"}
     "brace" :     {"id" : 61546,    "usage" : "Brace yourself / Game of Thrones references are coming"}
     "brian" :     {"id" : 61585,    "usage" : "Uses this meme / dies"}
+    "bullseye" :  {"id" : 47353455, "usage" : "Having a bad day? / Me too, I'm a meme now"}
     "drkev" :     {"id" : 41050220, "usage" : "Dr. Kev says / X"}
     "fry" :       {"id" : 61520,    "usage" : "Not sure if X / or Y"}
     "hindsight" : {"id" : 101708,   "usage" : "If you didn't want X / why did you directly cause X?"}

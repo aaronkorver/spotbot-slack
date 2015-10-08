@@ -12,11 +12,12 @@
 #
 # Author:
 #   mrick
+#   dak (for an epic image)
 
 createMeme = require('./lib/img-flip')
 
 module.exports = (robot) ->
-  
+
   robot.respond /rudge me (.*)\/(.*)/i, (msg) ->
 
     topText = msg.match[1].strip()

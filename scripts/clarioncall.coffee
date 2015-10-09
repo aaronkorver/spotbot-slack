@@ -21,7 +21,6 @@ clarioncall = [
   "http://i.giphy.com/W7oJhW48rO0ww.gif",
   "https://33.media.tumblr.com/effaee30583975831a092120639e52b2/tumblr_n1qrklV4zZ1t7i4r6o1_500.gif",
   "http://i.perezhilton.com/wp-content/uploads/2014/08/warriors.gif"
-
 ]
 
 module.exports = (robot) ->

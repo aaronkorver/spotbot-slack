@@ -8,7 +8,7 @@
 #   None
 #
 # Commands:
-#   anytime anyone uses @all
+#   anytime anyone uses @all or @here
 #
 # Author:
 #   Matt Duffin
@@ -26,6 +26,4 @@ clarioncall = [
 module.exports = (robot) ->
   robot.hear /(@all\b|@here\b)/i, (msg) ->
     random = Math.random()
-    roomThreshold = robot.thresholdStorage.getThreshold(msg, "@all", threshold)
-    if random < roomThreshold
-      msg.send msg.random clarioncall
+    msg.send msg.random clarioncall

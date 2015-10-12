@@ -1,5 +1,5 @@
 # Description:
-#   Listens for use of @all and responds with Sloth calling everyone to attention
+#   Listens for use of @all and responds with appropriate gif to help get the attention you need
 #
 # Dependencies:
 #   None

@@ -26,5 +26,6 @@ clarioncall = [
 module.exports = (robot) ->
   robot.hear /(@all\b|@here\b)/i, (msg) ->
     random = Math.random()
+    roomThreshold = robot.thresholdStorage.getThreshold(msg, "clarioncall", threshold)
     if random < roomThreshold
       msg.send msg.random clarioncall

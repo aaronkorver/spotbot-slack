@@ -11,7 +11,7 @@
 #   hubot weather in <city> - Show today's forecast for a city
 #
 # Author:
-#   tstewart
+#   TimothyStewart
 moment = require 'moment'
 
 module.exports = (robot) ->

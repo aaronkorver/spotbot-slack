@@ -1,5 +1,5 @@
 # Description:
-#   Hubot script to show weather for a city, defaulting to Minneapolis, MN
+#   Hubot script to show weather for a city, TODO:// defaulting to Minneapolis, MN
 #
 # Dependencies:
 #   moment

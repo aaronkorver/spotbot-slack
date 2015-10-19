@@ -27,8 +27,8 @@ module.exports = (robot) ->
         msg.send "\nhttp://openweathermap.org/img/w/#{data.weather[0].icon}.png"
         msg.send "\nForecast for #{moment.unix(data.dt).format('MMMM Do YYYY')} in #{data.name}, #{data.sys.country}
         \nCondition: #{data.weather[0].main}, #{data.weather[0].description}
-        \nHigh: #{data.main.temp_min}°F
-        \nLow: #{data.main.temp_max}°F
+        \nHigh: #{data.main.temp_max}°F
+        \nLow: #{data.main.temp_min}°F
         \nHumidity: #{data.main.humidity}%
         \nCloudiness is: #{data.clouds.all}%
         \nSunrise: #{moment.unix(data.sys.sunrise).format('h:mm:ss a')}

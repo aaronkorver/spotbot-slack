@@ -8,18 +8,21 @@
 #   HUBOT_OPENWEATHERMAP_API_KEY
 #
 # Commands:
-#   hubot weather in <city> - Show today's forecast for a city
+#   hubot weather [in <city>] - Show today's forecast for a city
 #
 # Author:
 #   Timothy Stewart
 moment = require 'moment'
 apiKey = process.env.HUBOT_OPENWEATHERMAP_API_KEY
+
 module.exports = (robot) ->
    unless apiKey?
       robot.logger.warning "HUBOT_OPENWEATHERMAP_API_KEY has not been set.  Contact your admin to set it."
       return
-  robot.respond /weather in (.*)/i, (msg) ->
-    msg.http("http://api.openweathermap.org/data/2.5/weather?q=#{msg.match[1]}&units=imperial&appid=#{apiKey}")
+  robot.respond /weather( in)?(.*)?/i, (msg) ->
+    City = msg.match[2]
+    City ?= "Minneapolis"
+    msg.http("http://api.openweathermap.org/data/2.5/weather?q=#{City}&units=imperial&appid=#{apiKey}")
     .header('Accept', 'application/json')
     .get() (err, res, body) ->
       data = JSON.parse(body)

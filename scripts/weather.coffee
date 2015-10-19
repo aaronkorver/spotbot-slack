@@ -17,9 +17,11 @@ apiKey = process.env.HUBOT_OPENWEATHERMAP_API_KEY
 
 module.exports = (robot) ->
    unless apiKey?
-      robot.logger.warning "HUBOT_OPENWEATHERMAP_API_KEY has not been set.  Contact your admin to set it."
-      return
+      robot.logger.warning "HUBOT_OPENWEATHERMAP_API_KEY has not been set."
   robot.respond /weather( in)?(.*)?/i, (msg) ->
+    unless apiKey?
+      msg.send "HUBOT_OPENWEATHERMAP_API_KEY has not been set.  Contact your admin to set it"
+      return
     City = msg.match[2]
     City ?= "Minneapolis"
     msg.http("http://api.openweathermap.org/data/2.5/weather?q=#{City}&units=imperial&appid=#{apiKey}")

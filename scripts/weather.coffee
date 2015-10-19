@@ -33,4 +33,4 @@ module.exports = (robot) ->
         \nSunset: #{moment.unix(data.sys.sunset).format('h:mm:ss a')}
         \n\nLast updated: #{moment.unix(data.dt).format('MMMM Do YYYY, h:mm:ss a')}"
       else
-        msg.send "The weather gods must be OoO.  Check back later."
+        msg.send "The weather gods must be OOO.  Check back later."

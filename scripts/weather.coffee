@@ -16,7 +16,7 @@ moment = require 'moment'
 apiKey = process.env.HUBOT_OPENWEATHERMAP_API_KEY
 module.exports = (robot) ->
    unless apiKey?
-      msg.reply "HUBOT_OPENWEATHERMAP_API_KEY has not been set.  Contact your admin to set them."
+      msg.reply "HUBOT_OPENWEATHERMAP_API_KEY has not been set.  Contact your admin to set it."
       return
   robot.respond /weather in (.*)/i, (msg) ->
     msg.http("http://api.openweathermap.org/data/2.5/weather?q=#{msg.match[1]}&units=imperial&appid=#{apiKey}")

@@ -13,9 +13,8 @@
 # Author:
 #   Timothy Stewart
 moment = require 'moment'
-
+apiKey = process.env.HUBOT_OPENWEATHERMAP_API_KEY
 module.exports = (robot) ->
-  apiKey = '5f78d5ee8d0506b4b8f808a4e95c0dea';
   robot.respond /weather in (.*)/i, (msg) ->
     msg.http("http://api.openweathermap.org/data/2.5/weather?q=#{msg.match[1]}&units=imperial&appid=#{apiKey}")
     .header('Accept', 'application/json')

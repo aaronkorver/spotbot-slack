@@ -5,7 +5,7 @@
 #   moment
 #
 # Configuration:
-#   None
+#   HUBOT_OPENWEATHERMAP_API_KEY
 #
 # Commands:
 #   hubot weather in <city> - Show today's forecast for a city
@@ -15,6 +15,9 @@
 moment = require 'moment'
 apiKey = process.env.HUBOT_OPENWEATHERMAP_API_KEY
 module.exports = (robot) ->
+   unless apiKey?
+      msg.reply "HUBOT_OPENWEATHERMAP_API_KEY has not been set.  Contact your admin to set them."
+      return
   robot.respond /weather in (.*)/i, (msg) ->
     msg.http("http://api.openweathermap.org/data/2.5/weather?q=#{msg.match[1]}&units=imperial&appid=#{apiKey}")
     .header('Accept', 'application/json')

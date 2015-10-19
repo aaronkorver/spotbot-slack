@@ -22,8 +22,8 @@ module.exports = (robot) ->
     .get() (err, res, body) ->
       data = JSON.parse(body)
       if data
+        msg.send "\nhttp://openweathermap.org/img/w/#{data.weather[0].icon}.png"
         msg.send "\nForecast for #{moment.unix(data.dt).format('MMMM Do YYYY')} in #{data.name}, #{data.sys.country}
-        \nhttp://openweathermap.org/img/w/#{data.weather[0].icon}.png
         \nCondition: #{data.weather[0].main}, #{data.weather[0].description}
         \nHigh: #{data.main.temp_min}°F
         \nLow: #{data.main.temp_max}°F

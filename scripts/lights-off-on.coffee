@@ -38,7 +38,7 @@ module.exports = (robot) ->
     robot.respond /lights off/i, (msg) ->
       lastMessage = lightsStorage.events[lightsStorage.events.length - 1]
 
-      if (lastMessage && lastMessage.indexOf('OFF') > -1)
+      if (lastMessage && lastMessage.indexOf('OFF') == 0)
         msg.send "The lights are already OFF. Log an ON event first"
       else
         lightsStorage.addEvent(moment().format('YYYY-MM-DD HH:mm:ss'), 'OFF')
@@ -47,7 +47,7 @@ module.exports = (robot) ->
     robot.respond /lights on/i, (msg) ->
       lastMessage = lightsStorage.events[lightsStorage.events.length - 1]
 
-      if (lastMessage && lastMessage.indexOf('ON') > -1)
+      if (lastMessage && lastMessage.indexOf('ON') == 0)
         msg.send "The lights are already ON. Log an OFF first"
       else if (lastMessage && lastMessage.indexOf('OFF') > -1)
         currentTime = moment()
@@ -62,10 +62,10 @@ module.exports = (robot) ->
     robot.respond /lights report( \d+)?/i, (msg) ->
       amount = parseInt(msg.match[1]) || 5
       queryAmount = Math.min(amount, lightsStorage.events.length)
-
-      events = lightsStorage.events.slice(0, queryAmount)
+      reversedEvents = lightsStorage.events.slice(0)
+      eventsToReport = reversedEvents.reverse().slice(0, queryAmount)
 
       lines = ["Total Light Toggles: #{lightsStorage.events.length}"]
-      for event in events
+      for event in eventsToReport
         lines.push(event)
       msg.send lines.join("\n")

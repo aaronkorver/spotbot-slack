@@ -25,11 +25,15 @@ class LightsStorage
     @robot.brain.on 'loaded', =>
       @lightToggles = @robot.brain.data.lightToggles || {events: []}
 
+  save : ->
+    @robot.brain.data.lightToggles = @lightToggles
+
   addEvent : (date, status, durationInSeconds) ->
     if (durationInSeconds)
       @lightToggles.events.push("#{status} - #{date} - OFF Duration: #{durationInSeconds} Seconds")
     else
       @lightToggles.events.push("#{status} - #{date}")
+    @save()
 
 module.exports = (robot) ->
 

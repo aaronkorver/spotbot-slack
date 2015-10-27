@@ -5,6 +5,7 @@
   "author": "Bullseye Spotbot <TTS-spotbot@target.com>",
   "description": "A simple helpful robot for your Company",
   "dependencies": {
+    "cheerio": "latest",
     "hubot": "^2.13.1",
     "hubot-cron": ">= 0.1.0",
     "hubot-devops": "latest",

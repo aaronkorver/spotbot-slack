@@ -1,5 +1,5 @@
 # Description:
-#   Hubot script to show weather for a city, TODO:// defaulting to Minneapolis, MN
+#   Hubot script to show weather for a city
 #
 # Dependencies:
 #   moment
@@ -8,10 +8,11 @@
 #   HUBOT_OPENWEATHERMAP_API_KEY
 #
 # Commands:
-#   hubot weather [in <city>] - Show today's forecast for a city
+#   hubot weather [in <city>] - Show today's forecast for a city, (default: Minneapolis)
 #
 # Author:
 #   Timothy Stewart
+
 moment = require 'moment'
 apiKey = process.env.HUBOT_OPENWEATHERMAP_API_KEY
 
@@ -39,7 +40,6 @@ module.exports = (robot) ->
         tempMinMax = JSON.parse(body)
 
         if data && tempMinMax
-          msg.send "\nhttp://openweathermap.org/img/w/#{data.weather[0].icon}.png"
           msg.send "\nForecast for #{moment.unix(data.dt).format('MMMM Do YYYY')} in #{data.name}, #{data.sys.country}
           \nCurrent Conditions: #{data.main.temp}°F, #{data.weather[0].main}, #{data.weather[0].description}
           \nHigh: #{tempMinMax.list[0].temp.max}°F

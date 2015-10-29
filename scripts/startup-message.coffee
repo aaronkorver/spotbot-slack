@@ -78,7 +78,11 @@ onReady = () ->
     .header('Range', "version ]#{oldVersion['version']}..")
     .get() (err, response, body) ->
       rooms = @robot.brain.data.adminRooms || ['shell']
-      newVersion = JSON.parse(body).pop()
+
+      if response.statusCode != 200
+        newVersion = defaultVersion
+      else
+        newVersion = JSON.parse(body).pop()
 
       for room in rooms
         messageRoom(room, newVersion, oldVersion, "#{@robot.name} starting up...")

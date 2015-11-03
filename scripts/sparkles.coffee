@@ -114,8 +114,8 @@ class SparkleStorage
       delete @roomStorage(msg)['tallies'][user]
       @save()
 
-  reset : ->
-    @sparkles = {}
+  resetRoom : (msg) ->
+    delete @roomStorage(msg)['tallies']
     @save()
 
 
@@ -223,6 +223,6 @@ module.exports = (robot) ->
 
         msg.send "I've forgotten all about #{user}.  Never really cared for them, to tell you the truth."
 
-    robot.respond /sparkle(?:s)? reset$/i, (msg) ->
-       sparkleStorage.reset()
-       msg.send "Slate has been wiped clean"
+    robot.respond /sparkle(?:s)? resetroom$/i, (msg) ->
+       sparkleStorage.resetRoom(msg)
+       msg.send "Slate has been wiped clean for room '#{msg.message.room}'"

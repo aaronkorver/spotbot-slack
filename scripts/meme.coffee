@@ -34,6 +34,7 @@ memeIds = {
     "morpheus" :  {"id" : 100947,   "usage" : "What if I told you / you can use this alias now?"}
     "paddlin" :   {"id" : 5265532,  "usage" : "Not using this meme? / That's a paddlin'"}
     "picard" :    {"id" : 245898,   "usage" : "Why the heck / are you not using this meme?"}
+    "pleaseguy" : {"id" : 9339570,  "usage" : "Please / Do the things"}
     "sohappy" :   {"id" : 6781963,  "usage" : "I would be so happy / If you used this meme correctly"}
     "sohot" :     {"id" : 21604248, "usage" : "Zoolander / so hot right now"}
     "stop" :      {"id" : 27700015, "usage" : "Stop trying to make this meme happen / it's not going to happen"}

@@ -24,6 +24,9 @@ threshold = 1
 
 module.exports = (robot) ->
 
+  robot.brain.on 'loaded', =>
+    secretWord = robot.brain.get("secretWord") || "astrobleme"
+
   unless process.env.HUBOT_SECRETWORD_ADMIN?
     robot.logger.warning 'The HUBOT_SECRETWORD_ADMIN environment variable not set'
 
@@ -55,6 +58,7 @@ module.exports = (robot) ->
 
     if sender in admins
       secretWord = msg.match[1]
+      robot.brain.set("secretWord", secretWord)
       msg.send msg.random done
     else
       msg.send "#{sender} is not an admin, you cannot do that!"

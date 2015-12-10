@@ -46,17 +46,17 @@ module.exports = (robot) ->
         foundBar = $(this).children('span[class="featured-barwrap"]').children('span[class="place-details"]').text().replace("'", "").toLowerCase()
         if foundBar.match queryBar
           special =
-            barName : $(this).children('span[class="featured-barwrap"]').children('span[class="place-details"]').text().split(' (')[0]
-            specialTime: $(this).children('span[class="special-time"]').children('span[class="time-range"]').text().strip('\n')
-            specialDesc: $(this).children('span[class="left-wrap"]').children('span[class="special-description"]').text()
+            barName : $(this).children('span[class="featured-barwrap"]').children('span[class="place-details"]').text().replace('&amp;', 'and').replace('&', 'and').split(' (')[0]
+            specialTime: $(this).children('span[class="special-time"]').children('span[class="time-range"]').text().replace('&amp;', 'and').replace('&', 'and').strip('\n')
+            specialDesc: $(this).children('span[class="left-wrap"]').children('span[class="special-description"]').text().replace('&amp;', 'and').replace('&', 'and')
           specials.push(special)
       $('li[class="regular"]').each (index) ->
         foundBar = $(this).children('span[class="right-wrap"]').children('span[class="featured-barwrap"]').children('span[class="place-details"]').text().replace("'", "").toLowerCase()
         if (foundBar.match queryBar) or (index is barIndex)
           special =
-            barName : $(this).children('span[class="right-wrap"]').children('span[class="featured-barwrap"]').children('span[class="place-details"]').text()
-            specialTime: $(this).children('span[class="left-wrap"]').children('span[class="special-time"]').text()
-            specialDesc: $(this).children('span[class="right-wrap"]').children('span[class="special-description"]').text()
+            barName : $(this).children('span[class="right-wrap"]').children('span[class="featured-barwrap"]').children('span[class="place-details"]').text().replace('&amp;', 'and').replace('&', 'and')
+            specialTime: $(this).children('span[class="left-wrap"]').children('span[class="special-time"]').text().replace('&amp;', 'and').replace('&', 'and')
+            specialDesc: $(this).children('span[class="right-wrap"]').children('span[class="special-description"]').text().replace('&amp;', 'and').replace('&', 'and')
           specials.push(special)
       if specials.length > 0
         if specials.length > 3

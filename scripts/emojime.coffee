@@ -131,7 +131,7 @@ spin_emoji = (player) ->
       response = lose_responses[random_index(lose_responses)]
       spinStorage.logSpin(player, false)
 
-  "#{spin.join(' | ')} : #{response} : #{counts} : #{pool}"
+  "#{spin.join(' | ')} : #{response}"
 
 spin_report = (ordering, count, sortByWins) ->
   asc = true

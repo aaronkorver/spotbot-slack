@@ -96,7 +96,7 @@ random_emoji = (num = 1) ->
 
   while emojis.length < num
     r_emoji = emoji[random_index(emoji)]
-    emojis.push("(#{r_emoji})") unless includes(emojis, r_emoji)
+    emojis.push("(#{r_emoji})") unless includes(emojis, "(#{r_emoji})")
 
   emojis
 
@@ -105,21 +105,31 @@ spin_emoji = (player) ->
   spin = []
   counts = [0, 0, 0, 0]
   win = false
-
+  chucknorriswin = false
   while spin.length < 3
     index = random_index(pool)
     spin.push pool[index]
     counts[index] += 1
+    # because chucknorris never loses
+    if pool[index] == '(chucknorris)'
+      chucknorriswin = true
 
   for count in counts
     win = true if count == 3
 
   if win == true
-    response = win_responses[random_index(win_responses)]
+    if chucknorriswin == true
+      response = "Chuck Norris always WINS!"
+    else 
+      response = win_responses[random_index(win_responses)]
     spinStorage.logSpin(player, true)
   else
-    response = lose_responses[random_index(lose_responses)]
-    spinStorage.logSpin(player, false)
+    if chucknorriswin == true
+      response = "Chuck Norris never loses!"
+      spinStorage.logSpin(player, true)
+    else
+      response = lose_responses[random_index(lose_responses)]
+      spinStorage.logSpin(player, false)
 
   "#{spin.join(' | ')} : #{response}"
 

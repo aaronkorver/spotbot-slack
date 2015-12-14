@@ -114,8 +114,8 @@ module.exports = (robot) ->
         else
           roomLevelThreshold = true
       if roomLevelThreshold
-        thresholdList.push("*** These thresholds have been over-ridden by a room level threshold")
-        thresholdList.push("*** The room-level threshold is #{robot.thresholdStorage.getThreshold(msg, roomLevelName) * 100}%")
+        thresholdList.push("(failed) These thresholds have been overridden by a room-level threshold")
+        thresholdList.push("(failed) The room-level threshold is #{robot.thresholdStorage.getThreshold(msg, roomLevelName) * 100}%")
       msg.send thresholdList.join("\n")
 
 generateRoomThresholdName = (msg) ->

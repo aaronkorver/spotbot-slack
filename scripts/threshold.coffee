@@ -65,13 +65,8 @@ module.exports = (robot) ->
   robot.respond /threshold (set|add) ([a-zA-z0-9_\-]+) ([0-9\.]+)/i, (msg) ->
     scriptName = msg.match[2]
     threshold = msg.match[3]
-    if threshold <= 100 && threshold > 1
-      threshold = threshold / 100
-    else if threshold > 100
-      msg.reply "I really can't turn up to 11."
-      return
-    robot.thresholdStorage.setThreshold(msg, scriptName, threshold)
-    msg.send "#{scriptName}'s threshold is now #{threshold * 100}%."
+    validateThreshold(msg, scriptName, threshold)
+    msg.send "#{scriptName}'s threshold is now #{robot.thresholdStorage.getThreshold(msg, scriptName) * 100}%."
 
   robot.respond /threshold (delete|remove) ([a-zA-z0-9_\-]+)/i, (msg) ->
     scriptName = msg.match[2]
@@ -91,3 +86,11 @@ module.exports = (robot) ->
       for scriptName, threshold of robot.thresholdStorage.roomThresholds msg
         thresholdList.push "#{scriptName} - #{threshold * 100}%"
       msg.send thresholdList.join("\n")
+
+validateThreshold = (msg, scriptName, threshold) ->
+  if threshold <= 100 && threshold > 1
+    threshold = threshold / 100
+  else if threshold > 100
+    msg.reply "I really can't turn up to 11."
+    return
+  robot.thresholdStorage.setThreshold(msg, scriptName, threshold)

@@ -16,6 +16,9 @@
 #   None
 #
 # Commands:
+#   hubot threshold global squelch - Sets the room-level threshold to 0
+#   hubot threshold global set <value> - Sets the room-level threshold
+#   hubot threshold global clear - Removes the room-level threshold. Scripts will use their configured thresholds instead
 #   hubot threshold set <threshold-name> <value> - Creates or updates a threshold
 #   hubot threshold remove <threshold-name> - Removes a threshold
 #   hubot threshold list [threshold-name] - Displays the value of threshold or all thresholds
@@ -66,6 +69,21 @@ class ThresholdStorage
 module.exports = (robot) ->
 
   robot.thresholdStorage = new ThresholdStorage robot
+
+  robot.respond /threshold global squelch/i, (msg) ->
+    globalName = "global-#{msg.message.room}";
+    validateThreshold(msg, globalName, 0)
+    msg.send "Setting global threshold to 0%. Scripts will ignore their configured thresholds."
+
+  robot.respond /threshold global set ([0-9\.]+)/i, (msg) ->
+    globalName = "global-#{msg.message.room}";
+    validateThreshold(msg, globalName, msg.match[1])
+    msg.send "Setting global threshold to #{robot.thresholdStorage.getThreshold(msg, globalName) * 100}%. Scripts will ignore their configured thresholds.";
+
+  robot.respond /threshold global (clear|delete|remove)/i, (msg) ->
+    globalName = "global-#{msg.message.room}";
+    robot.thresholdStorage.remove(msg, globalName)
+    msg.send "Removing global threshold. Scripts will resume using their configured thresholds."
 
   robot.respond /threshold (set|add) ([a-zA-z0-9_\-]+) ([0-9\.]+)/i, (msg) ->
     scriptName = msg.match[2]

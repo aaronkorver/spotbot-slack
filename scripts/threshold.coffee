@@ -75,9 +75,9 @@ module.exports = (robot) ->
     validateThreshold(msg, globalName, 0)
     msg.send "Setting global threshold to 0%. Scripts will ignore their configured thresholds."
 
-  robot.respond /threshold global set ([0-9\.]+)/i, (msg) ->
+  robot.respond /threshold global (add|set) ([0-9\.]+)/i, (msg) ->
     globalName = generateRoomThresholdName(msg)
-    validateThreshold(msg, globalName, msg.match[1])
+    validateThreshold(msg, globalName, msg.match[2])
     msg.send "Setting global threshold to #{robot.thresholdStorage.getThreshold(msg, globalName) * 100}%. Scripts will ignore their configured thresholds.";
 
   robot.respond /threshold global (clear|delete|remove)/i, (msg) ->
@@ -85,13 +85,13 @@ module.exports = (robot) ->
     robot.thresholdStorage.remove(msg, globalName)
     msg.send "Removing global threshold. Scripts will resume using their configured thresholds."
 
-  robot.respond /threshold (set|add) ([a-zA-z0-9_\-]+) ([0-9\.]+)/i, (msg) ->
+  robot.respond /threshold (add|set) ([a-zA-z0-9_\-]+) ([0-9\.]+)/i, (msg) ->
     scriptName = msg.match[2]
     threshold = msg.match[3]
     validateThreshold(msg, scriptName, threshold)
     msg.send "#{scriptName}'s threshold is now #{robot.thresholdStorage.getThreshold(msg, scriptName) * 100}%."
 
-  robot.respond /threshold (delete|remove) ([a-zA-z0-9_\-]+)/i, (msg) ->
+  robot.respond /threshold (clear|delete|remove) ([a-zA-z0-9_\-]+)/i, (msg) ->
     scriptName = msg.match[2]
     robot.thresholdStorage.remove(msg, scriptName)
     msg.send "#{scriptName}'s threshold removed - using default."

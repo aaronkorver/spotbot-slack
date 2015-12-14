@@ -48,7 +48,7 @@ class ThresholdStorage
 
 
   getThreshold : (msg, scriptName, defaultThreshold) ->
-    roomThreshold = @roomThresholds(msg)["global-#{msg.message.room}"]
+    roomThreshold = @roomThresholds(msg)[generateRoomThresholdName(msg)]
     threshold = @roomThresholds(msg)[scriptName]
     if !threshold? && defaultThreshold?
       threshold = defaultThreshold
@@ -71,17 +71,17 @@ module.exports = (robot) ->
   robot.thresholdStorage = new ThresholdStorage robot
 
   robot.respond /threshold global squelch/i, (msg) ->
-    globalName = "global-#{msg.message.room}";
+    globalName = generateRoomThresholdName(msg)
     validateThreshold(msg, globalName, 0)
     msg.send "Setting global threshold to 0%. Scripts will ignore their configured thresholds."
 
   robot.respond /threshold global set ([0-9\.]+)/i, (msg) ->
-    globalName = "global-#{msg.message.room}";
+    globalName = generateRoomThresholdName(msg)
     validateThreshold(msg, globalName, msg.match[1])
     msg.send "Setting global threshold to #{robot.thresholdStorage.getThreshold(msg, globalName) * 100}%. Scripts will ignore their configured thresholds.";
 
   robot.respond /threshold global (clear|delete|remove)/i, (msg) ->
-    globalName = "global-#{msg.message.room}";
+    globalName = generateRoomThresholdName(msg)
     robot.thresholdStorage.remove(msg, globalName)
     msg.send "Removing global threshold. Scripts will resume using their configured thresholds."
 
@@ -109,6 +109,9 @@ module.exports = (robot) ->
       for scriptName, threshold of robot.thresholdStorage.roomThresholds msg
         thresholdList.push "#{scriptName} - #{threshold * 100}%"
       msg.send thresholdList.join("\n")
+
+generateRoomThresholdName = (msg) ->
+  "global-#{msg.message.room}"
 
 validateThreshold = (msg, scriptName, threshold) ->
   if threshold <= 100 && threshold > 1

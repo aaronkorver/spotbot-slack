@@ -45,11 +45,16 @@ class ThresholdStorage
 
 
   getThreshold : (msg, scriptName, defaultThreshold) ->
+    roomThreshold = @roomThresholds(msg)["global-#{msg.message.room}"]
     threshold = @roomThresholds(msg)[scriptName]
     if !threshold? && defaultThreshold?
       threshold = defaultThreshold
       @setThreshold(msg, scriptName, threshold)
-    threshold
+
+    if !roomThreshold?
+      threshold
+    else
+      roomThreshold
 
   save : ->
     @robot.brain.data.thresholds = @thresholds

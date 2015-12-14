@@ -106,8 +106,16 @@ module.exports = (robot) ->
         msg.send "#{scriptName} has no room specific threshold set."
     else
       thresholdList = []
+      roomLevelThreshold = false
+      roomLevelName = generateRoomThresholdName(msg)
       for scriptName, threshold of robot.thresholdStorage.roomThresholds msg
-        thresholdList.push "#{scriptName} - #{threshold * 100}%"
+        if !(roomLevelName == scriptName)
+          thresholdList.push "#{scriptName} - #{threshold * 100}%"
+        else
+          roomLevelThreshold = true
+      if roomLevelThreshold
+        thresholdList.push("*** These thresholds have been over-ridden by a room level threshold")
+        thresholdList.push("*** The room-level threshold is #{robot.thresholdStorage.getThreshold(msg, roomLevelName) * 100}%")
       msg.send thresholdList.join("\n")
 
 generateRoomThresholdName = (msg) ->

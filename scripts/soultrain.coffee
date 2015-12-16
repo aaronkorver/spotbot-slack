@@ -22,7 +22,7 @@ soulTrains = [
 ]
 
 module.exports = (robot) ->
-  robot.hear /(hired|accept(s|ed)?)/i, (msg) ->
+  robot.hear /\b(hired|accept(s|ed)?)\b/i, (msg) ->
     random = Math.random()
     roomThreshold = robot.thresholdStorage.getThreshold(msg, "soultrain", threshold)
     if random < roomThreshold

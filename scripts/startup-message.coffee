@@ -21,7 +21,9 @@ Log = require 'log'
 @robot = undefined
 
 logger = new Log process.env.HUBOT_LOG_LEVEL or 'info'
-apiKey = process.env.HUBOT_HEROKU_API_KEY
+
+githubApiKey = process.env.HUBOT_GITHUB_API_KEY
+herokuApiKey = process.env.HUBOT_HEROKU_API_KEY
 
 # Makes it possible for this to work locally
 defaultVersion = {
@@ -37,7 +39,7 @@ module.exports = (robot) ->
 
   @robot = robot
 
-  unless apiKey?
+  unless herokuApiKey?
     logger.warning "The HUBOT_HEROKU_API_KEY environment variable is not set"
 
   robot.brain.on 'loaded', =>
@@ -74,7 +76,7 @@ onReady = () ->
     oldVersion = @robot.brain.data.version || defaultVersion
     @robot.http("https://api.heroku.com/apps/target-spotbot/releases")
     .header('Accept', 'application/vnd.heroku+json; version=3')
-    .header('Authorization', "Bearer #{apiKey}")
+    .header('Authorization', "Bearer #{herokuApiKey}")
     .header('Range', "version ]#{oldVersion['version']}..")
     .get() (err, response, body) ->
       rooms = @robot.brain.data.adminRooms || ['shell']
@@ -100,5 +102,26 @@ messageRoom = (room, newVersion, oldVersion, firstLine) ->
 
   if (oldVersion? && newVersion['version'] != oldVersion['version'])
     messageLines.push("#{@robot.name}'s last start was version v#{oldVersion['version']}: #{oldVersion['description']} (deployed on #{oldVersion['updated_at']} by #{oldVersion['user']['email']})")
+    newSha = newVersion['description'].match('Deploy (.*)')[1]
+    oldSha = oldVersion['description'].match('Deploy (.*)')[1]
+    messageGitCommits(room, newSha, oldSha)
 
   @robot.messageRoom(room, messageLines.join("\n"))
+
+messageGitCommits = (room, newestCommit, lastMessagedCommit) ->
+  if (githubApiKey)
+    url = "https://git.target.com/api/v3/repos/aaronkorver/spotbot/commits?access_token=#{githubApiKey}&sha=#{newestCommit}"
+    logger.info url
+    @robot.http(url)
+    .get() (err, response, body) ->
+      messageLines = ["Changes:"]
+      for commit in JSON.parse(body)
+        commitSha = commit['sha'].substring(0,7)
+        if (commitSha == lastMessagedCommit)
+          break
+        else
+          commitMessage = commit['commit']['message'].split("\n")[0]
+          commitAuthor = commit['commit']['author']['name']
+          messageLines.push("#{commitSha} #{commitAuthor} -- #{commitMessage}")
+      if (messageLines.length)
+        @robot.messageRoom(room, messageLines.join("\n"))

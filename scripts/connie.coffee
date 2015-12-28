@@ -13,7 +13,7 @@
 # Author:
 #   dakota.reesebrown (based on brilliantfantastic's ackbar script)
 
-threshold = 1
+threshold = 0
 
 connies = [
   "http://i.giphy.com/10Iu43S5QuBTMc.gif",

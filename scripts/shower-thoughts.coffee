@@ -34,7 +34,8 @@ thoughts = [
   'I don\'t think the inventor of Twizzlers ever actually tasted a strawberry',
   'Pixar and Dreamworks sounds like the street names of hardcore drugs',
   'I wonder what people who write "u" instead of "you" do in all their free time',
-  'There\'s no reason the alphabet has to be in order'
+  'There\'s no reason the alphabet has to be in order',
+  'Is the S or C silent in "Scent"?'
 ];
 
 module.exports = (robot) ->

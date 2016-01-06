@@ -7,9 +7,6 @@
 # Configuration:
 #   None
 #
-# Commands:
-#   anytime anyone uses @all or @here
-#
 # Author:
 #   Matt Duffin
 

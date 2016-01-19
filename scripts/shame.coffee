@@ -21,4 +21,4 @@ shame = [
 
 module.exports = (robot) ->
   robot.respond /shame\b/i, (message) ->
-      message.send message.random shame
+    message.send message.random shame

@@ -1,5 +1,5 @@
 # Description:
-#   Listens for spotbot shame and responds with a random GIF of the "Shame Nun" from Game of Thrones
+#   Listens for hubot shame and responds with a random GIF of the "Shame Nun" from Game of Thrones
 
 # Dependencies:
 #   None
@@ -8,7 +8,7 @@
 #   None
 #
 # Commands:
-#   spotbot shame - displays the GoT shame nun
+#   hubot shame - displays the GoT shame nun
 #
 # Author:
 #   GradyJohnson
@@ -20,5 +20,5 @@ shame = [
 ]
 
 module.exports = (robot) ->
-  robot.respond /shame\b/i, (msg) ->
-      msg.send msg.random shame
+  robot.respond /shame\b/i, (message) ->
+      message.send message.random shame

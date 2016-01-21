@@ -18,9 +18,18 @@ You can test your hubot by running the following, however some plugins will not
 behave as expected unless the [environment variables](#configuration) they rely
 upon have been set.
 
+Start by setting your node environment using NVM, and running and npm install.
+
+```
+$ nvm use
+$ npm i
+```
+
 You can start spotbot locally by running:
 
     % bin/hubot
+
+Or simply run `npm start`
 
 You'll see some start up output and a prompt:
 
@@ -45,10 +54,12 @@ When you have lots of scripts installed this process can be quite labour
 intensive. The following shell command can be used as a stop gap until an
 easier way to do this has been implemented.
 
+```shell
     grep -o 'hubot-[a-z0-9_-]\+' external-scripts.json | \
       xargs -n1 -I {} sh -c 'sed -n "/^# Configuration/,/^#$/ s/^/{} /p" \
           $(find node_modules/{}/ -name "*.coffee")' | \
         awk -F '#' '{ printf "%-25s %s\n", $1, $2 }'
+```
 
 How to set environment variables will be specific to your operating system.
 Rather than recreate the various methods and best practices in achieving this,
@@ -63,6 +74,23 @@ For many common tasks, there's a good chance someone has already one to do just
 the thing.
 
 [scripting-docs]: https://github.com/github/hubot/blob/master/docs/scripting.md
+
+### Writing ES6 (ES2015) Scripts
+
+If you'd like to write your scripts in ES6, this is quite straight forward.
+
+Place your scripts under the `./es2015-scripts` directory.
+
+Once you have created your script and tweaked it to your liking. You are going to need to run a build step.
+
+```shell
+$ npm run build
+```
+
+This will use babel to transpile your ES6 code into ES5 code, so that hubot can
+read it. (**Note:** If you do not run this, your scripts will not run).
+
+Thats it. You don't have to use CoffeeScript anymore! Woot 😄!
 
 ### external-scripts
 

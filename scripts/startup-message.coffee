@@ -27,12 +27,22 @@ herokuApiKey = process.env.HUBOT_HEROKU_API_KEY
 
 # Makes it possible for this to work locally
 defaultVersion = {
-  "version": 320
-  "description": "default description"
-  "updated_at": "default date"
-  "user": {
-    "email": "default email"
-  }
+    "app": {
+      "id": "df1tSha-a9e1-4ffb-94f3-0a447ea18932",
+      "name": "target-spotbot"
+    },
+    "created_at": "2015-01-01T01:01:01Z",
+    "description": "Deploy df1tSha",
+    "id": "df1tSha-96d0-4ade-99c2-4b03a90131ce",
+    "slug": {
+      "id": "df1tSha-fcf6-4e2d-b172-8aa302f1bea8"
+    },
+    "updated_at": "2015-01-01T01:01:01Z",
+    "user": {
+      "email": "aer@the-greater-reeves.com",
+      "id": "df1tSha-4ce5-4fe4-8d48-eb336b79d0ee"
+    },
+    "version": 320
 }
 
 module.exports = (robot) ->
@@ -81,7 +91,7 @@ onReady = () ->
     .get() (err, response, body) ->
       rooms = @robot.brain.data.adminRooms || ['shell']
 
-      if response.statusCode != 200
+      if response?.statusCode != 200
         newVersion = defaultVersion
       else
         newVersion = JSON.parse(body).pop()

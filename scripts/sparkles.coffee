@@ -123,9 +123,6 @@ module.exports = (robot) ->
 
     sparkleStorage = new SparkleStorage robot
 
-    robot.hear /roads/i, (msg) ->
-        msg.send "Roads?  Where we're going, we don't need roads!"
-
     robot.respond /rename sparkles to (.*?) (.*?)\s?$/i, (msg) ->
         sparkleStorage.rename(msg, msg.match[1],  msg.match[2])
         room = msg.message.room

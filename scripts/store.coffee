@@ -10,18 +10,18 @@
 #   Generate a Enterprise Services API key for for use
 #
 # Commands:
-#   spotbot lookup store <storenumber> - List details about the requested store
-#   spotbot (bullseye) <storenumber> - List details about the requested store
-#   spotbot T<storenumber> - List details about the requested store
+#   hubot lookup store <storenumber> - List details about the requested store
+#   hubot (bullseye) <storenumber> - List details about the requested store
+#   hubot T<storenumber> - List details about the requested store
 #
 # Examples:
-#   spotbot lookup store 1975
-#   spotbot lookup store T-0848
-#   spotbot (bullseye) 1975
-#   spotbot (bullseye) T-0848
-#   spotbot T1375
-#   spotbot T 848
-#   spotbot T-0848
+#   hubot lookup store 1975
+#   hubot lookup store T-0848
+#   hubot (bullseye) 1975
+#   hubot (bullseye) T-0848
+#   hubot T1375
+#   hubot T 848
+#   hubot T-0848
 #
 # Author:
 #   Erik.Kringen
@@ -74,48 +74,44 @@ sayDetails = (json, msg) ->
     id = id.replace('T', 'T-')
   else
     id = "T-#{location.ID}"
-  msg.send "Store Details for #{id} #{location.Name}"
-  msg.send location.Address.FormattedAddress
-
-  # Region Group District
-  msg.send "Region: #{location.Store?.StoreRegionID}"
-  msg.send "Group: #{location.Store?.StoreGroupID}"
-  msg.send "District: #{location.Store?.StoreDistrictID}"
+  response = "Store Details for #{id} #{location.Name}\n#{location.Address.FormattedAddress}\nRegion: #{location.Store?.StoreRegionID}\nGroup: #{location.Store?.StoreGroupID}\nDistrict: #{location.Store?.StoreDistrictID}\n"
 
   # Store Type
   if location.SubTypeDescription
-    msg.send "Type: #{location.SubTypeDescription}"
+    response += "Type: #{location.SubTypeDescription}\n"
   else
-    msg.send "Type: #{location.TypeDescription}"
+    response += "Type: #{location.TypeDescription}\n"
 
-  msg.send "Market: #{location.Market}"
+  response += "Market: #{location.Market}\n"
 
   # Phone Numbers
-  msg.send "#{phone.FunctionalTypeDescription}: #{phone.PhoneNumber}" for phone in location.TelephoneNumber
+  response += "#{phone.FunctionalTypeDescription}: #{phone.PhoneNumber}\n" for phone in location.TelephoneNumber
 
   # Milestones
   openDate = location.LocationMilestones?.OpenDate
   openDate = openDate?.match(/\d{4}-\d{2}-\d{2}/)
-  msg.send "Open Date: #{openDate}"
+  response += "Open Date: #{openDate}\n"
   if remodleDate = location.LocationMilestones?.LastRemodelDate
     remodleDate = remodleDate.match(/\d{4}-\d{2}-\d{2}/)
-    msg.send "Last Remodel Date: #{remodleDate}"
+    response += "Last Remodel Date: #{remodleDate}\n"
 
   # Hours
-  msg.send "Time Zone: #{location.TimeZone?.TimeZoneCode}"
-  msg.send "Hours:"
-  msg.send "  #{hour.FullName}: #{hour.TimePeriod.Summary}" for hour in location.OperatingHours?.Hours
+  response += "Time Zone: #{location.TimeZone?.TimeZoneCode}\nHours:\n"
+  response += "  #{hour.FullName}: #{hour.TimePeriod.Summary}\n" for hour in location.OperatingHours?.Hours
 
   # Capabilities
-  msg.send "Capabilities:"
+  response += "Capabilities:\n"
   for capability in location.Capability
-    msg.send "  #{capability.CapabilityName}"
+    response += "  #{capability.CapabilityName}\n"
     if phoneNumber = capability.TelephoneNumber
-      msg.send "    #{phoneNumber.PhoneNumber}"
+      if singlePhoneNumber = phoneNumber.PhoneNumber
+        response += "    #{phoneNumber.PhoneNumber}\n"
+      else
+        response += "    #{phone.FunctionalTypeDescription}: #{phone.PhoneNumber}\n" for phone in phoneNumber
     if hours = capability.OperatingHours
       for hour in hours.Hours
-        msg.send "    #{hour.FullName}: #{hour.TimePeriod.Summary}"
-
+        response += "    #{hour.FullName}: #{hour.TimePeriod.Summary}\n"
+  msg.send response
 
 module.exports = (robot) ->
   # On initialization, if we couldn't find the key, we should log a warning

@@ -1,7 +1,7 @@
 
 
 # Description:
-#   Bees are insane
+#   Databags are funny
 #
 # Dependencies:
 #   None
@@ -10,10 +10,10 @@
 #   None
 #
 # Commands:
-#   bees - Oprah at her finest, or a good way to turn the fans on coworkers machines
+#   databags - Commander data with a handbag
 #
 # Author:
-#   atmos
+#   joe.talbot
 
 threshold = 0.75
 

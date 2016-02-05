@@ -15,7 +15,7 @@
 # Author:
 #   joe.talbot
 
-threshold = 0.75
+threshold = 0.1
 
 module.exports = (robot) ->
   robot.hear /\bdatabag+s?\b/i, (message) ->

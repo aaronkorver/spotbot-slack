@@ -16,7 +16,7 @@
 threshold = 1.0
 
 module.exports = (robot) ->
-  robot.hear /this\s?is\s?fine/i, (message) ->
+  robot.hear /this\s?is\s?fine||probably\s?fine/i, (message) ->
     random = Math.random()
     roomThreshold = robot.thresholdStorage.getThreshold(message, "thisisfine", threshold)
     if random < roomThreshold

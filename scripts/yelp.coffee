@@ -53,6 +53,24 @@ sort = process.env.HUBOT_YELP_SORT or 0
 default_suggestion = process.env.HUBOT_YELP_DEFAULT_SUGGESTION or "Chipotle"
 
 trim_re = /^\s+|\s+$|[\.!\?]+$/g
+cityCenterPattern = /C(ity)?\s?C(enter)?/i
+targetNorthCampusPattern = /\b(T(arget)?\s?N(orth)?\s?C(ampus)?)|BFE\b/i
+targetPlaza3Pattern = /\bT(arget)?\s?P(laza)?\s?(3|Three)\b/i
+targetPlazaCommonsPattern = /\bT(arget)?\s?P(laza)?\s?C(ommons)?\b/i
+targetPlazaNorthPattern = /\bT(arget)?\s?P(laza)?\s?N(orth)?\b/i
+targetPlazaSouthPattern = /\bT(arget)?\s?P(laza)?\s?S(outh)?\b/i
+targetSunnyvalePattern = /\bTarget\sSunnyvale\b/i
+targetSanFranPattern = /\bTarget\sS(an)?\s?F(ran)?/i
+
+cityCenterAddress = "33 S 6th St, Minneapolis, MN 55402"
+targetNorthCampusAddress = "7000 Target Pkwy N, Brooklyn Park, MN 55445"
+targetPlaza3Address = "50 S 10th St, Minneapolis, MN 55403"
+targetPlazaCommonsAddress = "1011 Nicollet Mall, Minneapolis, MN 55403"
+targetPlazaNorthAddress = "1000 Nicollet Mall, Minneapolis, MN 55403"
+targetPlazaSouthAddress = "1070 Nicollet Mall, Minneapolis, MN 55403"
+targetSunnyvalePattern = "100 Mathilda Pl, Sunnyvale, CA 94086"
+targetSanFranAddress = "101 Howard St, San Francisco, CA 94105"
+
 
 # Create the API client
 yelp = require("yelp").createClient consumer_key: consumer_key, consumer_secret: consumer_secret, token: token, token_secret: token_secret
@@ -68,16 +86,26 @@ lunchMe = (msg, query, random = true) ->
   split = query.split(/\snear\s/i)
   query = split[0]
   location = split[1]
-  location = start_address if (typeof location == "undefined" || location == "")
+  switch
+    when location?.match( cityCenterPattern ) then location = cityCenterAddress
+    when location?.match( targetNorthCampusPattern ) then location = targetNorthCampusAddress
+    when location?.match( targetPlaza3Pattern ) then location = targetPlaza3Address
+    when location?.match( targetPlazaCommonsPattern ) then location = targetPlazaCommonsAddress
+    when location?.match( targetPlazaNorthPattern ) then location = targetPlazaNorthAddress
+    when location?.match( targetPlazaSouthPattern ) then location = targetPlazaSouthAddress
+    when location?.match( targetSunnyvalePattern ) then location = targetSunnyvaleAddress
+    when location?.match( targetSanFranPattern ) then location = targetSanFranAddress
+    else location = start_address
+
 
   # Perform the search
   #msg.send("Looking for #{query} around #{location}...")
   yelp.search category_filter: "restaurants", term: query, radius_filter: radius, sort: sort, limit: 20, location: location, (error, data) ->
     if error != null
-      return msg.send "There was an error searching for #{query}. Maybe try #{default_suggestion}?"
+      return msg.send "There was an error searching for #{query} near #{location}. Maybe try #{default_suggestion}?"
 
     if data.total == 0
-      return msg.send "I couldn't find any #{query} for you. Maybe try #{default_suggestion}?"
+      return msg.send "I couldn't find any #{query} for you near #{location}. Maybe try #{default_suggestion}?"
 
     if random
       business = data.businesses[Math.floor(Math.random() * data.businesses.length)]

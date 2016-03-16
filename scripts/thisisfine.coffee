@@ -8,7 +8,7 @@
 #    None
 #
 # Commands:
-#    This is fine - Displays a dog in a burning house.
+#    None
 #
 # Author
 #    Colton Karoses

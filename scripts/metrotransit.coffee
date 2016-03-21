@@ -79,7 +79,7 @@ class TransitAPI
             description: description,
             time: time
           }
-        msg.send prettyPrint(data, longestRoute, longestDescription)
+        msg.send "/code #{prettyPrint(data, longestRoute, longestDescription)}"
 
   search_stop_codes: (route, dirNum, stopName, msg) =>
     msg.http("http://svc.metrotransit.org/NexTrip/Stops/#{route}/#{dirNum}")
@@ -117,7 +117,7 @@ class TransitAPI
         for stop in stops
           spaces = Array((4 - stop.Value.length) + 1).join ' '
           stopText += "#{stop.Value}#{spaces}          #{stop.Text}\n"
-        msg.send stopText
+        msg.send "/code #{stopText}"
 
   list_routes: (msg) =>
     msg.http('http://svc.metrotransit.org/NexTrip/Routes')
@@ -143,7 +143,7 @@ class TransitAPI
           longestRow = rowText.length
       routesText += Array(longestRow + 1).join '-'
       routesText += "\nUse '#{robot.name} what stops are on <route #> going <north/south/east/west>' to determine the stops on this route\n"
-      msg.send routesText
+      msg.send "/code #{routesText}"
 
 TransitAPI = new TransitAPI()
 

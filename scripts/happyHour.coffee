@@ -8,9 +8,8 @@
 #   None
 #
 # Commands:
-#   spotbot happy hour <bar name> - Searches for happy hour for given bar name at http://minneapolis.cities2night.com/happyhours
-#   spotbot happy hour - Searches for a random happy hour at http://minneapolis.cities2night.com/happyhours
-#
+#   hubot happy hour <bar name> - Searches for happy hour for given bar name at http://minneapolis.cities2night.com/happyhours
+#   hubot happy hour - Searches for a random happy hour at http://minneapolis.cities2night.com/happyhours#
 # Author:
 #   mickWhite
 

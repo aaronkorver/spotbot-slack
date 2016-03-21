@@ -100,8 +100,14 @@ sayDetails = (json, msg) ->
   response += "  #{hour.FullName}: #{hour.TimePeriod.Summary}\n" for hour in location.OperatingHours?.Hours
 
   # Capabilities
+  capabilities = location.Capability
+  unless capabilities != null
+      msg.send response
+      return
+  unless typeIsArray capabilities
+    capabilities = [capabilities]
   response += "Capabilities:\n"
-  for capability in location.Capability
+  for capability in capabilities
     response += "  #{capability.CapabilityName}\n"
     if phoneNumber = capability.TelephoneNumber
       if singlePhoneNumber = phoneNumber.PhoneNumber
@@ -124,3 +130,6 @@ module.exports = (robot) ->
     lookupStore msg
   robot.respond /(T.?\d{1,4})/i, (msg) ->
     lookupStore msg
+
+# From CoffeeScript Cookbook https://coffeescript-cookbook.github.io/chapters/arrays/check-type-is-array
+typeIsArray = Array.isArray || ( value ) -> return {}.toString.call( value ) is '[object Array]'

@@ -7,8 +7,8 @@ Object.defineProperty(exports, "__esModule", {
 //   test es2015 compatability
 
 exports.default = function (robot) {
-  robot.hear(/swing/, function (res) {
-    res.send("swung");
+  robot.respond(/do you speak es6\?/, function (res) {
+    res.send("HELL TO THE YES. IMMA BOSS LIKE FULLER");
   });
 };
 

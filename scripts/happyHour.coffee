@@ -8,18 +8,16 @@
 #   None
 #
 # Commands:
-#   hubot happy hour <bar name> - Searches for happy hour for given bar name at http://minneapolis.cities2night.com/happyhours
-#   hubot happy hour - Searches for a random happy hour at http://minneapolis.cities2night.com/happyhours#
+#   hubot happy hour [bar name] - Searches for happy hour in Minneapolis or at bar given.
 # Author:
 #   mickWhite
 
 cheerio = require 'cheerio'
 
 cannedResp = {
-  flintmi: '1/2 off Water! (may contain lead)'
-  stpaul: 'there are only Sad Hours in St.Paul'
-  minneapolis: 'sure, what bar in Minneapolis?'
-  source: 'this tells me all that I know... http://minneapolis.cities2night.com/happyhours'
+  flint: '1/2 off Water! (may contain lead)'
+  stpaul: 'There are only Sad Hours in St.Paul'
+  minneapolis: 'Sure, what bar in Minneapolis?'
 }
 
 module.exports = (robot) ->

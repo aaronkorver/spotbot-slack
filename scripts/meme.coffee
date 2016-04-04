@@ -20,6 +20,7 @@ String::strip = -> if String::trim? then @trim() else @replace /^\s+|\s+$/g, ""
 # Keep this in order, or I will find you
 memeIds = {
     "aliens" :    {"id" : 101470,   "usage" : "Not saying it was aliens / but ALIENS"}
+    "awkward" :   {"id" : 13757816, "usage" : "When the high five / was for the person behind you"}
     "allthings" : {"id" : 61533,    "usage" : "X / all of the Y"}
     "archer" :    {"id" : 10628640, "usage" : "Do you want X / because that's how you get X"}
     "boromir" :   {"id" : 61579,    "usage" : "One does not simply / misuse this meme"}

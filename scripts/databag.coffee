@@ -1,5 +1,3 @@
-
-
 # Description:
 #   Databags are funny
 #

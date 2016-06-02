@@ -27,12 +27,15 @@ memeIds = {
     "brace" :     {"id" : 61546,    "usage" : "Brace yourself / Game of Thrones references are coming"}
     "brian" :     {"id" : 61585,    "usage" : "Uses this meme / dies"}
     "bullseye" :  {"id" : 47353455, "usage" : "Having a bad day? / Me too, I'm a meme now"}
+    "checksout" : {"id" : 51686614, "usage" : "It's an older meme sir / But it checks out"}
+    "disaster" :  {"id" : 97984,    "usage" : "Works fine in X / Y is a disaster"}
     "drkev" :     {"id" : 41050220, "usage" : "Dr. Kev says / X"}
     "fry" :       {"id" : 61520,    "usage" : "Not sure if X / or Y"}
     "hindsight" : {"id" : 101708,   "usage" : "If you didn't want X / why did you directly cause X?"}
     "madmoney"  : {"id" : 1613953,  "usage" : "1613953 is out / invest in madmoney"}
     "marvin" :    {"id" : 21807506, "usage" : "Holding food and wrapper / threw out food, ate wrapper"}
     "morpheus" :  {"id" : 100947,   "usage" : "What if I told you / you can use this alias now?"}
+    "notamoon" :  {"id" : 22646762, "usage" : "That's no moon / its a space station"}
     "paddlin" :   {"id" : 5265532,  "usage" : "Not using this meme? / That's a paddlin'"}
     "picard" :    {"id" : 245898,   "usage" : "Why the heck / are you not using this meme?"}
     "pleaseguy" : {"id" : 9339570,  "usage" : "Please / Do the things"}
@@ -42,6 +45,7 @@ memeIds = {
     "success" :   {"id" : 61544,    "usage" : "Brag about doing something"}
     "toohigh" :   {"id" : 61580,    "usage" : "X / is too damn high"}
     "wonka" :     {"id" : 61582,    "usage" : "Memes are so hard / please tell me all about it"}
+    "yodawg" :    {"id" : 101716,   "usage" : "Yo Dawg I heard you liked X / So I put your X in a Z"}
     "yuno" :      {"id" : 61527,    "usage" : "Y U NO / speak only in memes?"}
     "xx" :        {"id" : 61532,    "usage" : "I don't always X / but when I do, I Y"}
   };

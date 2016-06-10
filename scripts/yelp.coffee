@@ -68,7 +68,7 @@ targetPlaza3Address = "50 S 10th St, Minneapolis, MN 55403"
 targetPlazaCommonsAddress = "1011 Nicollet Mall, Minneapolis, MN 55403"
 targetPlazaNorthAddress = "1000 Nicollet Mall, Minneapolis, MN 55403"
 targetPlazaSouthAddress = "1070 Nicollet Mall, Minneapolis, MN 55403"
-targetSunnyvalePattern = "100 Mathilda Pl, Sunnyvale, CA 94086"
+targetSunnyvaleAddress = "100 Mathilda Pl, Sunnyvale, CA 94086"
 targetSanFranAddress = "101 Howard St, San Francisco, CA 94105"
 
 

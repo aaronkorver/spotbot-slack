@@ -12,7 +12,7 @@
 # Author:
 #   Rod
 #
-helpdesk_msg = "The Minneapolis help desk number is (612)304-4357 or the webform URL is https://target.service-now.com/"
+helpdesk_msg = "The Minneapolis help desk number is (612)304-4357 or the webform URL is https://targetprod.service-now.com/servicenow/home.do"
 
 threshold = 0.35
 

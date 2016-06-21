@@ -28,5 +28,5 @@ spongeGifs = [
 ]
 
 module.exports = (robot) ->
-  robot.hear /spongebob ?me/i, (msg) ->
+  robot.respond /spongebob ?me/i, (msg) ->
     msg.send msg.random spongeGifs

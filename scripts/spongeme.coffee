@@ -14,19 +14,19 @@
 #   Lymari Montijo
 
 spongeGifs = [
-  'http://i.giphy.com/beLG3rdCb9fdS.gif'
-  'http://i.giphy.com/HxOxEt3qQ25YQ.gif'
-  'http://i.giphy.com/LdOyjZ7io5Msw.gif'
-  'http://i.giphy.com/43sMhXiELKzNm.gif'
-  'http://i.giphy.com/TgIvQCIOoc78k.gif'
-  'http://i.giphy.com/X4M6homF66qFq.gif'
-  'http://i.giphy.com/7YeguV6Ia9lfO.gif'
-  'http://i.giphy.com/3E0czvVwdjo2I.gif'
-  'http://i.giphy.com/vaq9VvnAHlsEo.gif'
-  'http://i.giphy.com/QV8RROsO4wjzW.gif'
-  'http://i.giphy.com/HcwAhlzuJQHDO.gif'
+  'https://s3.amazonaws.com/uploads.hipchat.com/171096/4014412/97y7JZ1aP4qNO4Z/3E0czvVwdjo2I.gif'
+  'https://s3.amazonaws.com/uploads.hipchat.com/171096/4014412/TekvJlvh0k5PyNQ/beLG3rdCb9fdS.gif'
+  'https://s3.amazonaws.com/uploads.hipchat.com/171096/4014412/ggL0452zZ0kg06W/HxOxEt3qQ25YQ.gif'
+  'https://s3.amazonaws.com/uploads.hipchat.com/171096/4014412/YukX3oQTPQSjOjQ/LdOyjZ7io5Msw.gif'
+  'https://s3.amazonaws.com/uploads.hipchat.com/171096/4014412/Ub6qSPWOZ0OLAgl/43sMhXiELKzNm.gif' 
+  'https://s3.amazonaws.com/uploads.hipchat.com/171096/4014412/zzT0H2MDEoxkmfn/TgIvQCIOoc78k.gif'
+  'https://s3.amazonaws.com/uploads.hipchat.com/171096/4014412/apX99wsdAsMQAb7/X4M6homF66qFq.gif'
+  'https://s3.amazonaws.com/uploads.hipchat.com/171096/4014412/1lSpjQH6tRSN0TT/QV8RROsO4wjzW.gif'
+  'https://s3.amazonaws.com/uploads.hipchat.com/171096/4014412/tgiXBbFIJNpLO4H/HcwAhlzuJQHDO.gif'
+  'https://s3.amazonaws.com/uploads.hipchat.com/171096/4014412/57l8qm2Yg9Sp6OQ/vaq9VvnAHlsEo.gif'
+
 ]
 
 module.exports = (robot) ->
-  robot.hear /sponge ?me/i, (msg) ->
+  robot.hear /spongebob ?me/i, (msg) ->
     msg.send msg.random spongeGifs

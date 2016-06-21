@@ -115,7 +115,7 @@ module.exports = (robot) ->
                 return
 
               #OUTPUT PROCESSING
-              #name and sprite output (separate message from rest of data)
+              #-------------name output
               if pokeData.name
                 pokeDisplayName = pokeData.name
               else
@@ -124,7 +124,7 @@ module.exports = (robot) ->
               #format display name. Should be Capitalized And Spoken Format
               pokeDisplayName = formatForDisplay(pokeDisplayName)
 
-              #select a random ENGLISH pokedex entry
+              #------------select a random ENGLISH pokedex entry
               pokedexEntries = speciesData.flavor_text_entries
               if pokedexEntries
                 #grab all english pokedex Entries
@@ -139,7 +139,7 @@ module.exports = (robot) ->
               else
                 pokedexEntry = "No Entries Found"
 
-              #grab english genus
+              #-----------grab english genus
               genera = speciesData.genera
               if genera
                 englishGenera = (tempGenus.genus for tempGenus in genera when tempGenus.language.name is 'en')
@@ -147,21 +147,95 @@ module.exports = (robot) ->
               else
                 genus = "???"
 
-              #Sprite prep!
+              #----------Gender Data
+              if speciesData.gender_rate
+                genderRate = speciesData.gender_rate
+                if genderRate < 0
+                  genderRate = -1
+                  genderText = "#{pokeDisplayName} is genderless"
+                else if genderRate = 0
+                  genderText = "Every #{pokeDisplayName} is male"
+                else if genderRate >= 8
+                  genderRate = 1
+                  genderText = "Every #{pokeDisplayName} is female"
+                else
+                  genderRate = speciesData.gender_rate / 8
+                  genderText = "Male: #{(1 - genderRate) * 100}%, Female: #{genderRate * 100}%"
+              else
+                genderRate = -1
+                genderText = "Gender Rate Not Found"
 
+              #--------Sprite prep!
               if pokeData.sprites
                 if pokeData.sprites.front_default
-                  maleSprite = pokeData.sprites.front_default
+                  defSprite = pokeData.sprites.front_default
                 if pokeData.sprites.front_shiny
-                  maleShiny = pokeData.sprites.front_shiny
+                  defShiny = pokeData.sprites.front_shiny
                 if pokeData.sprites.front_female
                   femSprite = pokeData.sprites.front_female
                 if pokeData.sprites.front_shiny_female
                   femShiny = pokeData.sprites.front_shiny_female
-                firstSpriteLine = "#{pokeData.sprites.front_default}"
+                #prepare first lines
+                #shiny and fem random checks for convenience
+                #chance for shiny: 1/8192 - 0.012207031%
+                shinyCheck = Math.random() < 0.00012207031
+                femCheck = Math.random() < genderRate
+
+                #get first sprite
+                if spriteLevel #user specified sprite output
+                  if spriteLevel = 0 #ALL SPRITES
+                    if genderRate = 1 #fem only
+                      firstSpriteLine = "Female: "
+                    else if genderRate < 0 #genderless
+                      firstSpriteLine = "Normal: "
+                    else
+                      firstSpriteLine = "Male: "
+                    #show default sprite first
+                    firstSpriteLine = firstSpriteLine + defSprite
+                  else if spriteLevel = 2 and femSprite #FEMALE SPRIT
+                    if shinyCheck and femShiny
+                      firstSpriteLine = femShiny
+                    else
+                      firstSpriteLine = femSprite
+                  else if spriteLevel = 3 #SHINY SPRITE
+                    if femShiny and femCheck
+                      firstSpriteLine = femShiny
+                    else
+                      firstSpriteLine = defShiny
+                  else #MALE SPRITE
+                    if shinyCheck and defShiny
+                      firstSpriteLine = defShiny
+                    else
+                      firstSpriteLine = defSprite
+
+                else #default behavior: random
+                  if femSprite and femCheck
+                    #show female sprite
+                    if femShiny and shinyCheck
+                      #show shiny female sprite
+                      firstSpriteLine = femShiny
+                    else
+                      firstSpriteLine = femSprite
+                  else
+                    #show male/default sprite
+                    if defShiny and shinyCheck
+                      #show shiny male/default sprite
+                      firstSpriteLine = defShiny
+                    else if defSprite
+                      firstSpriteLine = defSprite
+                    else
+                      firstSpriteLine = "Sprites Not Found"
+              else
+                firstSpriteLine = "Sprites Not Found"
+
+              #-------------Typing
+              pokeType = ""
+              if pokeData.types
+                typeArray = pokeData.types.sort (a,b) ->
+                  return if a.slot >= b.slot then 1 else -1
+                pokeType = (" " + formatForDisplay(typeHolder.type.name) for typeHolder in typeArray)
 
 
-              #detail resources
 
 
 
@@ -175,8 +249,13 @@ module.exports = (robot) ->
               # show shiny sprites if extreme detail or shiny
               # show shiny fem sprite if exists
               #BUILD BODY MESSAGE THEN SEND
-              bodyMessage = "Today's Pokedex Entry:\n#{pokedexEntry}\n"
-
+              bodyMessage = "Today's Pokedex Entry:\n#{pokedexEntry}\n\n"
+              bodyMessage += "Type:#{pokeType}\n"
+              #DETAIL ONLY
+              bodyMessage += "Gender Rate: #{genderText}\n"
+              #EVOLUTION CHAIN
+              
+              #EXTREME DETAIL ONLY
               msg.send bodyMessage
 
             else #HTTP REQUEST ERROR CATCHING (speciesData)

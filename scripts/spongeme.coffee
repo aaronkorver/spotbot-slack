@@ -8,7 +8,7 @@
 #   None
 #
 # Commands:
-#   sponge me - Displays a random spongebob gif
+#   <spotbot spongebob me> - Displays a random spongebob gif
 #
 # Author:
 #   Lymari Montijo

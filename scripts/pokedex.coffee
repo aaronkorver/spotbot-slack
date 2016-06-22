@@ -14,6 +14,9 @@
 #   David Boullion
 #
 
+## If you are going to add to or modify the functionality of this script,
+## the api documentation is at this url: https://pokeapi.co/docsv2/
+
 # FUNCTIONS
 #
 formatForDisplay = (nameString) ->
@@ -79,7 +82,6 @@ module.exports = (robot) ->
     # cannot be optional since everything past it must be in the callback,
     # if we want it to happen sequentially (we want it to happen sequentially).
     msg.http("http://pokeapi.co/api/v2/pokemon/\?limit=9000").request() (errRand, resRand, bodyRand) ->
-
       #check for random
       if nameOrNumber in ['random','rand','r']
         if resRand and resRand.statusCode is 200
@@ -114,7 +116,8 @@ module.exports = (robot) ->
                 msg.send "No results in the pokedex for #{nameOrNumber}"
                 return
 
-              #OUTPUT PROCESSING
+              # OUTPUT PROCESSING
+              ## BASIC DATA (always used)
               #-------------name output
               if pokeData.name
                 pokeDisplayName = pokeData.name
@@ -123,21 +126,6 @@ module.exports = (robot) ->
 
               #format display name. Should be Capitalized And Spoken Format
               pokeDisplayName = formatForDisplay(pokeDisplayName)
-
-              #------------select a random ENGLISH pokedex entry
-              pokedexEntries = speciesData.flavor_text_entries
-              if pokedexEntries
-                #grab all english pokedex Entries
-                englishEntries = (tempEntry.flavor_text for tempEntry in pokedexEntries when tempEntry.language.name is 'en')
-                if englishEntries and englishEntries.length > 0
-                  #random select from english Entries
-                  pokedexEntry = msg.random englishEntries
-                  pokedexEntry = pokedexEntry.replace /\s+/g, (match) ->
-                    " "
-                else
-                  pokedexEntry = "No Entries Found"
-              else
-                pokedexEntry = "No Entries Found"
 
               #-----------grab english genus
               genera = speciesData.genera
@@ -182,6 +170,7 @@ module.exports = (robot) ->
                 femCheck = Math.random() < genderRate
 
                 #get first sprite
+                spriteLevel = 0 #!!DEBUG!!
                 if spriteLevel #user specified sprite output
                   if spriteLevel = 0 #ALL SPRITES
                     if genderRate = 1 #fem only
@@ -228,34 +217,122 @@ module.exports = (robot) ->
               else
                 firstSpriteLine = "Sprites Not Found"
 
-              #-------------Typing
-              pokeType = ""
-              if pokeData.types
-                typeArray = pokeData.types.sort (a,b) ->
-                  return if a.slot >= b.slot then 1 else -1
-                pokeType = (" " + formatForDisplay(typeHolder.type.name) for typeHolder in typeArray)
 
+              #------------select a random ENGLISH pokedex entry #Always used or no?
+              pokedexEntries = speciesData.flavor_text_entries
+              if pokedexEntries
+                #grab all english pokedex Entries
+                englishEntries = (tempEntry.flavor_text for tempEntry in pokedexEntries when tempEntry.language.name is 'en')
+                if englishEntries and englishEntries.length > 0
+                  #random select from english Entries
+                  pokedexEntry = msg.random englishEntries
+                  pokedexEntry = pokedexEntry.replace /\s+/g, (match) ->
+                    " "
+                else
+                  pokedexEntry = "No Entries Found"
+              else
+                pokedexEntry = "No Entries Found"
 
+              detailLevel = 2 #DEBUG
 
+              ##NON-BASIC DATA
+              #-------------Evolution chain OR pre-evolution
+              ###
+              # unfortunately, because asynch can be tricky here...
+              # I won't implement evolution chain for now; it'll require
+              # another http request, making the response time even longer,
+              # and another level of indentation, which makes coding more annoying.
+              # The callback spaghetti is real.
+              # (if anyone knows how I could make these requests reliably parallel
+              # and nice to read, please let me know how or change it)
+              # Evo chain
+               if evoChain = true or detail and detail >= 2
+                # get evolution tree and print it
+                evoData = "\nEvolution Tree:"
+                # evolution chain data is in a nested format in the json at the url:
+                #   speciesData.evolution_chain.url
+              ###
+              # Pre-Evo
+              #else if detail and detail >= 1 #if evolution chain was a thing,
+              if detailLevel and detailLevel >= 1 #this would be mutually exclusive with evo chain
+                # Just get pokemon that evolves into this pokemon, if any.
+                if speciesData.evolves_from_species
+                  evoData = "\n#{pokeDisplayName} evolves from" +
+                  " #{formatForDisplay(speciesData.evolves_from_species.name)}"
+                else
+                  evoData = "\n#{pokeDisplayName} does not evolve from another pokemon."
 
+              ## DETAIL ONLY
+              if detailLevel
+                # NORMAL DETAIL (detailLevel >= 1)
+                if detailLevel >= 1
+                  #-------------Typing
+                  pokeType = ""
+                  if pokeData.types
+                    typeArray = pokeData.types.sort (a,b) ->
+                      return if a.slot >= b.slot then 1 else -1
+                    pokeType = (" " + formatForDisplay(typeHolder.type.name) for typeHolder in typeArray)
 
+                  #-------------Dimensions
+                  #height
+                  pokeHeight = pokeData.height / 10
+                  #weight
+                  pokeWeight = pokeData.weight / 10
 
+                  #-------------Forms...?
+                # HIGH DETAIL (detailLevel >= 2)
+                if detailLevel >= 2
+                  #-------------???
+                  detail = 2 #so the interpreter will shut up about POST_IF for now
 
               # PRINT OUTPUT
               # Send Header Message(s) (basic data + sprite(s)
               msg.send "\##{speciesData.id}: #{pokeDisplayName}, the #{genus} Pokemon.\n" +
               firstSpriteLine
-              # show female sprite if has fem sprite and detail
-              # show shiny sprites if extreme detail or shiny
-              # show shiny fem sprite if exists
+              # if all sprites
+              if spriteLevel and spriteLevel = 0
+                # show female sprite if exists and can be fem or male
+                if femSprite and genderRate isnt 1 and genderRate > 0
+                  msg.send "Female: " + femSprite
+                # show shiny sprites if extreme detail or shiny
+                if defShiny
+                  if genderRate = 1 #fem only
+                    defShinyText = "Shiny Female: "
+                  else if genderRate < 0 #genderless
+                    defShinyText = "Shiny: "
+                  else
+                    defShinyText = "Shiny Male: "
+                  msg.send defShinyText + defShiny
+                # show shiny fem sprite if exists and can be fem or male
+                if femShiny and genderRate isnt 1 and genderRate > 0
+                  msg.send "Shiny Female: " + femShiny
+
               #BUILD BODY MESSAGE THEN SEND
-              bodyMessage = "Today's Pokedex Entry:\n#{pokedexEntry}\n\n"
-              bodyMessage += "Type:#{pokeType}\n"
+              bodyMessage = "Today's Pokedex Entry:\n#{pokedexEntry}\n"
+
+              #EVOLUTION CHAIN OR PRE EVOLUTION
+              if evoData
+                bodyMessage += evoData
+
+              #OTHER DATA
+              bodyMessage += "\nType:#{pokeType}"
+
               #DETAIL ONLY
-              bodyMessage += "Gender Rate: #{genderText}\n"
-              #EVOLUTION CHAIN
-              
-              #EXTREME DETAIL ONLY
+              if detailLevel
+                if detailLevel >= 1
+                  #dimensions
+                  bodyMessage += "\nHeight: #{pokeHeight} m"
+                  bodyMessage += "\nWeight: #{pokeWeight} kg"
+                  #gender
+                  bodyMessage += "\nGender Rate: #{genderText}"
+                #EXTREME DETAIL ONLY
+                if detailLevel >= 2
+                  #forms
+                  detailLevel = 2 #shut up about POST_IF plz
+
+
+
+              #!Send body message!
               msg.send bodyMessage
 
             else #HTTP REQUEST ERROR CATCHING (speciesData)

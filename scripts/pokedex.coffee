@@ -5,9 +5,10 @@
 #   none
 #
 # Commands:
-#   hubot pokedex <pokemon name/#> - Searches pokeapi for the pokemon in question and returns basic information
-#   hubot pokedex <pokemon name/#> =<option> - specifies options for query result
-#   hubot pokedex =options - hubot returns a list of usable options
+#   hubot pokedex <pokemon name|#> - gets pokedex information for the pokemon
+#   hubot pokedex <pokemon name|#> =<option> - specifies options for query result
+#   hubot pokedex random =<option> - find a random pokemon
+#   hubot pokedex =options - Returns a list of options usable with pokedex
 #
 #
 # Author:
@@ -48,6 +49,7 @@ addHelpText = (commands, commandDescription) ->
 
 # END OF FUNCTIONS
 #
+
 #
 # ROBOT COMMANDS
 
@@ -105,245 +107,249 @@ module.exports = (robot) ->
 
       # execute query, get JSON data
       msg.http("http://pokeapi.co/api/v2/pokemon/#{nameOrNumber}/").request() (err, res, body) ->
-        if body and res and res.statusCode is 200
-          pokeData = JSON.parse(body)
-          msg.http(pokeData.species.url).request() (errSpec, resSpec, bodySpec) ->
-            if bodySpec and resSpec and resSpec.statusCode is 200
-              speciesData = JSON.parse(bodySpec)
-
-              #NULL CHECKING
-              unless pokeData? and speciesData?
-                msg.send "No results in the pokedex for #{nameOrNumber}"
-                return
-
-              # OUTPUT PROCESSING
-              ## BASIC DATA (always used)
-              #-------------name output
-              if pokeData.name
-                pokeDisplayName = pokeData.name
-              else
-                pokeDisplayName = nameOrNumber
-
-              #format display name. Should be Capitalized And Spoken Format
-              pokeDisplayName = formatForDisplay(pokeDisplayName)
-
-              #-----------grab english genus
-              genera = speciesData.genera
-              if genera
-                englishGenera = (tempGenus.genus for tempGenus in genera when tempGenus.language.name is 'en')
-                genus = msg.random englishGenera #just in case there's more than one?
-              else
-                genus = "???"
-
-              #----------Gender Data
-              if speciesData.gender_rate
-                genderRate = speciesData.gender_rate
-                if genderRate < 0
-                  genderRate = -1
-                  genderText = "#{pokeDisplayName} is genderless"
-                else if genderRate = 0
-                  genderText = "Every #{pokeDisplayName} is male"
-                else if genderRate >= 8
-                  genderRate = 1
-                  genderText = "Every #{pokeDisplayName} is female"
-                else
-                  genderRate = speciesData.gender_rate / 8
-                  genderText = "Male: #{(1 - genderRate) * 100}%, Female: #{genderRate * 100}%"
-              else
-                genderRate = -1
-                genderText = "Gender Rate Not Found"
-
-              #--------Sprite prep!
-              if pokeData.sprites
-                if pokeData.sprites.front_default
-                  defSprite = pokeData.sprites.front_default
-                if pokeData.sprites.front_shiny
-                  defShiny = pokeData.sprites.front_shiny
-                if pokeData.sprites.front_female
-                  femSprite = pokeData.sprites.front_female
-                if pokeData.sprites.front_shiny_female
-                  femShiny = pokeData.sprites.front_shiny_female
-                #prepare first lines
-                #shiny and fem random checks for convenience
-                #chance for shiny: 1/8192 - 0.012207031%
-                shinyCheck = Math.random() < 0.00012207031
-                femCheck = Math.random() < genderRate
-
-                #get first sprite
-                spriteLevel = 0 #!!DEBUG!!
-                if spriteLevel #user specified sprite output
-                  if spriteLevel = 0 #ALL SPRITES
-                    if genderRate = 1 #fem only
-                      firstSpriteLine = "Female: "
-                    else if genderRate < 0 #genderless
-                      firstSpriteLine = "Normal: "
-                    else
-                      firstSpriteLine = "Male: "
-                    #show default sprite first
-                    firstSpriteLine = firstSpriteLine + defSprite
-                  else if spriteLevel = 2 and femSprite #FEMALE SPRIT
-                    if shinyCheck and femShiny
-                      firstSpriteLine = femShiny
-                    else
-                      firstSpriteLine = femSprite
-                  else if spriteLevel = 3 #SHINY SPRITE
-                    if femShiny and femCheck
-                      firstSpriteLine = femShiny
-                    else
-                      firstSpriteLine = defShiny
-                  else #MALE SPRITE
-                    if shinyCheck and defShiny
-                      firstSpriteLine = defShiny
-                    else
-                      firstSpriteLine = defSprite
-
-                else #default behavior: random
-                  if femSprite and femCheck
-                    #show female sprite
-                    if femShiny and shinyCheck
-                      #show shiny female sprite
-                      firstSpriteLine = femShiny
-                    else
-                      firstSpriteLine = femSprite
-                  else
-                    #show male/default sprite
-                    if defShiny and shinyCheck
-                      #show shiny male/default sprite
-                      firstSpriteLine = defShiny
-                    else if defSprite
-                      firstSpriteLine = defSprite
-                    else
-                      firstSpriteLine = "Sprites Not Found"
-              else
-                firstSpriteLine = "Sprites Not Found"
-
-
-              #------------select a random ENGLISH pokedex entry #Always used or no?
-              pokedexEntries = speciesData.flavor_text_entries
-              if pokedexEntries
-                #grab all english pokedex Entries
-                englishEntries = (tempEntry.flavor_text for tempEntry in pokedexEntries when tempEntry.language.name is 'en')
-                if englishEntries and englishEntries.length > 0
-                  #random select from english Entries
-                  pokedexEntry = msg.random englishEntries
-                  pokedexEntry = pokedexEntry.replace /\s+/g, (match) ->
-                    " "
-                else
-                  pokedexEntry = "No Entries Found"
-              else
-                pokedexEntry = "No Entries Found"
-
-              detailLevel = 2 #DEBUG
-
-              ##NON-BASIC DATA
-              #-------------Evolution chain OR pre-evolution
-              ###
-              # unfortunately, because asynch can be tricky here...
-              # I won't implement evolution chain for now; it'll require
-              # another http request, making the response time even longer,
-              # and another level of indentation, which makes coding more annoying.
-              # The callback spaghetti is real.
-              # (if anyone knows how I could make these requests reliably parallel
-              # and nice to read, please let me know how or change it)
-              # Evo chain
-               if evoChain = true or detail and detail >= 2
-                # get evolution tree and print it
-                evoData = "\nEvolution Tree:"
-                # evolution chain data is in a nested format in the json at the url:
-                #   speciesData.evolution_chain.url
-              ###
-              # Pre-Evo
-              #else if detail and detail >= 1 #if evolution chain was a thing,
-              if detailLevel and detailLevel >= 1 #this would be mutually exclusive with evo chain
-                # Just get pokemon that evolves into this pokemon, if any.
-                if speciesData.evolves_from_species
-                  evoData = "\n#{pokeDisplayName} evolves from" +
-                  " #{formatForDisplay(speciesData.evolves_from_species.name)}"
-                else
-                  evoData = "\n#{pokeDisplayName} does not evolve from another pokemon."
-
-              ## DETAIL ONLY
-              if detailLevel
-                # NORMAL DETAIL (detailLevel >= 1)
-                if detailLevel >= 1
-                  #-------------Typing
-                  pokeType = ""
-                  if pokeData.types
-                    typeArray = pokeData.types.sort (a,b) ->
-                      return if a.slot >= b.slot then 1 else -1
-                    pokeType = (" " + formatForDisplay(typeHolder.type.name) for typeHolder in typeArray)
-
-                  #-------------Dimensions
-                  #height
-                  pokeHeight = pokeData.height / 10
-                  #weight
-                  pokeWeight = pokeData.weight / 10
-
-                  #-------------Forms...?
-                # HIGH DETAIL (detailLevel >= 2)
-                if detailLevel >= 2
-                  #-------------???
-                  detail = 2 #so the interpreter will shut up about POST_IF for now
-
-              # PRINT OUTPUT
-              # Send Header Message(s) (basic data + sprite(s)
-              msg.send "\##{speciesData.id}: #{pokeDisplayName}, the #{genus} Pokemon.\n" +
-              firstSpriteLine
-              # if all sprites
-              if spriteLevel and spriteLevel = 0
-                # show female sprite if exists and can be fem or male
-                if femSprite and genderRate isnt 1 and genderRate > 0
-                  msg.send "Female: " + femSprite
-                # show shiny sprites if extreme detail or shiny
-                if defShiny
-                  if genderRate = 1 #fem only
-                    defShinyText = "Shiny Female: "
-                  else if genderRate < 0 #genderless
-                    defShinyText = "Shiny: "
-                  else
-                    defShinyText = "Shiny Male: "
-                  msg.send defShinyText + defShiny
-                # show shiny fem sprite if exists and can be fem or male
-                if femShiny and genderRate isnt 1 and genderRate > 0
-                  msg.send "Shiny Female: " + femShiny
-
-              #BUILD BODY MESSAGE THEN SEND
-              bodyMessage = "Today's Pokedex Entry:\n#{pokedexEntry}\n"
-
-              #EVOLUTION CHAIN OR PRE EVOLUTION
-              if evoData
-                bodyMessage += evoData
-
-              #OTHER DATA
-              bodyMessage += "\nType:#{pokeType}"
-
-              #DETAIL ONLY
-              if detailLevel
-                if detailLevel >= 1
-                  #dimensions
-                  bodyMessage += "\nHeight: #{pokeHeight} m"
-                  bodyMessage += "\nWeight: #{pokeWeight} kg"
-                  #gender
-                  bodyMessage += "\nGender Rate: #{genderText}"
-                #EXTREME DETAIL ONLY
-                if detailLevel >= 2
-                  #forms
-                  detailLevel = 2 #shut up about POST_IF plz
-
-
-
-              #!Send body message!
-              msg.send bodyMessage
-
-            else #HTTP REQUEST ERROR CATCHING (speciesData)
-              if resSpec
-                errorCode = resSpec.statusCode
+        if not body or not res or res.statusCode isnt 200
+          ##HTTP REQUEST ERROR CATCHING (pokeData)
+              if res
+                errorCode = res.statusCode
               else
                 errorCode = '(No Response)'
-              msg.send "Cannot find pokedex!\n#{errSpec}, Code: #{errorCode}"
-        else ##HTTP REQUEST ERROR CATCHING (pokeData)
-          if res
-            errorCode = res.statusCode
+              msg.send "Cannot find pokedex!\n#{err}, Code: #{errorCode}"
+              return
+        #otherwise, next query
+        pokeData = JSON.parse(body)
+        msg.http(pokeData.species.url).request() (errSpec, resSpec, bodySpec) ->
+          if not bodySpec or not resSpec or resSpec.statusCode isnt 200
+            #HTTP REQUEST ERROR CATCHING (speciesData)
+            if resSpec
+              errorCode = resSpec.statusCode
+            else
+              errorCode = '(No Response)'
+            msg.send "Cannot find pokedex!\n#{errSpec}, Code: #{errorCode}"
+            return
+
+          #no http errors, move onwards.
+          speciesData = JSON.parse(bodySpec)
+
+          #NULL CHECKING
+          unless pokeData? and speciesData?
+            msg.send "No results in the pokedex for #{nameOrNumber}"
+            return
+
+          # OUTPUT PROCESSING
+          ## BASIC DATA (always used)
+          #-------------name output
+          if pokeData.name
+            pokeDisplayName = pokeData.name
           else
-            errorCode = '(No Response)'
-          msg.send "Cannot find pokedex!\n#{err}, Code: #{errorCode}"
+            pokeDisplayName = nameOrNumber
+
+          #format display name. Should be Capitalized And Spoken Format
+          pokeDisplayName = formatForDisplay(pokeDisplayName)
+
+          #-----------grab english genus
+          genera = speciesData.genera
+          if genera
+            englishGenera = (tempGenus.genus for tempGenus in genera when tempGenus.language.name is 'en')
+            genus = msg.random englishGenera #just in case there's more than one?
+          else
+            genus = "???"
+
+          #----------Gender Data
+          if speciesData.gender_rate
+            genderRate = speciesData.gender_rate
+            if genderRate < 0
+              genderRate = -1
+              genderText = "#{pokeDisplayName} is genderless"
+            else if genderRate = 0
+              genderText = "Every #{pokeDisplayName} is male"
+            else if genderRate >= 8
+              genderRate = 1
+              genderText = "Every #{pokeDisplayName} is female"
+            else
+              genderRate = speciesData.gender_rate / 8
+              genderText = "Male: #{(1 - genderRate) * 100}%, Female: #{genderRate * 100}%"
+          else
+            genderRate = -1
+            genderText = "Gender Rate Not Found"
+
+          #--------Sprite prep!
+          if pokeData.sprites
+            if pokeData.sprites.front_default
+              defSprite = pokeData.sprites.front_default
+            if pokeData.sprites.front_shiny
+              defShiny = pokeData.sprites.front_shiny
+            if pokeData.sprites.front_female
+              femSprite = pokeData.sprites.front_female
+            if pokeData.sprites.front_shiny_female
+              femShiny = pokeData.sprites.front_shiny_female
+            #prepare first lines
+            #shiny and fem random checks for convenience
+            #chance for shiny: 1/8192 - 0.012207031%
+            shinyCheck = Math.random() < 0.00012207031
+            femCheck = Math.random() < genderRate
+
+            #get first sprite
+            spriteLevel = 0 #!!DEBUG!!
+            if spriteLevel #user specified sprite output
+              if spriteLevel = 0 #ALL SPRITES
+                if genderRate = 1 #fem only
+                  firstSpriteLine = "Female: "
+                else if genderRate < 0 #genderless
+                  firstSpriteLine = "Normal: "
+                else
+                  firstSpriteLine = "Male: "
+                #show default sprite first
+                firstSpriteLine = firstSpriteLine + defSprite
+              else if spriteLevel = 2 and femSprite #FEMALE SPRIT
+                if shinyCheck and femShiny
+                  firstSpriteLine = femShiny
+                else
+                  firstSpriteLine = femSprite
+              else if spriteLevel = 3 #SHINY SPRITE
+                if femShiny and femCheck
+                  firstSpriteLine = femShiny
+                else
+                  firstSpriteLine = defShiny
+              else #MALE SPRITE
+                if shinyCheck and defShiny
+                  firstSpriteLine = defShiny
+                else
+                  firstSpriteLine = defSprite
+
+            else #default behavior: random
+              if femSprite and femCheck
+                #show female sprite
+                if femShiny and shinyCheck
+                  #show shiny female sprite
+                  firstSpriteLine = femShiny
+                else
+                  firstSpriteLine = femSprite
+              else
+                #show male/default sprite
+                if defShiny and shinyCheck
+                  #show shiny male/default sprite
+                  firstSpriteLine = defShiny
+                else if defSprite
+                  firstSpriteLine = defSprite
+                else
+                  firstSpriteLine = "Sprites Not Found"
+          else
+            firstSpriteLine = "Sprites Not Found"
+
+
+          #------------select a random ENGLISH pokedex entry #Always used or no?
+          pokedexEntries = speciesData.flavor_text_entries
+          if pokedexEntries
+            #grab all english pokedex Entries
+            englishEntries = (tempEntry.flavor_text for tempEntry in pokedexEntries when tempEntry.language.name is 'en')
+            if englishEntries and englishEntries.length > 0
+              #random select from english Entries
+              pokedexEntry = msg.random englishEntries
+              pokedexEntry = pokedexEntry.replace /\s+/g, (match) ->
+                " "
+            else
+              pokedexEntry = "No Entries Found"
+          else
+            pokedexEntry = "No Entries Found"
+
+          detailLevel = 2 #DEBUG
+
+          ##NON-BASIC DATA
+          #-------------Evolution chain OR pre-evolution
+          ###
+          # unfortunately, because asynch can be tricky here...
+          # I won't implement evolution chain for now; it'll require
+          # another asynch http request, making the response time even longer,
+          # and another level of indentation, which makes formatting my
+          # code correctly more annoying.
+          # (if anyone knows how I could make these asynch requests reliably
+          # parallel and nice to read, please let me know how or change it)
+          # Evo chain
+           if evoChain = true or detail and detail >= 2
+            # get evolution tree and print it
+            evoData = "\nEvolution Tree:"
+            # evolution chain data is in a nested format in the json at the url:
+            #   speciesData.evolution_chain.url
+          ###
+          # Pre-Evo
+          #else if detail and detail >= 1 #if evolution chain was a thing, this would
+          if detailLevel and detailLevel >= 1 # be mutually exclusive with evo chain
+            # Just get pokemon that evolves into this pokemon, if any.
+            if speciesData.evolves_from_species
+              evoData = "\n#{pokeDisplayName} evolves from" +
+              " #{formatForDisplay(speciesData.evolves_from_species.name)}"
+            else
+              evoData = "\n#{pokeDisplayName} does not evolve from another pokemon."
+
+          ## DETAIL ONLY
+          if detailLevel
+            # NORMAL DETAIL (detailLevel >= 1)
+            if detailLevel >= 1
+              #-------------Typing
+              pokeType = ""
+              if pokeData.types
+                typeArray = pokeData.types.sort (a,b) ->
+                  return if a.slot >= b.slot then 1 else -1
+                pokeType = (" " + formatForDisplay(typeHolder.type.name) for typeHolder in typeArray)
+
+              #-------------Dimensions
+              #height
+              pokeHeight = pokeData.height / 10
+              #weight
+              pokeWeight = pokeData.weight / 10
+
+              #-------------Forms...?
+            # HIGH DETAIL (detailLevel >= 2)
+            if detailLevel >= 2
+              #-------------???
+              detail = 2 #so the interpreter will shut up about POST_IF for now
+
+          # PRINT OUTPUT
+          # Send Header Message(s) (basic data + sprite(s)
+          msg.send "\##{speciesData.id}: #{pokeDisplayName}, the #{genus} Pokemon.\n" +
+          firstSpriteLine
+          # if all sprites
+          if spriteLevel and spriteLevel = 0
+            # show female sprite if exists and can be fem or male
+            if femSprite and genderRate isnt 1 and genderRate > 0
+              msg.send "Female: " + femSprite
+            # show shiny sprites if extreme detail or shiny
+            if defShiny
+              if genderRate = 1 #fem only
+                defShinyText = "Shiny Female: "
+              else if genderRate < 0 #genderless
+                defShinyText = "Shiny: "
+              else
+                defShinyText = "Shiny Male: "
+              msg.send defShinyText + defShiny
+            # show shiny fem sprite if exists and can be fem or male
+            if femShiny and genderRate isnt 1 and genderRate > 0
+              msg.send "Shiny Female: " + femShiny
+
+          #BUILD BODY MESSAGE THEN SEND
+          bodyMessage = "Today's Pokedex Entry:\n#{pokedexEntry}\n"
+
+          #EVOLUTION CHAIN OR PRE EVOLUTION
+          if evoData
+            bodyMessage += evoData
+
+          #OTHER DATA
+          bodyMessage += "\nType:#{pokeType}"
+
+          #DETAIL ONLY
+          if detailLevel
+            if detailLevel >= 1
+              #dimensions
+              bodyMessage += "\nHeight: #{pokeHeight} m"
+              bodyMessage += "\nWeight: #{pokeWeight} kg"
+              #gender
+              bodyMessage += "\nGender Rate: #{genderText}"
+            #EXTREME DETAIL ONLY
+            if detailLevel >= 2
+              #forms
+              detailLevel = 2 #shut up about POST_IF plz
+
+
+
+          #!Send body message!
+          msg.send bodyMessage

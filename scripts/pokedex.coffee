@@ -20,7 +20,16 @@
 
 # FUNCTIONS
 #
-formatForDisplay = (nameString) ->
+capitalizeWord = (inputString) ->
+  if not inputString
+    return
+  returnString = inputString.replace /(\w)(\w*)/g, (match, firstLetter, restOfWord) ->
+    "#{firstLetter.toUpperCase()}#{restOfWord.toLowerCase()}"
+  return returnString
+
+formatNameForDisplay = (nameString) ->
+  if not nameString
+    return
   #converts 'string' to 'String', and 'word-three(-string)' to 'Three Word String'
   nonDisplayPattern = /(\w+)-(\w+)-?(\w+|)/i
   returnString = nameString
@@ -34,8 +43,21 @@ formatForDisplay = (nameString) ->
       returnString = "#{tempMegaType} #{tempTempName}"
 
   #Capitalize
-  returnString = returnString.replace /(\w)(\w*)/g, (match, firstLetter, restOfWord) ->
-    "#{firstLetter.toUpperCase()}#{restOfWord.toLowerCase()}"
+  returnString = capitalizeWord(returnString)
+
+  return returnString
+
+#
+
+formatTextForDisplay = (inputString) ->
+  if not inputString
+    return
+  #capitalizes and replaces - with space
+  #replace - with ' '
+  returnString = inputString.replace /-/g, (match) ->
+    " "
+  #Capitalize
+  returnString = capitalizeWord(returnString)
 
   return returnString
 
@@ -59,24 +81,39 @@ module.exports = (robot) ->
     #build string and return!
     helpString = "Pokedex option settings:\n" +
     "one option may currently be specified by using a '=' character and then typing the option(s) after the pokemon name."
-    helpString = helpString + addHelpText(["detail","d","extreme detail","ed"],
-    "specifies general levels of detail to show in query result (default is basic)")
+    helpString = helpString + addHelpText(["detail","d"],
+    "enable to return more data in query response")
     helpString = helpString + addHelpText(["all sprites","as","shiny","s","male","m","female","fem","f","no sprites","ns"],
     "specifies the sprite(s) to show in basic query results")
     msg.send helpString
 
   #Pokemon Query
   robot.respond /pokedex (\w+[ -]\w+[ -]\w+|\w+[ -]\w+|\w+) ?=?(\w+|)/i, (msg) ->
+    #default query settings
+    detailLevel = 0 #lower detail
+    spriteLevel = 1 #random sprite
     # read query option(s), if they exist.
     optionWords = msg.match[2]
-    detailLevel = 0 #!!DEBUG!!
-    spriteLevel = 0 #!!DEBUG!!
     if optionWords isnt ""
       #read options and set variables
       msg.send "here be options"
-    else
-      #default query settings
-      msg.send "lol no options"
+      #detail level
+      if optionWords in ["detail","d"]#higher detail
+        detailLevel = 1
+        
+      #sprites shown
+      if optionWords in ["no sprites","ns"]# no sprites
+        spriteLevel = 0
+      else if optionWords in ["male","m"]# a male sprite
+        spriteLevel = 2
+      else if optionWords in ["female","fem","f"]# a fem sprite
+        spriteLevel = 3
+      else if optionWords in ["shiny","s"]# a shiny sprite
+        spriteLevel = 4
+      else if optionWords in ["all sprites","as"]# all sprites
+        spriteLevel = 5
+
+
 
     # QUERY ERROR CHECKING
     # prepare query variable(s)
@@ -148,7 +185,7 @@ module.exports = (robot) ->
             pokeDisplayName = nameOrNumber
 
           #format display name. Should be Capitalized And Spoken Format
-          pokeDisplayName = formatForDisplay(pokeDisplayName)
+          pokeDisplayName = formatNameForDisplay(pokeDisplayName)
 
           #-----------grab english genus
           genera = speciesData.genera
@@ -177,7 +214,8 @@ module.exports = (robot) ->
             genderText = "Gender Rate Not Found"
 
           #--------Sprite prep!
-          if pokeData.sprites
+          #if spriteLevel is 0, no sprites.
+          if pokeData.sprites and spriteLevel
             if pokeData.sprites.front_default
               defSprite = pokeData.sprites.front_default
             if pokeData.sprites.front_shiny
@@ -193,8 +231,8 @@ module.exports = (robot) ->
             femCheck = Math.random() < genderRate
 
             #get first sprite
-            if spriteLevel #user specified sprite output
-              if spriteLevel is 1 #ALL SPRITES
+            if spriteLevel isnt 1 #user specified sprite output
+              if spriteLevel is 5 #ALL SPRITES
                 if genderRate is 1 #fem only
                   firstSpriteLine = "Female: "
                 else if genderRate isnt 0 #genderless or only def
@@ -213,7 +251,7 @@ module.exports = (robot) ->
                   firstSpriteLine = femShiny
                 else
                   firstSpriteLine = defShiny
-              else #MALE SPRITE
+              else #MALE SPRITE; 'assigned' to spriteLevel = 2
                 if shinyCheck and defShiny
                   firstSpriteLine = defShiny
                 else
@@ -237,7 +275,7 @@ module.exports = (robot) ->
                 else
                   firstSpriteLine = "Sprites Not Found"
           else
-            firstSpriteLine = "Sprites Not Found"
+            firstSpriteLine = ""
 
 
           #------------select a random ENGLISH pokedex entry #Always used or no?
@@ -280,7 +318,7 @@ module.exports = (robot) ->
           # Just get pokemon that evolves into this pokemon, if any.
           if speciesData.evolves_from_species
             evoData = "\n#{pokeDisplayName} evolves from" +
-            " #{formatForDisplay(speciesData.evolves_from_species.name)}"
+            " #{formatNameForDisplay(speciesData.evolves_from_species.name)}"
           else
             evoData = "\n#{pokeDisplayName} does not evolve from another pokemon."
 
@@ -289,7 +327,24 @@ module.exports = (robot) ->
           if pokeData.types
             typeArray = pokeData.types.sort (a,b) ->
               return if a.slot >= b.slot then 1 else -1
-            pokeType = (" " + formatForDisplay(typeHolder.type.name) for typeHolder in typeArray)
+            pokeType = (" " + formatTextForDisplay(typeHolder.type.name) for typeHolder in typeArray)
+
+          #-------------Abilities
+          abilityText = ""
+          if pokeData.abilities
+            abilityArray = pokeData.abilities.sort (a,b) ->
+              return if a.slot >= b.slot then 1 else -1
+            abilities = (" " + formatTextForDisplay(ability.ability.name) for ability in abilityArray when ability.is_hidden is false)
+            hiddenAbilities = (" " + formatTextForDisplay(ability.ability.name) for ability in abilityArray when ability.is_hidden is true)
+            if abilities.length > 1
+              abilityText = "\nAbilities:#{abilities}"
+            else
+              abilityText = "\nAbility:#{abilities}"
+            if hiddenAbilities and hiddenAbilities.length > 0
+              if hiddenAbilities.length > 1
+                abilityText += "\n Hidden Abilities:#{hiddenAbilities}"
+              else
+                abilityText += "\n Hidden Ability:#{hiddenAbilities}"
 
 
           ## DETAIL ONLY
@@ -302,20 +357,20 @@ module.exports = (robot) ->
               #weight
               pokeWeight = pokeData.weight / 10
 
-            # HIGH DETAIL (detailLevel >= 2)
-            if detailLevel >= 2
               #-------------Base Stats and Effort Points
               baseStatArray = pokeData.stats
               baseStats = (" " + baseStat.stat.name +
-              ": " + baseStat.base_stat for baseStat in baseStatArray)
+              ": " + formatTextForDisplay(baseStat.base_stat) for baseStat in baseStatArray)
 
               effortPoints = (" " + baseStat.stat.name +
-              ": " + baseStat.effort for baseStat in baseStatArray when baseStat.effort > 0)
+              ": " + formatTextForDisplay(baseStat.effort) for baseStat in baseStatArray when baseStat.effort > 0)
 
               #-------------Forms
               forms = speciesData.varieties
               if forms
-                pokeForms = (" " + formatForDisplay(form.pokemon.name) for form in forms)
+                pokeForms = (" " + formatNameForDisplay(form.pokemon.name) for form in forms)
+
+              #-------------Egg Group(s)
 
           # PRINT OUTPUT
           # Send Header Message(s) (basic data + sprite(s)
@@ -346,7 +401,10 @@ module.exports = (robot) ->
           bodyMessage += evoData
 
           #OTHER DATA
+          #type(s)
           bodyMessage += "\nType:#{pokeType}"
+          #Abilities
+          bodyMessage += abilityText
 
           #DETAIL ONLY
           if detailLevel
@@ -356,8 +414,6 @@ module.exports = (robot) ->
               "\nWeight: #{pokeWeight} kg"
               #gender
               bodyMessage += "\nGender Rate: #{genderText}"
-            #EXTREME DETAIL ONLY
-            if detailLevel >= 2
               #stats
               bodyMessage += "\nBase Stats:\n#{baseStats}" +
               "\nEffort Points yielded from defeating #{pokeDisplayName}:\n#{effortPoints}"
@@ -366,6 +422,7 @@ module.exports = (robot) ->
                 bodyMessage += "\nAlternate Forms:#{pokeForms}"
               else
                 bodyMessage += "\n#{pokeDisplayName} has no alternate forms."
+              #egg group(s)
 
 
 

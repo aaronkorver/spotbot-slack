@@ -6,9 +6,9 @@
 #
 # Commands:
 #   hubot pokedex <pokemon name|#> - gets pokedex information for the pokemon
-#   hubot pokedex <pokemon name|#> =<option> - specifies options for query result
-#   hubot pokedex random =<option> - find a random pokemon
-#   hubot pokedex =options - Returns a list of options usable with pokedex
+#   hubot pokedex <pokemon name|#> -<option> - specifies options for query result
+#   hubot pokedex random -<option> - find a random pokemon
+#   hubot pokedex -options - Returns a list of options usable with pokedex
 #
 #
 # Author:
@@ -77,10 +77,10 @@ addHelpText = (commands, commandDescription) ->
 
 module.exports = (robot) ->
   #options query
-  robot.respond /pokedex =options/i, (msg) ->
+  robot.respond /pokedex -options/i, (msg) ->
     #build string and return!
     helpString = "Pokedex option settings:\n" +
-    "one option may currently be specified by using a '=' character and then typing the option(s) after the pokemon name."
+    "one option may currently be specified by using a '-' character and then typing the option(s) after the pokemon name."
     helpString = helpString + addHelpText(["detail","d"],
     "enable to return more data in query response")
     helpString = helpString + addHelpText(["all sprites","as","shiny","s","male","m","female","fem","f","no sprites","ns"],
@@ -88,19 +88,18 @@ module.exports = (robot) ->
     msg.send helpString
 
   #Pokemon Query
-  robot.respond /pokedex (\w+[ -]\w+[ -]\w+|\w+[ -]\w+|\w+) ?=?(\w+|)/i, (msg) ->
+  robot.respond /pokedex (\w+[ -]\w+[ -]\w+|\w+[ -]\w+|\w+)( -)?(\w+|)/i, (msg) ->
     #default query settings
     detailLevel = 0 #lower detail
     spriteLevel = 1 #random sprite
     # read query option(s), if they exist.
-    optionWords = msg.match[2]
+    optionWords = msg.match[3]
     if optionWords isnt ""
-      #read options and set variables
-      msg.send "here be options"
+      #read option and set variables
       #detail level
       if optionWords in ["detail","d"]#higher detail
         detailLevel = 1
-        
+
       #sprites shown
       if optionWords in ["no sprites","ns"]# no sprites
         spriteLevel = 0
@@ -112,8 +111,6 @@ module.exports = (robot) ->
         spriteLevel = 4
       else if optionWords in ["all sprites","as"]# all sprites
         spriteLevel = 5
-
-
 
     # QUERY ERROR CHECKING
     # prepare query variable(s)
@@ -152,11 +149,12 @@ module.exports = (robot) ->
           #  errorCode = res.statusCode
           #else
           #  errorCode = '(No Response)'
-          msg.send "Sorry, I cannot find #{nameOrNumber} in the pokedex!"
+          msg.send "Sorry, I cannot find #{formatNameForDisplay(nameOrNumber)} in the pokedex!"
           #msg.send "\n#{err}, Code: #{errorCode}"
           return
         #otherwise, next query
         pokeData = JSON.parse(body)
+
         msg.http(pokeData.species.url).request() (errSpec, resSpec, bodySpec) ->
           if not bodySpec or not resSpec or resSpec.statusCode isnt 200
             #HTTP REQUEST ERROR CATCHING (speciesData)
@@ -211,7 +209,7 @@ module.exports = (robot) ->
               genderText = "Male: #{(1 - genderRate) * 100}%, Female: #{genderRate * 100}%"
           else
             genderRate = -1
-            genderText = "Gender Rate Not Found"
+            genderText = "Gender Ratio Not Found"
 
           #--------Sprite prep!
           #if spriteLevel is 0, no sprites.
@@ -288,6 +286,8 @@ module.exports = (robot) ->
               pokedexEntry = msg.random englishEntries
               pokedexEntry = pokedexEntry.replace /\s+/g, (match) ->
                 " "
+              pokedexEntry = pokedexEntry.replace /(\s-\s?|\s?-\s)/g, (match) ->
+                " "
             else
               pokedexEntry = "No Entries Found"
           else
@@ -306,14 +306,14 @@ module.exports = (robot) ->
           # (if anyone knows how I could make these asynch requests reliably
           # parallel and nice to read, please let me know how or change it)
           # Evo chain
-           if evoChain = true or detail and detail >= 2
+           if evoChain = true or detail and detail >= 1
             # get evolution tree and print it
             evoData = "\nEvolution Tree:"
             # evolution chain data is in a nested format in the json at the url:
             #   speciesData.evolution_chain.url
           ###
           # Pre-Evo
-          #else if detail and detail >= 1 #if evolution chain was a thing, this would
+          #else if speciesData.evolves_from_species #if evolution chain was a thing, this would
           # be mutually exclusive with evo chain
           # Just get pokemon that evolves into this pokemon, if any.
           if speciesData.evolves_from_species
@@ -359,11 +359,11 @@ module.exports = (robot) ->
 
               #-------------Base Stats and Effort Points
               baseStatArray = pokeData.stats
-              baseStats = (" " + baseStat.stat.name +
-              ": " + formatTextForDisplay(baseStat.base_stat) for baseStat in baseStatArray)
+              baseStats = (" " + formatTextForDisplay(baseStat.stat.name) +
+              ": " + baseStat.base_stat for baseStat in baseStatArray)
 
-              effortPoints = (" " + baseStat.stat.name +
-              ": " + formatTextForDisplay(baseStat.effort) for baseStat in baseStatArray when baseStat.effort > 0)
+              effortPoints = (" " + formatTextForDisplay(baseStat.stat.name) +
+              ": " + baseStat.effort for baseStat in baseStatArray when baseStat.effort > 0)
 
               #-------------Forms
               forms = speciesData.varieties
@@ -371,13 +371,24 @@ module.exports = (robot) ->
                 pokeForms = (" " + formatNameForDisplay(form.pokemon.name) for form in forms)
 
               #-------------Egg Group(s)
+              if speciesData.egg_groups
+                eggGroups = (" " + formatTextForDisplay(eggGroup.name) for eggGroup in speciesData.egg_groups)
+                if eggGroups[0] is "No Eggs"
+                  eggInfo = "\n#{pokeDisplayName} cannot breed"
+                else if genderRate < 0
+                  eggInfo = "\n#{pokeDisplayName} can only breed with a Ditto"
+                else
+                  eggInfo = "\nEgg Groups:#{eggGroups}"
+              else
+                eggInfo = "\nEgg Groups not found"
+
 
           # PRINT OUTPUT
           # Send Header Message(s) (basic data + sprite(s)
           msg.send "\##{speciesData.id}: #{pokeDisplayName}, the #{genus} Pokemon.\n" +
           firstSpriteLine
           # if all sprites
-          if spriteLevel and spriteLevel is 1
+          if spriteLevel and spriteLevel is 5
             # show female sprite if exists and can be fem or male
             if femSprite and genderRate isnt 1 and genderRate > 0
               msg.send "Female: " + femSprite
@@ -413,7 +424,9 @@ module.exports = (robot) ->
               bodyMessage += "\nHeight: #{pokeHeight} m" +
               "\nWeight: #{pokeWeight} kg"
               #gender
-              bodyMessage += "\nGender Rate: #{genderText}"
+              bodyMessage += "\nGender Ratio: #{genderText}"
+              #egg groups
+              bodyMessage += eggInfo
               #stats
               bodyMessage += "\nBase Stats:\n#{baseStats}" +
               "\nEffort Points yielded from defeating #{pokeDisplayName}:\n#{effortPoints}"
@@ -422,7 +435,6 @@ module.exports = (robot) ->
                 bodyMessage += "\nAlternate Forms:#{pokeForms}"
               else
                 bodyMessage += "\n#{pokeDisplayName} has no alternate forms."
-              #egg group(s)
 
 
 

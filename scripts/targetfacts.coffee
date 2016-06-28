@@ -70,10 +70,10 @@ module.exports = (robot) ->
 
   robot.respond /(true|false)/i, (message) ->
     if truthiness && (message.match[1] == 'true')
-      message.send "Correct! It is true!"
+      message.reply "Correct! It is true!"
     else if truthiness
-      message.send "No! It was actually true!"
+      message.reply "No! It was actually true!"
     else if ! truthiness && (message.match[1] == 'false')
-      message.send "Correct! It's false!"
+      message.reply "Correct! It's false!"
     else
-      message.send "No! That was actually false!"
+      message.reply "No! That was actually false!"

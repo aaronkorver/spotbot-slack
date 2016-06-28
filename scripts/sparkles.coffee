@@ -15,6 +15,7 @@
 #   hubot sparkle bottom [amount] - Show bottom [amount] sparkle point receivers
 #   hubot sparkle report [user] - Shows why somebody received points
 #   hubot sparkle forget [user] - Tell hubot to forget about somebody in a room
+#   hubot sparkle party - sparkle everyone in the room who has been sparkled or desparkled before
 #
 # Author:
 #   gregcase
@@ -173,7 +174,7 @@ module.exports = (robot) ->
         msg.send lines.join("\n")
 
 
-    robot.respond /sparkle(?:s)? ((?!top|bottom|report|forget|reset).+?)( (for|because) (.+))?\s?$/i, (msg) ->
+    robot.respond /sparkle(?:s)? ((?!top|bottom|report|forget|reset|party).+?)( (for|because) (.+))?\s?$/i, (msg) ->
 
         users = robot.brain.usersForFuzzyName(msg.match[1].trim())
         if users.length is 1
@@ -223,3 +224,19 @@ module.exports = (robot) ->
     robot.respond /sparkle(?:s)? resetroom$/i, (msg) ->
        sparkleStorage.resetRoom(msg)
        msg.send "Slate has been wiped clean for room '#{msg.message.room}'"
+
+    robot.respond /sparkle(?:s)? ?party$/i, (msg) ->
+      roomData = sparkleStorage.roomStorage msg
+      # GET ALL USERS (to best of ability)
+      #use top, not quite as intended originally
+      allUsers = sparkleStorage.top(msg, 9001) #memes
+      allUsers = (user.name for user in allUsers)
+
+      msg.send "(sparkle)(sparkle)(sparkle) #{roomData['pointsNameSingular'].toUpperCase()}" +
+      " PARTY INCOMING @here! (sparkle)(sparkle)(sparkle)"
+
+      # SPARKLE ALL USERS OBTAINED
+      for user in allUsers
+        sparkleStorage.awardPoints(msg, user, 1, "BECAUSE IT'S PARTY TIME")
+
+      msg.send "(sparkle)(sparkle)(sparkle) SPARKLE PARTY OVER (sparkle)(sparkle)(sparkle)"

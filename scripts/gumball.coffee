@@ -1,5 +1,5 @@
 # Description:
-#   Returns a random fact about the Minneapolis, Saint Paul, or the state of Minnesota
+#   Returns a random fact about Minneapolis, Saint Paul, or the state of Minnesota
 #
 # Dependencies:
 #   None

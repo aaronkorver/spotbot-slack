@@ -22,8 +22,8 @@ rooms = []
 module.exports = (robot) ->
 
   robot.brain.on 'loaded', =>
+    cleanYourRooms()
     if robot.adapter.connector?
-      cleanYourRooms()
       rooms = robot.brain.data.rooms || []
       for room in rooms
         robot.adapter.connector.join(room, 0)
@@ -65,7 +65,8 @@ module.exports = (robot) ->
   cleanYourRooms = ->
     cleanedRooms = []
     rooms = robot.brain.data.rooms || []
+    roomIds = robot.brain.data.xmppJidToRoomIdMapping || {}
     for room in rooms
-      if cleanedRooms.indexOf(room) is -1
+      if cleanedRooms.indexOf(room) is -1 && room of roomIds
         cleanedRooms.push room
     robot.brain.data.rooms = cleanedRooms

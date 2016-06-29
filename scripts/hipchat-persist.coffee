@@ -23,6 +23,7 @@ module.exports = (robot) ->
 
   robot.brain.on 'loaded', =>
     if robot.adapter.connector?
+      cleanYourRooms()
       rooms = robot.brain.data.rooms || []
       for room in rooms
         robot.adapter.connector.join(room, 0)
@@ -60,3 +61,11 @@ module.exports = (robot) ->
 
   getRobotName = ->
     robot.name.charAt(0).toUpperCase() + robot.name.slice(1)
+
+  cleanYourRooms = ->
+    cleanedRooms = []
+    rooms = robot.brain.data.rooms || []
+    for room in rooms
+      if cleanedRooms.indexOf(room) is -1
+        cleanedRooms.push room
+    robot.brain.data.rooms = cleanedRooms

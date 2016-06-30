@@ -22,15 +22,20 @@ rooms = []
 module.exports = (robot) ->
 
   robot.brain.on 'loaded', =>
+    cleanYourRooms()
     if robot.adapter.connector?
       rooms = robot.brain.data.rooms || []
       for room in rooms
         robot.adapter.connector.join(room, 0)
 
   robot.respond /stay$/i, (msg) ->
-    rooms.push msg.message.user.reply_to
-    robot.brain.data.rooms = rooms
-    msg.send "I'm here to stay. Try typing '#{getRobotName()} help' to see what I can do."
+    room = msg.message.user.reply_to
+    if rooms.indexOf(room) is -1
+      rooms.push room
+      robot.brain.data.rooms = rooms
+      msg.send "I'm here to stay. Try typing '#{getRobotName()} help' to see what I can do."
+    else
+      msg.send "I'm already staying in this room. Try typing '#{getRobotName()} help' to see what else I can do."
 
   robot.respond /do(n't| not) stay$/i, (msg) ->
     response = "#{getRobotName()} did not automatically join this room."
@@ -56,3 +61,12 @@ module.exports = (robot) ->
 
   getRobotName = ->
     robot.name.charAt(0).toUpperCase() + robot.name.slice(1)
+
+  cleanYourRooms = ->
+    cleanedRooms = []
+    rooms = robot.brain.data.rooms || []
+    roomIds = robot.brain.data.xmppJidToRoomIdMapping || {}
+    for room in rooms
+      if cleanedRooms.indexOf(room) is -1 && room of roomIds
+        cleanedRooms.push room
+    robot.brain.data.rooms = cleanedRooms

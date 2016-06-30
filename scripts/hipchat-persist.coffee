@@ -65,8 +65,7 @@ module.exports = (robot) ->
   cleanYourRooms = ->
     cleanedRooms = []
     rooms = robot.brain.data.rooms || []
-    roomIds = robot.brain.data.xmppJidToRoomIdMapping || {}
     for room in rooms
-      if cleanedRooms.indexOf(room) is -1 && room of roomIds
+      if cleanedRooms.indexOf(room) is -1
         cleanedRooms.push room
     robot.brain.data.rooms = cleanedRooms

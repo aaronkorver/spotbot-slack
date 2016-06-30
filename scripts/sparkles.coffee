@@ -144,6 +144,13 @@ module.exports = (robot) ->
 
       msg.send lines.join("\n")
 
+     
+    robot.hear /performant/i, (msg)->
+        user = msg.message.user.name
+        reason = "\"performant\" is NOT a word!"
+        sparkleStorage.awardPoints(msg, user, -1, reason)
+        msg.reply "You lost a (sparkle) sparkle (sparkle) because #{reason}"    
+
 
     robot.respond /sparkle(?:s)? report (.*?)\s?$/i, (msg) ->
         users = robot.brain.usersForFuzzyName(msg.match[1].trim())

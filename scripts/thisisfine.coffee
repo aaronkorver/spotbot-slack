@@ -8,7 +8,8 @@
 #    None
 #
 # Commands:
-#    None
+#    this is fine - displays this is fine dog cartoon
+#    probably fine  - displays this is fine dog cartoon
 #
 # Author
 #    Colton Karoses

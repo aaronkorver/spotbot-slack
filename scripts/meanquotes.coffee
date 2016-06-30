@@ -1,6 +1,6 @@
 # Description:
 #   Display a random mean girls quote
-#
+#   Fetch Generates Mean girls quote and gif. Threshold enabled
 # Dependencies:
 #   None
 #
@@ -12,6 +12,7 @@
 #
 # Author:
 #   Lymari Montijo
+#   Chantal Lewis
 
 quotes = [
   'You can\'t sit with us!'
@@ -42,7 +43,15 @@ quotes = [
 
 
 ];
+threshold = 0.75
 
 module.exports = (robot) ->
   robot.respond /Mean girls quote/i, (msg) ->
     msg.reply(msg.random quotes)
+
+  robot.hear /fetch/i, (message)->
+    random = Math.random()
+    roomThreshold = robot.thresholdStorage.getThreshold(message, "fetch", threshold)
+    if random < roomThreshold
+      message.send "Stop trying to make fetch happen! It\'s not going to happen!"
+      message.send 'https://s3.amazonaws.com/uploads.hipchat.com/171096/4014356/zTIwhGvT1lCKANW/mean_girls.gif'

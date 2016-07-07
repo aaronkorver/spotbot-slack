@@ -8,7 +8,7 @@
 #   None
 #
 # Commands:
-#   hubot Mean Girls quote
+#   hubot Mean Girls quote - displays a random Mean Girls quote. 
 #
 # Author:
 #   Lymari Montijo

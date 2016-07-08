@@ -48,7 +48,7 @@ lookupStore = (msg) ->
         if err
           msg.send "Error when trying to get details for T-#{number}"
         if res.statusCode == 404
-          msg.send "#{number} is not a open Target Store"
+          msg.send "#{number} is not an open Target Store"
           return
         unless res.statusCode == 200
           msg.send "Received #{res.statusCode} when trying to get details for T-#{number}"

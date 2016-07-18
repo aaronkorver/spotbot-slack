@@ -43,7 +43,7 @@ quotes = [
 
 
 ];
-threshold = 0.75
+threshold = 0.0
 
 module.exports = (robot) ->
   robot.respond /Mean girls quote/i, (msg) ->

@@ -25,7 +25,6 @@ sands= [
  "http://i.imgur.com/j3MR3cS.gif"
  "https://i.imgur.com/2Umzspc.gif"
  "http://i.imgur.com/Nm1twBk.gif"
- "http://i.imgur.com/GlgDaJt.gif"
  "https://thumbs.gfycat.com/IncompleteGiftedFly-size_restricted.gif"
 ]
 

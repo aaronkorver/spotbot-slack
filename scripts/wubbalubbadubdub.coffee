@@ -11,7 +11,7 @@
 #   WLDD
 #
 # Author:
-#   Nick Pabon
+#   Clayton Beyers
 
 module.exports = (robot) ->
   robot.hear /works every time/i, (message) ->

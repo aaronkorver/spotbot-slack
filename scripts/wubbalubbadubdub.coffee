@@ -14,5 +14,5 @@
 #   Clayton Beyers
 
 module.exports = (robot) ->
-  robot.hear /works every time/i, (message) ->
+  robot.hear /WLDD/i, (message) ->
     message.send "http://ih0.redbubble.net/image.104525267.7495/flat,1000x1000,075,f.jpg"

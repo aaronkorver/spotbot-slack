@@ -5,10 +5,10 @@
 #   none
 #
 # Commands:
-#   hubot pokedex <pokemon name|#> - gets pokedex information for the pokemon
-#   hubot pokedex <pokemon name|#> -<option> - specifies options for query result
-#   hubot pokedex random -<option> - find a random pokemon
-#   hubot pokedex -options - Returns a list of options usable with pokedex
+#   hubot (pokedex|pd) <pokemon name|#> - gets pokedex information for the pokemon
+#   hubot (pokedex|pd) <pokemon name|#> -<option> - specifies options for query result
+#   hubot (pokedex|pd) random -<option> - find a random pokemon
+#   hubot (pokedex|pd) -options - Returns a list of options usable with pokedex
 #
 #
 # Author:
@@ -17,6 +17,7 @@
 
 ## If you are going to add to or modify the functionality of this script,
 ## the api documentation is at this url: https://pokeapi.co/docsv2/
+
 
 # FUNCTIONS
 #
@@ -27,27 +28,120 @@ capitalizeWord = (inputString) ->
     "#{firstLetter.toUpperCase()}#{restOfWord.toLowerCase()}"
   return returnString
 
+#
+
+formatDisplayNameForQuery = (nameOrNumber) ->
+  if not nameOrNumber
+    return
+
+  returnString = nameOrNumber.toLowerCase()
+  # format spoken mega pokemon names to play nice with pokeapi
+  # with exceptions accounted for.
+  inputPattern = /(\w+) (\w+) ?(\w+|)/i #catches mega|primal pokemonName [XxYy]
+  if inputPattern.test(returnString)
+    [megaType, tempName, megaVariant] = returnString.match(inputPattern)[1..3]
+    returnString = "#{tempName}-#{megaType}"
+    if megaVariant? and megaVariant isnt ''
+      if tempName in ["star","striped"] #gosh darned cosplay pikachus and basculin
+        returnString = "#{megaVariant}-#{megaType}-#{tempName}"
+      else
+        returnString += "-#{megaVariant}"
+    else if tempName is "mime" or megaType is "mime" #gosh darned mimes
+      returnString = "#{megaType}-#{tempName}"
+  else if returnString is "meowstic" #gosh darned meowstic
+    if Math.random() < 0.5
+      returnString = "meowstic-male"
+    else
+      returnString = "meowstic-female"
+  else if returnString is "nidoran" #gosh darned nidoran
+    if Math.random() < 0.5
+      returnString = "nidoran-m"
+    else
+      returnString = "nidoran-f"
+  else if returnString is "wormadam" #gosh darned wormadam
+    randomChance = Math.random()
+    if randomChance < 0.33
+      returnString = "wormadam-plant"
+    else if randomChance < 0.66
+      returnString = "wormadam-sandy"
+    else
+      returnString = "wormadam-trash"
+  else if returnString is "giratina" #gosh darned giratina
+    returnString = "giratina-altered"
+  else if returnString is "farfetch'd" #gosh darned Farfetch'd
+    returnString = "farfetchd"
+  else if returnString is "deoxys" #gosh darned deoxys
+    returnString = "deoxys-normal"
+  else if returnString is "shaymin" #gosh darned shaymin
+    returnString = "shaymin-land"
+  else if returnString is "basculin" #goshed darned basculin
+    if Math.random() < 0.5
+      returnString = "basculin-red-striped"
+    else
+      returnString = "basculin-blue-striped"
+  else if returnString is "darmanitan" #gosh darned darmanitan
+    returnString = "darmanitan-standard"
+  else if returnString in ["tornadus","thundurus","landorus"] #gosh darned genie trio
+    returnString += "-incarnate"
+  else if returnString is "keldeo" #gosh darned water pony
+    returnString = "keldeo-ordinary"
+  else if returnString is "meloetta" #goshed darned meloetta
+    if Math.random() < 0.5
+      returnString = "meloetta-aria"
+    else
+      returnString = "meloetta-pirouette"
+  else if returnString is "aegislash" #goshed darned aegislash
+    if Math.random() < 0.5
+      returnString = "aegislash-blade"
+    else
+      returnString = "aegislash-shield"
+  else if returnString in ["gourgeist","pumpkaboo"] #gosh darned pumpkins
+    randomChance = Math.random()
+    if randomChance < 0.25
+      returnString += "-small"
+    else if randomChance < 0.5
+      returnString += "-average"
+    else if randomChance < 0.75
+      returnString += "-large"
+    else
+      returnString += "-super"
+  return returnString
+
+#
+
 formatNameForDisplay = (nameString) ->
   if not nameString
     return
-  #converts 'string' to 'String', and 'word-three(-string)' to 'Three Word String'
+  # converts 'string' to 'String', and 'word-three(-string)' to 'Three Word String'
+  # except for exceptions.
   nonDisplayPattern = /(\w+)-(\w+)-?(\w+|)/i
-  returnString = nameString
-
+  returnString = nameString.toLowerCase()
   #format 2 or 3 word input
-  if nonDisplayPattern.test(nameString)
-    [tempTempName, tempMegaType, tempMegaVariant] = nameString.match(nonDisplayPattern)[1..3]
+  if nonDisplayPattern.test(returnString)
+    [tempTempName, tempMegaType, tempMegaVariant] = returnString.match(nonDisplayPattern)[1..3]
     if tempMegaVariant and tempMegaVariant isnt ''
-      if tempMegaVariant is "star" #gosh darned cosplay pikachus
+      if tempMegaVariant in ["star","striped"] #gosh darned cosplay pikachus
         returnString = "#{tempMegaType} #{tempMegaVariant} #{tempTempName}"
       else
         returnString = "#{tempMegaType} #{tempTempName} #{tempMegaVariant}"
+    else if tempTempName is "mime" or tempMegaType is "mime" #gosh darned mimes
+      returnString = "#{tempTempName} #{tempMegaType}"
+    else if tempTempName in ["porygon","ho"] and tempMegaType in ["z","oh"] #gosh darned porygons and ho-ohs
+      returnString = "#{tempTempName}-#{tempMegaType}"
     else
       returnString = "#{tempMegaType} #{tempTempName}"
 
   #Capitalize
   returnString = capitalizeWord(returnString)
 
+  if returnString is "Farfetchd" #gosh darned Farfetch'd
+    returnString = "Farfetch'd"
+  else if returnString is "Normal Deoxys" #gosh darned Deoxys
+    returnString = "Deoxys"
+  else if returnString is "Standard Darmanitan" #is this really necessary, darmanitan?
+    returnString = "Darmanitan"
+  else if returnString is "Ordinary Keldeo" #all aboard the unneccesary standard form name train
+    returnString = "Keldeo"
   return returnString
 
 #
@@ -69,8 +163,8 @@ formatTextForDisplay = (inputString) ->
 addHelpText = (commands, commandDescription) ->
   helpLine = "\n\n"
   if commands.length and commands.length > 0
-    helpLine += (" =" + command for command in commands)
-  return helpLine + "\n-- #{commandDescription}"
+    helpLine += (" -" + command for command in commands)
+  return helpLine + "\n== #{commandDescription}"
 
 # END OF FUNCTIONS
 #
@@ -87,7 +181,7 @@ module.exports = (robot) ->
       pokedexList = (aPokemon.name for aPokemon in allThePokemon)
 
   #options query
-  robot.respond /pokedex -options/i, (msg) ->
+  robot.respond /(pokedex|pd) -options/i, (msg) ->
     #build string and return!
     helpString = "Pokedex option settings:\n" +
     "one option may currently be specified by using a '-' character and then typing the option(s) after the pokemon name."
@@ -98,12 +192,12 @@ module.exports = (robot) ->
     msg.send helpString
 
   #Pokemon Query
-  robot.respond /pokedex (\w+[ -]\w+[ -]\w+|\w+[ -]\w+|\w+)( -)?(\w+|)/i, (msg) ->
+  robot.respond /(pokedex|pd) (\w+[ -]\w+[ -]\w+|\w+[' -]\w+|\w+)( -)?(\w+|)/i, (msg) ->
     #default query settings
     detailLevel = 0 #lower detail
     spriteLevel = 1 #random sprite
     # read query option(s), if they exist.
-    optionWords = msg.match[3]
+    optionWords = msg.match[4]
     if optionWords isnt ""
       #read option and set variables
       #detail level
@@ -124,7 +218,7 @@ module.exports = (robot) ->
 
     # QUERY ERROR CHECKING
     # prepare query variable(s)
-    nameOrNumber = msg.match[1].toLowerCase()
+    nameOrNumber = msg.match[2].toLowerCase()
 
     # if random, select a random pokemon from pokedexList
     if nameOrNumber in ['random','rand','r']
@@ -134,15 +228,7 @@ module.exports = (robot) ->
         msg.send "Random lookup Failed."
 
     # format spoken mega pokemon names to play nice with pokeapi
-    inputPattern = /(\w+) (\w+) ?(\w+|)/i #catches mega|primal pokemonName [XxYy]
-    if inputPattern.test(nameOrNumber)
-      [megaType, tempName, megaVariant] = nameOrNumber.match(inputPattern)[1..3]
-      nameOrNumber = "#{tempName}-#{megaType}"
-      if megaVariant? and megaVariant isnt ''
-        if tempName is "star" #gosh darned cosplay pikachus
-          nameOrNumber = "#{megaVariant}-#{megaType}-#{tempName}"
-        else
-          nameOrNumber += "-#{megaVariant}"
+    nameOrNumber = formatDisplayNameForQuery(nameOrNumber)
 
     # execute query, get JSON data
     msg.http("http://pokeapi.co/api/v2/pokemon/#{nameOrNumber}/").request() (err, res, body) ->
@@ -230,6 +316,10 @@ module.exports = (robot) ->
           #chance for shiny: 1/8192 - 0.012207031%
           shinyCheck = Math.random() < 0.00012207031
           femCheck = Math.random() < genderRate
+          if /male meowstic/i.test(pokeDisplayName)#gosh darned meowstic
+            femCheck = false
+          else if /female meowstic/i.test(pokeDisplayName)
+            femCheck = true
 
           #get first sprite
           if spriteLevel isnt 1 #user specified sprite output
@@ -374,7 +464,7 @@ module.exports = (robot) ->
             #-------------Egg Group(s)
             if speciesData.egg_groups
               eggGroups = (" " + formatTextForDisplay(eggGroup.name) for eggGroup in speciesData.egg_groups)
-              if eggGroups[0] is "No Eggs"
+              if eggGroups[0] is " No Eggs"
                 eggInfo = "\n#{pokeDisplayName} cannot breed"
               else if genderRate < 0
                 eggInfo = "\n#{pokeDisplayName} can only breed with a Ditto"

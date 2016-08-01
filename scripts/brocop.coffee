@@ -15,17 +15,17 @@
 
 threshold = 1
 cops= [
- "http://i.imgur.com/pRpzDzJ.gif",
- "http://i.imgur.com/qmHZB3x.mp4",
- "http://i.imgur.com/8JAhG9c.gif",
- "http://i.imgur.com/q4CdfgF.gif",
- "http://i.imgur.com/5PMCEmF.gif",
- "http://i.imgur.com/qzK9ZJh.gif",
- "http://i.imgur.com/SxRyK5k.gif",
- "http://i.imgur.com/7fERRm0.gif",
- "http://i.imgur.com/asQXBqb.gif",
- "http://i.imgur.com/myqY1uR.gif",
- "http://i.imgur.com/FZ4sEv0.gif"
+ "https://s3.amazonaws.com/uploads.hipchat.com/171096/4087024/yP6OMw7rCXRGHZD/cops-12.gif"
+ "https://s3.amazonaws.com/uploads.hipchat.com/171096/4087024/CtbhZGRcMpjXPUQ/cops-11.gif"
+ "https://s3.amazonaws.com/uploads.hipchat.com/171096/4087024/e0YRxqGbUpVEjsm/cops-10.gif"
+ "https://s3.amazonaws.com/uploads.hipchat.com/171096/4087024/aPzCBN1Y2g2S3OS/cops-9.gif"
+ "https://s3.amazonaws.com/uploads.hipchat.com/171096/4087024/DbSWbfYdTv9Rg1D/cops-7.gif"
+ "https://s3.amazonaws.com/uploads.hipchat.com/171096/4087024/l5MJGAWOh1AnzAi/cops-6.gif"
+ "https://s3.amazonaws.com/uploads.hipchat.com/171096/4087024/qXnnw6pIO54PY5q/cops-5.gif"
+ "https://s3.amazonaws.com/uploads.hipchat.com/171096/4087024/797llnO3bkw9TvK/cops-4.gif"
+ "https://s3.amazonaws.com/uploads.hipchat.com/171096/4087024/hK0SUsBzT1EgBVD/cops-3.gif"
+ "https://s3.amazonaws.com/uploads.hipchat.com/171096/4087024/rCMWMwuS4ipBHEv/cops-2.gif"
+ "https://s3.amazonaws.com/uploads.hipchat.com/171096/4087024/ksqeSaVa87aMx72/cops-1.gif"
 ]
 
 

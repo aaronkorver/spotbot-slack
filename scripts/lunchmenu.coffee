@@ -20,11 +20,15 @@ tncMenu = "http://target.cafebonappetit.com/cafe/traders-point/"
 tpsMenu = "http://target.cafebonappetit.com/cafe/cafe-target/"
 
 module.exports = (robot) ->
-  robot.respond /cafe menu CC/i, (msg) ->
-    msg.send "CC Menu: " + ccMenu
 
-  robot.respond /cafe menu TNC/i, (msg) ->
-    msg.send "TNC menu: " + tncMenu
+  robot.respond /cafe menu (.*)/i, (msg) ->
+    if msg.match[1].toLowerCase() == "cc" || msg.match[1].toLowerCase() == "city center"
+      msg.send "CC Menu " + ccMenu
 
-  robot.respond /cafe menu TPS/i, (msg) ->
-    msg.send "TPS menu: " + tpsMenu
+  robot.respond /cafe menu (.*)/i, (msg) ->
+    if msg.match[1].toLowerCase() == "tnc" || msg.match[1].toLowerCase() == "north campus" || msg.match[1].toLowerCase() == "target north campus"
+      msg.send "TNC Menu " + tncMenu
+
+  robot.respond /cafe menu (.*)/i, (msg) ->
+    if msg.match[1].toLowerCase() == "tps" || msg.match[1].toLowerCase() == "plaza south" || msg.match[1].toLowerCase() == "target plaza south" || msg.match[1].toLowerCase() == "tpn" || msg.match[1].toLowerCase() == "plaza north" || msg.match[1].toLowerCase() == "target plaza north" || msg.match[1].toLowerCase() == "tp3"
+      msg.send "TPS Menu " + tpsMenu

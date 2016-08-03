@@ -23,6 +23,9 @@ sands= [
  "http://cdn.makeagif.com/media/1-22-2014/kKl4wR.gif"
  "http://i.imgur.com/6cFt1xY.gif"
  "http://i.imgur.com/j3MR3cS.gif"
+ "https://i.imgur.com/2Umzspc.gif"
+ "http://i.imgur.com/Nm1twBk.gif"
+ "https://thumbs.gfycat.com/IncompleteGiftedFly-size_restricted.gif"
 ]
 
 

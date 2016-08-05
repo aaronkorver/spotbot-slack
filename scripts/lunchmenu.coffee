@@ -76,6 +76,7 @@ module.exports = (robot) ->
       else if foodItem? && bfastOrLunch?
         getSpecificCafeInfo msg, cafeNum, bfastOrLunch, foodItem
 
+  #returns all items avail at the cafe
   getAllCafeInfo = (msg, cafeNum, bfastOrLunch, itemToEat) ->
     msg.http('http://legacy.cafebonappetit.com/api/2/menus?format=jsonp&cafe=' + cafeNum)
       .get() (err, res, body) ->
@@ -86,41 +87,18 @@ module.exports = (robot) ->
         dayPartsLength = explicitCafeInfo.length
         #Split the bfast and lunch options
         for i in [0...dayPartsLength]
-          #bfast - Make method for handling Bfast stuff
+          #bfast
           if explicitCafeInfo[i].label == "Breakfast" && bfastOrLunch == "breakfast"
-            msg.send "Found Bfast"
-          #lunch -Make method for handling lunch stuff
+            bfastInfo = explicitCafeInfo[i].stations
+            numBfastStations = bfastInfo.length
+            sendCafeInfoMessage(bfastInfo, numBfastStations, cafeInfo, msg)
+          #lunch
           if explicitCafeInfo[i].label == "Lunch" && bfastOrLunch == "lunch"
             lunchInfo = explicitCafeInfo[i].stations
             numLunchStations = lunchInfo.length
-            #Step thru all of the stations at the cafe
-            for j in [0...numLunchStations]
-              stationInfo = lunchInfo[j]
-              stationName = lunchInfo[j].label.toUpperCase()
-              numItemsAtStation = stationInfo.items.length
-              textToSend = textToSend + "Food available at " + stationName + " station"
-              #Step thru all of the items at the station
-              for k in [0...numItemsAtStation]
-                itemNumber = stationInfo.items[k]
-                singleItem = cafeInfo.items[itemNumber]
-                itemName = singleItem.label
-                itemPrice = singleItem.price
-                itemCals = singleItem.nutrition.kcal
-                if itemCals != ""
-                  if k == numItemsAtStation - 1
-                    #special case to add new line char to end of a section
-                    textToSend = textToSend + "\n" + "---" + itemName + " for " + itemPrice + " with " + itemCals + " calories\n"
-                  else
-                    textToSend = textToSend + "\n" + "---" + itemName + " for " + itemPrice + " with " + itemCals + " calories"
-                if itemCals == ""
-                  #special case to add new line char to end of a section
-                  if k == numItemsAtStation - 1
-                    textToSend = textToSend + "\n" + "---" + itemName + " for " + itemPrice + "\n"
-                  else
-                    textToSend = textToSend + "\n" + "---" + itemName + " for " + itemPrice
-            msg.send textToSend
-            textToSend = ""
+            sendCafeInfoMessage(lunchInfo, numLunchStations, cafeInfo, msg)
 
+  #returns info based on custom query for food items
   getSpecificCafeInfo = (msg, cafeNum, bfastOrLunch, itemToEat) ->
     msg.http('http://legacy.cafebonappetit.com/api/2/menus?format=jsonp&cafe=' + cafeNum)
       .get() (err, res, body) ->
@@ -131,44 +109,74 @@ module.exports = (robot) ->
         dayPartsLength = explicitCafeInfo.length
         #Split the bfast and lunch options
         for i in [0...dayPartsLength]
-          #bfast - Make method for handling Bfast stuff
+          #bfast
           if explicitCafeInfo[i].label == "Breakfast" && bfastOrLunch == "breakfast"
-            msg.send "Found Bfast"
-          #lunch -Make method for handling lunch stuff
+            bfastInfo = explicitCafeInfo[i].stations
+            numBfastStations = bfastInfo.length
+            sendQueryInfoMessage(bfastInfo, numBfastStations, cafeInfo, itemToEat, msg)
+          #lunch
           if explicitCafeInfo[i].label == "Lunch" && bfastOrLunch == "lunch"
             lunchInfo = explicitCafeInfo[i].stations
             numLunchStations = lunchInfo.length
-            #Step thru all of the stations at the cafe
-            for j in [0...numLunchStations]
-              stationInfo = lunchInfo[j]
-              stationName = lunchInfo[j].label.toUpperCase()
-              itemToEat = itemToEat.toUpperCase()
-              locationOfItemInStation = stationName.indexOf itemToEat, 0
-              #checks for a match in the station name itself. May be useless...
-              # if locationOfItemInStation != -1
-              #   textToSend = textToSend + "\nFound a match in the " + stationName + " station name"
-              matchedStation = stationName
-              numItemsAtStation = stationInfo.items.length
-              #Step thru all of the items at the station
-              for k in [0...numItemsAtStation]
-                itemNumber = stationInfo.items[k]
-                singleItem = cafeInfo.items[itemNumber]
-                itemPrice = singleItem.price
-                itemCals = singleItem.nutrition.kcal
-                itemName = singleItem.label
-                #undo upper case from before
-                itemToEat = itemToEat.toLowerCase()
-                locationOfItemInStationItem = itemName.indexOf itemToEat, 0
-                #special case
-                if locationOfItemInStationItem != -1
-                  if count == 0
-                    textToSend = textToSend + "\nThere are matches at the " + stationName + " station"
-                    count = 1
-                  if itemCals != ""
-                    textToSend = textToSend + "\n***Matched item: " + itemName + " for " + itemPrice + " with " + itemCals + " calories"
-                  if itemCals == ""
-                    textToSend = textToSend + "\n***Matched item: " + itemName + " for " + itemPrice + "\n"
+            sendQueryInfoMessage(lunchInfo, numLunchStations, cafeInfo, itemToEat, msg)
 
-              count = 0
-            msg.send textToSend
-            textToSend = ""
+  sendCafeInfoMessage = (bfastOrLunchInfo, numStations, cafeInfo, msg) ->
+    #Step thru all of the stations at the cafe
+    for j in [0...numStations]
+      stationInfo = bfastOrLunchInfo[j]
+      stationName = bfastOrLunchInfo[j].label.toUpperCase()
+      numItemsAtStation = stationInfo.items.length
+      textToSend = textToSend + "\nFood available at " + stationName + " station"
+      #Step thru all of the items at the station
+      for k in [0...numItemsAtStation]
+        itemNumber = stationInfo.items[k]
+        singleItem = cafeInfo.items[itemNumber]
+        itemName = singleItem.label
+        itemPrice = singleItem.price
+        itemCals = singleItem.nutrition.kcal
+        if itemCals != ""
+          if k == numItemsAtStation - 1
+            #special case to add new line char to end of a section
+            textToSend = textToSend + "\n" + "---" + itemName + " for " + itemPrice + " with " + itemCals + " calories\n"
+          else
+            textToSend = textToSend + "\n" + "---" + itemName + " for " + itemPrice + " with " + itemCals + " calories"
+        if itemCals == ""
+          #special case to add new line char to end of a section
+          if k == numItemsAtStation - 1
+            textToSend = textToSend + "\n" + "---" + itemName + " for " + itemPrice + "\n"
+          else
+            textToSend = textToSend + "\n" + "---" + itemName + " for " + itemPrice
+    msg.send textToSend
+    textToSend = ""
+
+  sendQueryInfoMessage = (bfastOrLunchInfo, numStations, cafeInfo, itemToEat, msg) ->
+    #Step thru all of the stations at the cafe
+    for j in [0...numStations]
+      stationInfo = bfastOrLunchInfo[j]
+      stationName = bfastOrLunchInfo[j].label
+      locationOfItemInStation = stationName.indexOf itemToEat, 0
+      #checks for a match in the station name itself. May be useless...
+      # if locationOfItemInStation != -1
+      #   textToSend = textToSend + "\nFound a match in the " + stationName + " station name"
+      matchedStation = stationName
+      numItemsAtStation = stationInfo.items.length
+      #Step thru all of the items at the station
+      for k in [0...numItemsAtStation]
+        itemNumber = stationInfo.items[k]
+        singleItem = cafeInfo.items[itemNumber]
+        itemPrice = singleItem.price
+        itemCals = singleItem.nutrition.kcal
+        itemName = singleItem.label
+        locationOfItemInStationItem = itemName.indexOf itemToEat, 0
+        #special case
+        if locationOfItemInStationItem != -1
+          if count == 0
+            textToSend = textToSend + "\n\nThere are matches at the " + stationName.toUpperCase() + " station"
+            count = 1
+          if itemCals != ""
+            textToSend = textToSend + "\n***Matched item: " + itemName + " for " + itemPrice + " with " + itemCals + " calories"
+          if itemCals == ""
+            textToSend = textToSend + "\n***Matched item: " + itemName + " for " + itemPrice
+      count = 0
+    msg.send textToSend
+    textToSend = ""

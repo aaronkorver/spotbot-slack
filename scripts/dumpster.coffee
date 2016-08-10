@@ -8,7 +8,7 @@
 #   None
 #
 # Commands:
-#   Dumpster fire - displays dumpster fire
+#   hubot dumpster fire - displays dumpster fire
 #
 # Author:
 #   AlexWolf

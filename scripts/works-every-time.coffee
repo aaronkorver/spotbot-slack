@@ -15,4 +15,4 @@
 
 module.exports = (robot) ->
   robot.hear /works every time/i, (message) ->
-    message.send "http://vnfa8y5n3zndutm1.zippykid.netdna-cdn.com/wp-content/uploads/2012/04/colt45web.jpeg"
+    message.send "https://cdn.shopify.com/s/files/1/1019/0339/products/bdw_6.jpeg?v=1444403015"

@@ -1,16 +1,12 @@
 [
-  "hubot-cron",
-  "hubot-devops",
   "hubot-diagnostics",
   "hubot-help",
   "hubot-heroku-keepalive",
-  "hubot-hipchat-emoticons",
   "hubot-google-images",
   "hubot-google-translate",
   "hubot-pugme",
   "hubot-maps",
   "hubot-redis-brain",
   "hubot-rules",
-  "hubot-shipit",
-  "moment"
+  "hubot-shipit"
 ]

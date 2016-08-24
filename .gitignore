@@ -1,7 +1,3 @@
 node_modules
-npm-debug.log
 .DS_Store*
 .hubot_history
-.idea/
-*.iml
-*.rdb

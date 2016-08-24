@@ -1,5 +1,6 @@
 [
   "hubot-diagnostics",
+  "hubot-cron",
   "hubot-help",
   "hubot-heroku-keepalive",
   "hubot-google-images",
@@ -8,5 +9,6 @@
   "hubot-maps",
   "hubot-redis-brain",
   "hubot-rules",
-  "hubot-shipit"
+  "hubot-shipit",
+  "moment"
 ]
